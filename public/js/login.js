@@ -36,14 +36,8 @@ window.onload = function () {
     size: "large",
     text: "continue_with",
     logo_alignment: "left",
+    width: 474,
   });
 
   google.accounts.id.prompt(); // Display the One Tap dialog if applicable
 };
-
-window.google.accounts.id.renderButton(document.getElementById("googleAuth"), {
-  theme: "outline",
-  size: "large",
-  width: 474,
-  text: "continue_with",
-});
