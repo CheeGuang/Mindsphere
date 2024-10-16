@@ -7,6 +7,8 @@ const express = require("express");
 const path = require("path");
 // Initialising template Routes
 const templateRoutes = require("./controllers/template/template.routes");
+// Initialising member Routes
+const memberRoutes = require("./controllers/member/member.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -27,6 +29,9 @@ app.get("/", (req, res) => {
 // ========== Routes ==========
 // Template Route
 app.use("/api/template", templateRoutes);
+
+// Member Route
+app.use("/api/member", memberRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000

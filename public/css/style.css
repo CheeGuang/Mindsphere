@@ -52,6 +52,10 @@ p {
   margin-bottom: 1.5rem;
 }
 
+a {
+  color: #0f45b8;
+}
+
 .text-mustard {
   --tw-text-opacity: 1;
   color: rgb(220 175 39 / var(--tw-text-opacity));
