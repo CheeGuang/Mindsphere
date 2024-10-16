@@ -44,6 +44,6 @@ window.onload = function () {
 window.google.accounts.id.renderButton(document.getElementById("googleAuth"), {
   theme: "outline",
   size: "large",
-  width: 309,
+  width: 474,
   text: "continue_with",
 });
