@@ -51,14 +51,12 @@ class MemberController {
           success: true,
           emailExists: true,
           contactExists: false,
-          message: "Email exists, but contact number is missing.",
         });
       } else {
         res.status(200).json({
           success: true,
           emailExists: false,
           contactExists: false,
-          message: "Neither email nor contact exist.",
         });
       }
     } catch (error) {

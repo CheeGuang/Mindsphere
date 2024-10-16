@@ -38,7 +38,7 @@ function handleCredentialResponse(response) {
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberHome.html";
       } else {
-        // Step 3: If one or both don't exist, create a new Google member
+        // Step 3: If one or both are missing, create a new Google member
         fetch("/api/member/create-google-member", {
           method: "POST",
           headers: {
