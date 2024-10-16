@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Ownership Verification -->
-    <meta
-      name="google-site-verification"
-      content="vhWvcsQ5gdZkY-tC04GQsJogdRSNLsZ7Z8un-85G0pc"
-    />
-
     <!-- Bootstrap Link -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -21,10 +15,6 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
-      defer
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
       defer
     ></script>
 
@@ -41,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
       rel="stylesheet"
     />
 
@@ -53,8 +43,9 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/navbar.css" />
 
-    <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="./css/index.css" />
+    <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
+    <link rel="stylesheet" href="./css/" />
+    <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -63,8 +54,9 @@
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
 
-    <!-- INSERT PAGE'S JS HERE \/-->
-    <script src="./js/indexAnimation.js" defer></script>
+    <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
+    <script src="./js/" defer></script>
+    <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -78,36 +70,26 @@
     <header>
       <div id="navbar-container"></div>
     </header>
-    <!-- <div class="row" style="height: 70px; width: 100vw"></div> -->
+
+    <!-- Transparent Row with Small Height at the Top -->
+    <div class="row" style="height: 50px; background-color: transparent"></div>
+
+    <!-- Main Content Container -->
     <div class="container text-center">
       <div class="row justify-content-center">
-        <!-- <div class="row" style="height: 70px; width: 100vw"></div> -->
-
-        <div class="hero-container">
-          <img
-            src="./img/misc/public-speaking-image.jpg"
-            alt="Public Speaking"
-            class="hero-background"
-          />
-          <div class="hero-content text-center">
-            <h1>
-              <span class="hero-text text-focus-in"
-                >Learn
-                <span class="text-mustard">Impactful Speaking Skills</span> From
-                Seasoned Speakers</span
-              >
-            </h1>
-            <p class="hero-text text-focus-in-2">We make it longer lasting</p>
-            <a
-              href="./login.html"
-              class="btn btn-primary btn-lg tracking-in-expand-fwd"
-              >Get Started</a
-            >
-          </div>
+        <div class="col-12">
+          <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
+          <!-- H1 Title -->
+          <h1 class="mt-3">Our Signature Programmes</h1>
+          <!-- H2 Subtitle -->
+          <p class="mb-3">Select each programme to find out more</p>
+          <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
     </div>
-    <footer class="bd-footer py-4 py-md-5 mt-5">
+
+    <!-- Footer -->
+    <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary">
       <div
         id="footer"
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
