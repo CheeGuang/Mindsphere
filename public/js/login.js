@@ -1,6 +1,25 @@
 function handleCredentialResponse(response) {
   // Log the credentials received
   console.log("Credential response received:", response.credential);
+
+  // Split the JWT token to get the payload
+  const tokenParts = response.credential.split(".");
+  const base64Url = tokenParts[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  // Parse the JSON payload to get the user information
+  const userInfo = JSON.parse(jsonPayload);
+
+  // Display the decoded user information
+  console.log("Decoded user info:", userInfo);
 }
 
 window.onload = function () {
