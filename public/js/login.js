@@ -37,13 +37,8 @@ function handleCredentialResponse(response) {
         // Step 2: If both email and contact exist, store memberID in local storage and redirect to memberHome.html
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberHome.html";
-      } else if (data.emailExists && !data.contactExists) {
-        // Step 3: If the email exists but contact is missing, inform the user
-        alert(
-          "Email exists but contact number is missing. Please update your contact information."
-        );
       } else {
-        // Step 4: If neither email nor contact exists, create a new Google member
+        // Step 3: If one or both don't exist, create a new Google member
         fetch("/api/member/create-google-member", {
           method: "POST",
           headers: {
@@ -58,7 +53,7 @@ function handleCredentialResponse(response) {
         })
           .then((response) => response.json())
           .then((createData) => {
-            // Step 5: Once created, store the memberID in local storage and redirect to googleSignUp.html
+            // Step 4: Once created, store the memberID in local storage and redirect to googleSignUp.html
             localStorage.setItem("memberID", createData.memberID);
             window.location.href = "googleSignUp.html";
           })
