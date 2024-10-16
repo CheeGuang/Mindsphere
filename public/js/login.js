@@ -36,7 +36,6 @@ window.onload = function () {
     size: "large",
     text: "continue_with",
     logo_alignment: "left",
-    width: 474,
   });
   function handleCredentialResponse(response) {
     // Log the credentials received

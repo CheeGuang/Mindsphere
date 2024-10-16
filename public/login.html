@@ -89,29 +89,32 @@
                 <h1 class="mb-4">Login</h1>
                 <form>
                   <div class="mb-3">
-                    <!-- Google Button -->
-                    <div
-                      class="d-flex justify-content-center align-items-center"
-                    >
+                    <div class="mb-3">
+                      <!-- Google Button -->
                       <div
-                        id="g_id_onload"
-                        data-client_id="669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com"
-                        data-context="signin"
-                        data-ux_mode="popup"
-                        data-callback="handleCredentialResponse"
-                        data-auto_prompt="false"
-                      ></div>
-                      <div
-                        class="g_id_signin d-block"
-                        data-type="standard"
-                        data-theme="outline"
-                        data-text="continue_with"
-                        data-size="large"
-                        data-logo_alignment="left"
-                        style="width: 100%"
-                      ></div>
+                        class="google-signin-wrapper"
+                        style="display: flex; justify-content: center"
+                      >
+                        <div
+                          id="g_id_onload"
+                          data-client_id="669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com"
+                          data-context="signin"
+                          data-ux_mode="popup"
+                          data-callback="handleCredentialResponse"
+                          data-auto_prompt="false"
+                        ></div>
+                        <div
+                          class="g_id_signin"
+                          data-type="standard"
+                          data-theme="outline"
+                          data-text="continue_with"
+                          data-size="large"
+                          data-logo_alignment="left"
+                          style="width: 100%"
+                        ></div>
+                      </div>
+                      <!-- Google Button -->
                     </div>
-                    <!-- Google Button -->
                   </div>
                   <p class="text-center my-3">Or</p>
                   <div class="mb-3">
