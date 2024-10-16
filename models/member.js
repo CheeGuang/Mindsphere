@@ -39,31 +39,43 @@ class Member {
     }
   }
 
-  // Function to check if email exists using stored procedure
-  static async checkEmailExists(email) {
+  // Function to check if both email and contact exist using the updated stored procedure
+  static async checkEmailAndContactExists(email) {
     try {
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
 
       request.input("Email", sql.NVarChar(100), email);
 
-      const result = await request.execute("usp_check_email_exists");
+      const result = await request.execute(
+        "usp_check_email_and_contact_exists"
+      );
 
       connection.close();
 
-      // Return emailExists and memberID if email exists
-      if (result.recordset[0].EmailExists === 1) {
+      // Return the existence of email and contact as per the stored procedure
+      if (
+        result.recordset[0].EmailExists === 1 &&
+        result.recordset[0].ContactExists === 1
+      ) {
         return {
           emailExists: true,
-          memberID: result.recordset[0].memberID,
+          contactExists: true,
+          memberID: result.recordset[0].memberID, // Assuming memberID is included in the result
+        };
+      } else if (result.recordset[0].EmailExists === 1) {
+        return {
+          emailExists: true,
+          contactExists: false,
         };
       } else {
         return {
           emailExists: false,
+          contactExists: false,
         };
       }
     } catch (error) {
-      console.error("Error checking email:", error);
+      console.error("Error checking email and contact:", error);
       throw error;
     }
   }

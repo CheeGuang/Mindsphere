@@ -30,32 +30,42 @@ class MemberController {
     }
   }
 
-  // Check if email exists
-  static async checkEmailExists(req, res) {
+  // Check if both email and contact exist
+  static async checkEmailAndContactExists(req, res) {
     try {
       const { email } = req.body;
 
-      // Call the model function to check if the email exists
-      const result = await Member.checkEmailExists(email);
+      // Call the model function to check if both email and contact exist
+      const result = await Member.checkEmailAndContactExists(email);
 
-      // Check if the result contains both the email existence flag and memberID
-      if (result.emailExists) {
+      // Check if the result contains both email and contact existence flags
+      if (result.emailExists && result.contactExists) {
         res.status(200).json({
           success: true,
           emailExists: true,
-          memberID: result.memberID, // Return memberID if email exists
+          contactExists: true,
+          memberID: result.memberID, // Return memberID if both email and contact exist
+        });
+      } else if (result.emailExists && !result.contactExists) {
+        res.status(200).json({
+          success: true,
+          emailExists: true,
+          contactExists: false,
+          message: "Email exists, but contact number is missing.",
         });
       } else {
         res.status(200).json({
           success: true,
           emailExists: false,
+          contactExists: false,
+          message: "Neither email nor contact exist.",
         });
       }
     } catch (error) {
-      console.error(`Error in checkEmailExists: ${error.message}`);
+      console.error(`Error in checkEmailAndContactExists: ${error.message}`);
       res.status(500).json({
         success: false,
-        message: "Failed to check email existence.",
+        message: "Failed to check email and contact existence.",
       });
     }
   }

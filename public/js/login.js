@@ -23,22 +23,27 @@ function handleCredentialResponse(response) {
 
   const { email, given_name, family_name, picture } = userInfo;
 
-  // Step 1: Check if the email exists in the database
-  fetch("/api/member/check-email-exists", {
+  // Step 1: Check if both email and contact exist in the database
+  fetch("/api/member/check-email-and-contact-exists", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: email }), // Send the email to check
+    body: JSON.stringify({ email: email }), // Send the email to check both email and contact
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.emailExists) {
-        // Step 2: If the email exists, store memberID in local storage and redirect to memberHome.html
+      if (data.emailExists && data.contactExists) {
+        // Step 2: If both email and contact exist, store memberID in local storage and redirect to memberHome.html
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberHome.html";
+      } else if (data.emailExists && !data.contactExists) {
+        // Step 3: If the email exists but contact is missing, inform the user
+        alert(
+          "Email exists but contact number is missing. Please update your contact information."
+        );
       } else {
-        // Step 3: If the email does not exist, create a new Google member
+        // Step 4: If neither email nor contact exists, create a new Google member
         fetch("/api/member/create-google-member", {
           method: "POST",
           headers: {
@@ -53,7 +58,7 @@ function handleCredentialResponse(response) {
         })
           .then((response) => response.json())
           .then((createData) => {
-            // Step 4: Once created, store the memberID in local storage and redirect to googleSignUp.html
+            // Step 5: Once created, store the memberID in local storage and redirect to googleSignUp.html
             localStorage.setItem("memberID", createData.memberID);
             window.location.href = "googleSignUp.html";
           })
@@ -63,7 +68,7 @@ function handleCredentialResponse(response) {
       }
     })
     .catch((error) => {
-      console.error("Error checking email:", error);
+      console.error("Error checking email and contact:", error);
     });
 }
 

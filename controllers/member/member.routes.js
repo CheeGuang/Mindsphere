@@ -15,7 +15,10 @@ const memberRoutes = express.Router();
 memberRoutes.post("/create-google-member", MemberController.createGoogleMember);
 
 // Route to check if email exists
-memberRoutes.post("/check-email-exists", MemberController.checkEmailExists);
+memberRoutes.post(
+  "/check-email-and-contact-exists",
+  MemberController.checkEmailAndContactExists
+);
 
 // Route to update member contact
 memberRoutes.put(
