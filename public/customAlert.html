@@ -1,6 +1,13 @@
 <!-- Custom Alert Notification -->
-<div id="customAlert" class="alert alert-info custom-alert" role="alert">
-  This is a custom notification message!
+<div id="customAlert" class="alert alert-secondary custom-alert" role="alert">
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    id="closeAlert"
+    style="position: absolute; top: 10px; right: 15px"
+  ></button>
+  <span class="alert-message">This is a custom notification message!</span>
 </div>
 
 <!-- Custom CSS for the Alert -->
@@ -9,10 +16,31 @@
   .custom-alert {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1050;
     display: none;
-    max-width: 300px;
+    width: 90%; /* Responsive width */
+    max-width: 600px; /* Fixed maximum width */
+    padding: 20px;
+    background-color: #e0e0e0; /* Grey background */
+    color: #333; /* Dark grey text color */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Close Button Styling */
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .alert-message {
+    display: block;
+    text-align: center;
+    font-size: 1.1rem;
   }
 </style>
 
@@ -20,20 +48,25 @@
 <script>
   $(document).ready(function () {
     // Function to show the custom notification
-    function showCustomAlert(message) {
+    window.showCustomAlert = function (message) {
       var $alert = $("#customAlert");
-      $alert.text(message); // Update alert message
+      $alert.find(".alert-message").text(message); // Update alert message
       $alert.fadeIn(); // Show the alert
 
       // Automatically hide after 5 seconds (5000ms)
       setTimeout(function () {
         $alert.fadeOut();
       }, 5000);
-    }
+    };
 
     // Show the notification when button is clicked
     $("#showAlert").click(function () {
       showCustomAlert("This is a custom notification message!");
+    });
+
+    // Close the alert when the close button is clicked
+    $("#closeAlert").click(function () {
+      $("#customAlert").fadeOut(); // Hide the alert when "x" is clicked
     });
   });
 </script>
