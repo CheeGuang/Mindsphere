@@ -88,3 +88,11 @@ window.onload = function () {
 
   google.accounts.id.prompt(); // Display the One Tap dialog if applicable
 };
+
+document.getElementById("guestButton").addEventListener("click", function () {
+  // Set the memberID in localStorage for guest user
+  localStorage.setItem("memberID", 1);
+
+  // Redirect to memberHome.html
+  window.location.href = "./memberHome.html";
+});
