@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <script src="./js/memberSignUp.js"></script>
+    <script src="./js/memberSignUp.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -124,37 +124,25 @@
                         id="email"
                         required
                       />
-                      <button
-                        class="btn btn-secondary"
-                        type="button"
-                        id="confirmEmailBtn"
-                      >
+                      <button class="btn btn-secondary" type="button">
                         Confirm
                       </button>
                       <div class="invalid-feedback">Email is required.</div>
                     </div>
                   </div>
 
-                  <div class="mb-3 position-relative">
+                  <div class="mb-3">
                     <label for="emailVC" class="form-label"
-                      >Verification Code</label
+                      >Email Verification Code</label
                     >
                     <input
                       type="text"
                       class="form-control"
                       id="emailVC"
-                      name="verification-code"
-                      autocomplete="off"
-                      inputmode="numeric"
                       required
-                      pattern="\d{6}"
-                      maxlength="6"
                     />
-                    <a href="#" id="resendLink" class="text-muted resend-link"
-                      >Resend Verification Code</a
-                    >
                     <div class="invalid-feedback">
-                      Email verification code must be a 6-digit number.
+                      Email verification code is required.
                     </div>
                   </div>
 
@@ -245,3 +233,11 @@
     </script>
   </body>
 </html>
+
+CREATE PROCEDURE usp_update_member_emailVC_by_ID @memberID INT, @newEmailVC
+NVARCHAR(100) AS BEGIN -- Update the email verification code and timestamp for
+the given memberID UPDATE [member] SET emailVC = @newEmailVC, emailVCTimestamp =
+GETDATE() WHERE memberID = @memberID; -- Optionally, return a success message
+SELECT 'Email verification code updated successfully' AS Message; END; write the
+code such that when confirm button is clicked, the it calls this end point
+/api/emailService/send-verification-email

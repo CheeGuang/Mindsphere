@@ -1,5 +1,6 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const EmailService = require("./emailService"); // Import EmailService
 
 class Member {
   constructor(memberID, firstName, lastName, email, profilePicture, contactNo) {
@@ -127,6 +128,60 @@ class Member {
       return result.recordset[0].newMemberID;
     } catch (error) {
       console.error("Error updating Google member:", error);
+      throw error;
+    }
+  }
+
+  // Function to create a member using stored procedure
+  static async createMember(firstName, lastName, email, contactNo, password) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      request.input("firstName", sql.NVarChar(100), firstName);
+      request.input("lastName", sql.NVarChar(100), lastName);
+      request.input("email", sql.NVarChar(100), email);
+      request.input("contactNo", sql.NVarChar(20), contactNo);
+      request.input("password", sql.NVarChar(100), password);
+
+      const result = await request.execute("usp_create_member");
+
+      connection.close();
+
+      // Return the newly created memberID
+      return result.recordset[0].newMemberID;
+    } catch (error) {
+      console.error("Error creating member:", error);
+      throw error;
+    }
+  }
+
+  // Function to send verification code based on email
+  static async sendVerificationCode(email) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Generate a 6-digit verification code
+      const verificationCode = Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+
+      // Update the verification code in the database based on email
+      request.input("email", sql.NVarChar(100), email);
+      request.input("newEmailVC", sql.NVarChar(100), verificationCode);
+      await request.execute("usp_update_or_create_member_by_email");
+
+      connection.close();
+
+      // Send the email using EmailService
+      const emailService = new EmailService();
+      await emailService.sendVerificationEmail(email, verificationCode);
+
+      // Return a success message
+      return `Verification code sent to ${email}`;
+    } catch (error) {
+      console.error("Error sending verification code:", error);
       throw error;
     }
   }

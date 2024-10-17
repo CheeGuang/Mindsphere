@@ -27,9 +27,15 @@ memberRoutes.put(
 );
 
 // Route to update Google member
-memberRoutes.put(
-  "/update-google-member",
-  MemberController.updateGoogleMember
+memberRoutes.put("/update-google-member", MemberController.updateGoogleMember);
+
+// Route to create a new member
+memberRoutes.post("/create-member", MemberController.createMember);
+
+// Route to send verification code
+memberRoutes.post(
+  "/send-verification-code",
+  MemberController.sendVerificationCode
 );
 
 // ========== Export ==========

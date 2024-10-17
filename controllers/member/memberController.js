@@ -117,6 +117,56 @@ class MemberController {
       });
     }
   }
+
+  // Create a new member
+  static async createMember(req, res) {
+    try {
+      const { firstName, lastName, email, contactNo, password } = req.body;
+
+      // Call the model function to create a member
+      const memberID = await Member.createMember(
+        firstName,
+        lastName,
+        email,
+        contactNo,
+        password
+      );
+
+      res.status(201).json({
+        success: true,
+        message: "Member created successfully",
+        memberID: memberID,
+      });
+    } catch (error) {
+      console.error(`Error in createMember: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create member.",
+      });
+    }
+  }
+
+  // Send verification code based on email
+  static async sendVerificationCode(req, res) {
+    console.log("Hi");
+    try {
+      const { email } = req.body;
+
+      // Call the model function to send the verification code based on email
+      const message = await Member.sendVerificationCode(email);
+
+      res.status(200).json({
+        success: true,
+        message: message,
+      });
+    } catch (error) {
+      console.error(`Error in sendVerificationCode: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to send verification code.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========
