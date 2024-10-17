@@ -37,8 +37,31 @@ function handleCredentialResponse(response) {
         // Step 2: If both email and contact exist, store memberID in local storage and redirect to memberHome.html
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberHome.html";
+      } else if (data.emailExists && !data.contactExists) {
+        // Step 3: If email exists but contact does not, call update-google-member
+        fetch("/api/member/update-google-member", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: given_name,
+            lastName: family_name,
+            email: email,
+            profilePicture: picture,
+          }),
+        })
+          .then((response) => response.json())
+          .then((updateData) => {
+            // Step 4: After updating, store the memberID in local storage and redirect to googleSignUp.html
+            localStorage.setItem("memberID", updateData.memberID);
+            window.location.href = "googleSignUp.html";
+          })
+          .catch((error) => {
+            console.error("Error updating Google member:", error);
+          });
       } else {
-        // Step 3: If one or both are missing, create a new Google member
+        // Step 5: If both email and contact are missing, create a new Google member
         fetch("/api/member/create-google-member", {
           method: "POST",
           headers: {
@@ -53,7 +76,7 @@ function handleCredentialResponse(response) {
         })
           .then((response) => response.json())
           .then((createData) => {
-            // Step 4: Once created, store the memberID in local storage and redirect to googleSignUp.html
+            // Step 6: Once created, store the memberID in local storage and redirect to googleSignUp.html
             localStorage.setItem("memberID", createData.memberID);
             window.location.href = "googleSignUp.html";
           })

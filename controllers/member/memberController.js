@@ -88,6 +88,33 @@ class MemberController {
       });
     }
   }
+
+  // Update Google member
+  static async updateGoogleMember(req, res) {
+    try {
+      const { firstName, lastName, email, profilePicture } = req.body;
+
+      // Call the model function to update the Google member
+      const memberID = await Member.updateGoogleMember(
+        firstName,
+        lastName,
+        email,
+        profilePicture
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "Google member updated successfully",
+        memberID: memberID,
+      });
+    } catch (error) {
+      console.error(`Error in updateGoogleMember: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update Google member.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

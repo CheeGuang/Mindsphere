@@ -100,6 +100,34 @@ class Member {
       throw error;
     }
   }
+
+  // Function to update Google member using the new stored procedure
+  static async updateGoogleMember(
+    firstName,
+    lastName,
+    email,
+    profilePicture = null
+  ) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      request.input("firstName", sql.NVarChar(100), firstName);
+      request.input("lastName", sql.NVarChar(100), lastName);
+      request.input("Email", sql.NVarChar(100), email);
+      request.input("profilePicture", sql.NVarChar(500), profilePicture);
+
+      const result = await request.execute("usp_update_google_member");
+
+      connection.close();
+
+      // Return the updated memberID if successful
+      return result.recordset[0].newMemberID;
+    } catch (error) {
+      console.error("Error updating Google member:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Member;

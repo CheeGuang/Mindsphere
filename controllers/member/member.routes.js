@@ -26,5 +26,11 @@ memberRoutes.put(
   MemberController.updateMemberContact
 );
 
+// Route to update Google member
+memberRoutes.put(
+  "/update-google-member",
+  MemberController.updateGoogleMember
+);
+
 // ========== Export ==========
 module.exports = memberRoutes;
