@@ -20,7 +20,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   try {
     // Make an API call to update the member contact number
     const response = await fetch("/api/member/update-member-contact", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
