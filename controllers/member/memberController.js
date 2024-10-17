@@ -51,12 +51,14 @@ class MemberController {
           success: true,
           emailExists: true,
           contactExists: false,
+          memberID: result.memberID, // Return memberID even if contact doesn't exist
         });
       } else {
         res.status(200).json({
           success: true,
           emailExists: false,
           contactExists: false,
+          memberID: null, // Return null for memberID if email doesn't exist
         });
       }
     } catch (error) {

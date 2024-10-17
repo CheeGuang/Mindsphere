@@ -53,7 +53,7 @@ class Member {
 
       connection.close();
 
-      // Return the existence of email and contact as per the stored procedure
+      // Check for the presence of memberID and return accordingly
       if (
         result.recordset[0].EmailExists === 1 &&
         result.recordset[0].ContactExists === 1
@@ -61,17 +61,19 @@ class Member {
         return {
           emailExists: true,
           contactExists: true,
-          memberID: result.recordset[0].memberID, // Assuming memberID is included in the result
+          memberID: result.recordset[0].memberID, // Returning memberID when both email and contact exist
         };
       } else if (result.recordset[0].EmailExists === 1) {
         return {
           emailExists: true,
           contactExists: false,
+          memberID: result.recordset[0].memberID, // Returning memberID even if contact doesn't exist
         };
       } else {
         return {
           emailExists: false,
           contactExists: false,
+          memberID: null, // Email doesn't exist, no memberID returned
         };
       }
     } catch (error) {
