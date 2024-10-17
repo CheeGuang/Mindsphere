@@ -33,6 +33,9 @@ function handleCredentialResponse(response) {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(
+        `emailExists: ${data.emailExists} contactExists: ${data.contactExists}`
+      );
       if (data.emailExists && data.contactExists) {
         // Step 2: If both email and contact exist, store memberID in local storage and redirect to memberHome.html
         localStorage.setItem("memberID", data.memberID);
