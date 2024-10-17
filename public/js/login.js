@@ -38,28 +38,8 @@ function handleCredentialResponse(response) {
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberHome.html";
       } else if (data.emailExists && !data.contactExists) {
-        // Step 3: If email exists but contact does not, call update-google-member
-        fetch("/api/member/update-google-member", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName: given_name,
-            lastName: family_name,
-            email: email,
-            profilePicture: picture,
-          }),
-        })
-          .then((response) => response.json())
-          .then((updateData) => {
-            // Step 4: After updating, store the memberID in local storage and redirect to googleSignUp.html
-            localStorage.setItem("memberID", updateData.memberID);
-            window.location.href = "googleSignUp.html";
-          })
-          .catch((error) => {
-            console.error("Error updating Google member:", error);
-          });
+        localStorage.setItem("memberID", data.memberID);
+        window.location.href = "googleSignUp.html";
       } else {
         // Step 5: If both email and contact are missing, create a new Google member
         fetch("/api/member/create-google-member", {
