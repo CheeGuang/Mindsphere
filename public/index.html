@@ -78,11 +78,10 @@
     <header>
       <div id="navbar-container"></div>
     </header>
-    <!-- <div class="row" style="height: 70px; width: 100vw"></div> -->
     <div class="container text-center">
+      <!-- Load customAlert.html dynamically -->
+      <div id="customAlertContainer"></div>
       <div class="row justify-content-center">
-        <!-- <div class="row" style="height: 70px; width: 100vw"></div> -->
-
         <div class="hero-container">
           <img
             src="./img/misc/public-speaking-image.jpg"
@@ -113,5 +112,25 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Custom JS to Load customAlert.html -->
+    <script>
+      $(document).ready(function () {
+        // Load the customAlert.html into the container
+        $("#customAlertContainer").load("./customAlert.html");
+
+        // Define the showCustomAlert function globally
+        window.showCustomAlert = function (message) {
+          var $alert = $("#customAlert");
+          $alert.text(message); // Update alert message
+          $alert.fadeIn(); // Show the alert
+
+          // Automatically hide after 5 seconds (5000ms)
+          setTimeout(function () {
+            $alert.fadeOut();
+          }, 5000);
+        };
+      });
+    </script>
   </body>
 </html>

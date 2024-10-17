@@ -81,6 +81,9 @@
     <div class="container text-center">
       <div class="row justify-content-center">
         <div class="col-12">
+          <!-- Load customAlert.html dynamically -->
+          <div id="customAlertContainer"></div>
+          
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
           <div
             style="
@@ -218,5 +221,25 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Custom JS to Load customAlert.html -->
+    <script>
+      $(document).ready(function () {
+        // Load the customAlert.html into the container
+        $("#customAlertContainer").load("./customAlert.html");
+
+        // Define the showCustomAlert function globally
+        window.showCustomAlert = function (message) {
+          var $alert = $("#customAlert");
+          $alert.text(message); // Update alert message
+          $alert.fadeIn(); // Show the alert
+
+          // Automatically hide after 5 seconds (5000ms)
+          setTimeout(function () {
+            $alert.fadeOut();
+          }, 5000);
+        };
+      });
+    </script>
   </body>
 </html>
