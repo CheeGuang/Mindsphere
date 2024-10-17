@@ -4,7 +4,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   // Get memberID from local storage
   const memberID = localStorage.getItem("memberID");
   if (!memberID) {
-    alert("Member ID not found. Please ensure you are logged in.");
+    showCustomAlert("Member ID not found. Please ensure you are logged in.");
     return;
   }
 
@@ -30,12 +30,12 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message || "Contact number updated successfully.");
+      showCustomAlert(result.message || "Contact number updated successfully.");
     } else {
-      alert(result.error || "Failed to update contact number.");
+      showCustomAlert(result.error || "Failed to update contact number.");
     }
   } catch (error) {
     console.error("Error updating contact number:", error);
-    alert("An error occurred while updating the contact number.");
+    showCustomAlert("An error occurred while updating the contact number.");
   }
 });
