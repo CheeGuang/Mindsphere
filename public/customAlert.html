@@ -2,11 +2,19 @@
 <div id="customAlert" class="alert alert-secondary custom-alert" role="alert">
   <button
     type="button"
-    class="btn-close"
     aria-label="Close"
     id="closeAlert"
-    style="position: absolute; top: 10px; right: 15px"
-  ></button>
+    style="
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    "
+  >
+    <i class="fas fa-times" style="color: black; font-size: 1.2rem"></i>
+  </button>
   <span class="alert-message">This is a custom notification message!</span>
 </div>
 
@@ -29,12 +37,10 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  /* Close Button Styling */
-  .btn-close {
-    background: none;
-    border: none;
+  /* FontAwesome Close Button Styling */
+  .fas.fa-times {
     font-size: 1.2rem;
-    cursor: pointer;
+    color: black;
   }
 
   .alert-message {
