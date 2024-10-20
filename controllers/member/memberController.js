@@ -146,24 +146,78 @@ class MemberController {
     }
   }
 
-  // Send verification code based on email
+  // Send verification code based on email and verification code verification
   static async sendVerificationCode(req, res) {
-    console.log("Hi");
     try {
-      const { email } = req.body;
+      const { email, verificationCode } = req.body;
 
-      // Call the model function to send the verification code based on email
-      const message = await Member.sendVerificationCode(email);
+      // If verificationCode is provided, verify it
+      if (verificationCode) {
+        // Call the model function to verify the provided verification code
+        const verificationResult = await Member.verifyVerificationCode(
+          email,
+          verificationCode
+        );
 
-      res.status(200).json({
-        success: true,
-        message: message,
-      });
+        // Check if the verification was successful
+        if (verificationResult.success) {
+          res.status(200).json({
+            success: true,
+            message: "Verification successful.",
+            emailVCTimestamp: verificationResult.emailVCTimestamp,
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: verificationResult.message,
+          });
+        }
+      } else {
+        // If no verificationCode is provided, send a new verification code
+        const message = await Member.sendVerificationCode(email);
+
+        res.status(200).json({
+          success: true,
+          message: message,
+        });
+      }
     } catch (error) {
       console.error(`Error in sendVerificationCode: ${error.message}`);
       res.status(500).json({
         success: false,
-        message: "Failed to send verification code.",
+        message: "Failed to process the request.",
+      });
+    }
+  }
+
+  // Verify the provided verification code based on email
+  static async verifyVerificationCode(req, res) {
+    try {
+      const { email, verificationCode } = req.body;
+
+      // Call the model function to verify the verification code
+      const result = await Member.verifyVerificationCode(
+        email,
+        verificationCode
+      );
+
+      if (result.success) {
+        res.status(200).json({
+          success: true,
+          message: "Verification code is valid.",
+          emailVCTimestamp: result.emailVCTimestamp,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: result.message,
+        });
+      }
+    } catch (error) {
+      console.error(`Error in verifyVerificationCode: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to verify verification code.",
       });
     }
   }

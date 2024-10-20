@@ -185,6 +185,60 @@ class Member {
       throw error;
     }
   }
+
+  // Function to verify the provided verification code with emailVC and emailVCTimestamp using stored procedure
+  static async verifyVerificationCode(email, verificationCode) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      request.input("email", sql.NVarChar(100), email);
+
+      // Execute the stored procedure to get emailVC and emailVCTimestamp
+      const result = await request.execute("usp_get_member_email_verification");
+
+      connection.close();
+
+      if (result.recordset.length === 0) {
+        return {
+          success: false,
+          message: "Email not found.",
+        };
+      }
+
+      const emailVC = result.recordset[0].emailVC;
+      const emailVCTimestamp = result.recordset[0].emailVCTimestamp;
+
+      // Check if the provided verification code matches the one stored in the database
+      if (emailVC !== verificationCode) {
+        return {
+          success: false,
+          message: "Verification code is incorrect.",
+        };
+      }
+
+      // Check if the verification code was provided within 1 minute of the timestamp
+      const currentTime = new Date();
+      const timestamp = new Date(emailVCTimestamp);
+      const timeDifference = (currentTime - timestamp) / 1000 / 60; // Convert milliseconds to minutes
+
+      if (timeDifference > 1) {
+        return {
+          success: false,
+          message: "Verification code has expired. Please request a new one.",
+        };
+      }
+
+      // If all checks pass, return success
+      return {
+        success: true,
+        emailVCTimestamp: emailVCTimestamp,
+      };
+    } catch (error) {
+      console.error("Error verifying verification code:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Member;

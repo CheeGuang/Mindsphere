@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
+  const emailVCInput = document.getElementById("emailVC");
   const confirmEmailBtn = document.getElementById("confirmEmailBtn");
   const resendLink = document.getElementById("resendLink");
+  const signUpForm = document.getElementById("signUpForm");
 
   // Disable the resend link initially
   resendLink.style.pointerEvents = "none";
@@ -54,6 +56,93 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }, 1000); // Update every second
   }
+
+  // Function to verify the verification code
+  async function verifyVerificationCode() {
+    const email = emailInput.value;
+    const verificationCode = emailVCInput.value;
+
+    if (!verificationCode || !email) {
+      showCustomAlert("Please enter a valid verification code and email");
+      return false;
+    }
+
+    try {
+      const response = await fetch("/api/member/verify-verification-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, verificationCode }),
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        showCustomAlert("Invalid verification code. Please try again.");
+        return false;
+      }
+
+      return true; // Verification successful
+    } catch (error) {
+      console.error("Error:", error.message);
+      showCustomAlert("Error verifying the verification code.");
+      return false;
+    }
+  }
+
+  // Function to create a new member
+  async function createMember() {
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = emailInput.value;
+    const contactNo = document.getElementById("contactNo").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      showCustomAlert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/member/create-member", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          contactNo,
+          password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showCustomAlert("Member created successfully");
+      } else {
+        showCustomAlert(result.message || "Error creating member.");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      showCustomAlert("Error creating member.");
+    }
+  }
+
+  // Sign up form submit event
+  signUpForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    // First, verify the verification code
+    const isVerified = await verifyVerificationCode();
+    if (isVerified) {
+      // If the verification code is valid, create the member
+      createMember();
+    }
+  });
 
   // Confirm button click event
   confirmEmailBtn.addEventListener("click", function () {

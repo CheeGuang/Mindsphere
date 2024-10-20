@@ -38,5 +38,11 @@ memberRoutes.post(
   MemberController.sendVerificationCode
 );
 
+// Route to verify the verification code
+memberRoutes.post(
+  "/verify-verification-code",
+  MemberController.verifyVerificationCode
+);
+
 // ========== Export ==========
 module.exports = memberRoutes;
