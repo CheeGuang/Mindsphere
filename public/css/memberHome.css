@@ -1,0 +1,62 @@
+/* Style for the entire event card section */
+#event-scroll-container {
+    display: flex;
+    flex-wrap: nowrap; /* No wrapping of cards to ensure horizontal scrolling */
+    overflow-x: auto; /* Enables horizontal scroll */
+    padding-bottom: 10px;
+    scrollbar-width: thin; /* For Firefox */
+    scroll-behavior: smooth; /* Smooth scrolling effect */
+  }
+  
+  /* Styling for the individual cards */
+  .card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    min-width: 600px; /* Ensures the card is wide enough for image and text */
+    flex: 0 0 auto; /* Ensures the cards don't shrink or grow and remain scrollable */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px; /* Space between cards */
+  }
+  
+  /* Image styling */
+  .event-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px 0px 0px 10px; /* Rounded left side */
+  }
+  
+  /* Card body and text styling */
+  .card-body {
+    padding-left: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Hover effect on the cards */
+  .card:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+  }
+  
+  /* Adjusts for small screens */
+  @media (max-width: 768px) {
+    .card {
+      min-width: 100%; /* Cards take up full width on smaller screens */
+    }
+  
+    .card-body {
+      text-align: center;
+    }
+  }
+  

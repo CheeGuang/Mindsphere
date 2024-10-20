@@ -9,6 +9,8 @@ const path = require("path");
 const templateRoutes = require("./controllers/template/template.routes");
 // Initialising member Routes
 const memberRoutes = require("./controllers/member/member.routes");
+// Initialising event Routes
+const eventRoutes = require("./controllers/event/event.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -32,6 +34,9 @@ app.use("/api/template", templateRoutes);
 
 // Member Route
 app.use("/api/member", memberRoutes);
+
+// Event Route
+app.use("/api/event", eventRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000
