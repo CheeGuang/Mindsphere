@@ -89,6 +89,42 @@ window.onload = function () {
   google.accounts.id.prompt(); // Display the One Tap dialog if applicable
 };
 
+document.addEventListener("DOMContentLoaded", function () {
+  // Handle form submission for login
+  document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form from submitting traditionally
+
+    // Get email and password from the form fields
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    // Make the API call to login the member
+    fetch("/api/member/login-member", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }), // Send email and password in the body
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // If login is successful, store the memberID in localStorage
+          localStorage.setItem("memberID", data.memberID);
+          window.location.href = "memberHome.html"; // Redirect to memberHome.html
+        } else {
+          // Show an error message if login failed
+          showCustomAlert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error);
+        showCustomAlert("An error occurred. Please try again.");
+      });
+  });
+});
+
+// Handle guest login
 document.getElementById("guestButton").addEventListener("click", function () {
   // Set the memberID in localStorage for guest user
   localStorage.setItem("memberID", 1);

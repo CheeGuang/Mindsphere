@@ -221,6 +221,56 @@ class MemberController {
       });
     }
   }
+
+  // Login member by verifying the password
+  static async loginMember(req, res) {
+    try {
+      const { email, password } = req.body;
+
+      // Call the model function to login the member
+      const loginResult = await Member.loginMember(email, password);
+
+      if (loginResult.success) {
+        res.status(200).json({
+          success: true,
+          message: loginResult.message,
+          memberID: loginResult.memberID, // Return memberID upon successful login
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: loginResult.message,
+        });
+      }
+    } catch (error) {
+      console.error(`Error in loginMember: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to log in.",
+      });
+    }
+  }
+
+  // Update member password
+  static async updateMemberPassword(req, res) {
+    try {
+      const { email, newPassword } = req.body;
+
+      // Call the model function to update the password
+      const message = await Member.updateMemberPassword(email, newPassword);
+
+      res.status(200).json({
+        success: true,
+        message: message,
+      });
+    } catch (error) {
+      console.error(`Error in updateMemberPassword: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update password.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

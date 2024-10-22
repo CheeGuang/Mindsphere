@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 const EmailService = require("./emailService"); // Import EmailService
+const bcrypt = require("bcrypt"); // Import bcrypt
 
 class Member {
   constructor(memberID, firstName, lastName, email, profilePicture, contactNo) {
@@ -132,9 +133,12 @@ class Member {
     }
   }
 
-  // Function to create a member using stored procedure
+  // Function to create a member using stored procedure with password encryption
   static async createMember(firstName, lastName, email, contactNo, password) {
     try {
+      // Hash the password using bcrypt before storing it
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
 
@@ -142,7 +146,7 @@ class Member {
       request.input("lastName", sql.NVarChar(100), lastName);
       request.input("email", sql.NVarChar(100), email);
       request.input("contactNo", sql.NVarChar(20), contactNo);
-      request.input("password", sql.NVarChar(100), password);
+      request.input("password", sql.NVarChar(100), hashedPassword); // Store hashed password
 
       const result = await request.execute("usp_create_member");
 
@@ -236,6 +240,87 @@ class Member {
       };
     } catch (error) {
       console.error("Error verifying verification code:", error);
+      throw error;
+    }
+  }
+
+  // Function to login a member by comparing the stored password with the provided password
+  static async loginMember(email, password) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Retrieve the member's hashed password from the database
+      request.input("email", sql.NVarChar(100), email);
+      const passwordResult = await request.execute(
+        "usp_get_member_password_by_email"
+      );
+
+      // If no member is found with the provided email
+      if (passwordResult.recordset.length === 0) {
+        connection.close();
+        return {
+          success: false,
+          message: "Invalid email or password.",
+        };
+      }
+
+      const hashedPassword = passwordResult.recordset[0].password;
+
+      // Compare the provided password with the hashed password from the database
+      const passwordMatch = await bcrypt.compare(password, hashedPassword);
+
+      if (!passwordMatch) {
+        connection.close();
+        return {
+          success: false,
+          message: "Invalid email or password.",
+        };
+      }
+
+      // If password matches, retrieve the memberID
+      const memberIDRequest = connection.request();
+      memberIDRequest.input("email", sql.NVarChar(100), email);
+      const memberIDResult = await memberIDRequest.execute(
+        "usp_get_member_id_by_email"
+      );
+
+      connection.close();
+
+      // Return success with the memberID
+      return {
+        success: true,
+        message: "Login successful.",
+        memberID: memberIDResult.recordset[0].memberID, // Return memberID upon successful login
+      };
+    } catch (error) {
+      console.error("Error logging in member:", error);
+      throw error;
+    }
+  }
+
+  // Function to update a member's password using stored procedure
+  static async updateMemberPassword(email, newPassword) {
+    try {
+      // Hash the new password using bcrypt
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the inputs for the stored procedure
+      request.input("email", sql.NVarChar(100), email);
+      request.input("newPassword", sql.NVarChar(100), hashedPassword); // Store hashed password
+
+      // Execute the stored procedure to update the password
+      const result = await request.execute("usp_update_password_by_email");
+
+      connection.close();
+
+      // Return the result message from the stored procedure
+      return result.recordset[0].Message;
+    } catch (error) {
+      console.error("Error updating member password:", error);
       throw error;
     }
   }

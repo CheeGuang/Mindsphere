@@ -44,5 +44,11 @@ memberRoutes.post(
   MemberController.verifyVerificationCode
 );
 
+// Route to log in a member
+memberRoutes.post("/login-member", MemberController.loginMember);
+
+// Route to update member password
+memberRoutes.put("/update-password", MemberController.updateMemberPassword);
+
 // ========== Export ==========
 module.exports = memberRoutes;

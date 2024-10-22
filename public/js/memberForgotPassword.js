@@ -3,13 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailVCInput = document.getElementById("emailVC");
   const confirmEmailBtn = document.getElementById("confirmEmailBtn");
   const resendLink = document.getElementById("resendLink");
-  const signUpForm = document.getElementById("signUpForm");
+  const forgotPasswordForm = document.getElementById("forgotPasswordForm");
+  let isVerified = false; // Variable to track if verification is successful
 
   // Disable the resend link initially
   resendLink.style.pointerEvents = "none";
   resendLink.style.opacity = "0.5";
 
-  // Function to send verification email
+  // Function to send verification code
   async function sendVerificationEmail() {
     const email = emailInput.value;
 
@@ -82,7 +83,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
       }
 
-      return true; // Verification successful
+      isVerified = true; // Set verification as successful
+      showCustomAlert(
+        "Verification successful. You can now reset your password."
+      );
+      return true;
     } catch (error) {
       console.error("Error:", error.message);
       showCustomAlert("Error verifying the verification code.");
@@ -90,12 +95,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to create a new member
-  async function createMember() {
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
+  // Function to reset the password
+  async function resetPassword() {
+    if (!isVerified) {
+      showCustomAlert(
+        "Please verify your email before resetting your password."
+      );
+      return;
+    }
+
     const email = emailInput.value;
-    const contactNo = document.getElementById("contactNo").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
@@ -105,50 +114,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      const response = await fetch("/api/member/create-member", {
-        method: "POST",
+      const response = await fetch("/api/member/update-password", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
           email,
-          contactNo,
-          password,
+          newPassword: password,
         }),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        showCustomAlert("Member created successfully");
-        // Redirect to member login page after 3 seconds
+        showCustomAlert("Password reset successfully");
+        // Optionally, redirect to login page after a few seconds
         setTimeout(() => {
           window.location.href = "memberLogIn.html";
         }, 3000); // 3-second delay
       } else {
-        showCustomAlert(result.message || "Error creating member.");
+        showCustomAlert(result.message || "Error resetting password.");
       }
     } catch (error) {
       console.error("Error:", error.message);
-      showCustomAlert("Error creating member.");
+      showCustomAlert("Error resetting password.");
     }
   }
 
-  // Sign up form submit event
-  signUpForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    // First, verify the verification code
-    const isVerified = await verifyVerificationCode();
-    if (isVerified) {
-      // If the verification code is valid, create the member
-      createMember();
-    }
-  });
-
-  // Confirm button click event
+  // Confirm button click event to send verification email
   confirmEmailBtn.addEventListener("click", function () {
     sendVerificationEmail();
 
@@ -166,5 +160,16 @@ document.addEventListener("DOMContentLoaded", function () {
     resendLink.style.pointerEvents = "none";
     resendLink.style.opacity = "0.5";
     startResendCountdown();
+  });
+
+  // Form submit event to reset password after verification
+  forgotPasswordForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    // Verify the code before allowing password reset
+    const verified = await verifyVerificationCode();
+    if (verified) {
+      resetPassword(); // Reset password if verification is successful
+    }
   });
 });
