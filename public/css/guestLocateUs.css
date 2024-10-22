@@ -1,0 +1,23 @@
+ .map-iframe {
+     width: 100%;
+     height: 450px;
+     border: 0;
+    border-radius: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+  .locate-us-info {
+      margin-top: 20px;
+      font-size: 1.2rem;
+  }
+  .box{
+    background-color: #f5fefd;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 15px;
+    border: 2px solid #fbfcfa;
+  }
+  .fa-map-marker-alt{
+    margin-right: 10px;
+  }
+
+ 
