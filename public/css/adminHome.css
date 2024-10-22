@@ -1,0 +1,51 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+}
+
+.card-img-left {
+    width: 40%;
+    height: 100%;
+    object-fit: cover;
+    margin-top: 20px;
+    margin-left: 20px;
+   border-radius: 15px;
+}
+
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.event-card {
+    background-color: white;
+}
+
+.container {
+    max-width: 1200px;
+}
+.box{
+    background-color: gainsboro;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 15px;
+}

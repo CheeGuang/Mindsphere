@@ -103,7 +103,7 @@
                   </p>
                 </div>
                 <div>
-                  <button class="btn btn-outline-secondary">
+                  <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editEventModal">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button class="btn btn-outline-danger">
@@ -128,7 +128,7 @@
                   </p>
                 </div>
                 <div>
-                  <button class="btn btn-outline-secondary">
+                  <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editEventModal">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button class="btn btn-outline-danger">
@@ -153,7 +153,7 @@
                   </p>
                 </div>
                 <div>
-                  <button class="btn btn-outline-secondary">
+                  <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editEventModal">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button class="btn btn-outline-danger">
@@ -180,7 +180,7 @@
                   </p>
                 </div>
                 <div>
-                  <button class="btn btn-outline-secondary">
+                  <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editEventModal">
                     <i class="fas fa-edit"></i>
                   </button>
                   <button class="btn btn-outline-danger">
@@ -193,6 +193,104 @@
             <!-- Create New Event Button -->
             <div class="text-center mt-4">
               <button class="btn btn-warning btn-lg">Create New Event</button>
+            </div>
+          </div>
+          <!-- Modal Structure for Editing Event -->
+          <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!-- Content from your previous modal code goes here -->
+                  <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                      <div class="card shadow-sm p-4 mb-4">
+                        <!-- Event Image -->
+                        <div class="d-flex justify-content-center align-items-center mb-3">
+                          <img src="img/workshop/professionals.jpg" class="img-fluid" alt="...">
+                          <button class="btn btn-outline-secondary xq">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                          </button>
+                        </div>
+          
+                        <!-- Event Title -->
+                        <div class="mb-3">
+                          <label for="eventTitle" class="form-label">Event Title</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="eventTitle" value="Public Speaking Workshop" disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+          
+                        <!-- Event Price -->
+                        <div class="mb-3">
+                          <label for="eventPrice" class="form-label">Sign Up Price of Event</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="eventPrice" value="$788" disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+          
+                        <!-- Length and Dates of Event -->
+                        <div class="mb-3">
+                          <label for="eventLength" class="form-label">Length and Dates of Event</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="eventLength" value="3.5 days" disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                          <div class="input-group mt-2">
+                            <input type="text" class="form-control" id="eventDates" value="15 October 2024 - 18 October"
+                              disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+          
+                        <!-- Venue of Event -->
+                        <div class="mb-3">
+                          <label for="eventVenue" class="form-label">Venue of Event</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="eventVenue" value="NTUC Life Long Learning Centre"
+                              disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+          
+                        <!-- Duration of Event -->
+                        <div class="mb-3">
+                          <label for="eventDuration" class="form-label">Duration of Event</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="eventDuration" value="1pm - 4pm daily" disabled />
+                            <button class="btn btn-outline-secondary">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+          
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center mt-4">
+                          <button class="btn btn-warning btn-lg">Confirm</button>
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
