@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
-    <link rel="stylesheet" href="./css/memberHome.css" />
+    <link rel="stylesheet" href="./css/memberMyEvent.css" />
     <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
     <!-- END OF PAGE'S CSS /\-->
 
@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <script src="./js/memberHome.js" defer></script>
+    <script src="./js/memberMyEvent.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -82,21 +82,27 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <!-- H1 Title -->
-          <!-- Main Event Section Container -->
-          <div class="container">
-            <h2 class="mt-3">
-              <a href="memberMyEvent.html" style="text-decoration: none; color: black;">
-                My Event <i class="fas fa-arrow-right"></i>
-              </a>
+          <div class="col-6 d-flex align-items-center">
+            <h2>
+            <a href="memberHome.html" style="text-decoration: none; color: black;">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
             </h2>
-            
-          <p id="event-count" class="text-center">0 events upcoming</p>
-
-           <!-- Event Cards Horizontal Scroll Container -->
-          <div id="event-scroll-container" class="d-flex overflow-auto"></div>
           </div>
-
+          <h1 class="mt-3">My Events</h1>
+          <p class="mb-3">View your upcoming and past events here</p>
+          
+          <!-- Upcoming Events Section -->
+          <h2 class="mb-4">Upcoming Events</h2>
+          <div id="upcoming-events" class="mb-4"></div>
+          
+          <!-- Divider Between Upcoming and Past Events -->
+          <hr class="my-4" />
+          
+          <!-- Past Events Section -->
+          <h2 class="mb-4">Past Events</h2>
+          <div id="past-events" class="mb-4"></div>
+          
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
