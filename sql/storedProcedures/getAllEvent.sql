@@ -1,4 +1,5 @@
 CREATE PROCEDURE usp_get_all_event
+AS
 BEGIN
     SELECT 
         eventID,

@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
-    <!-- <link rel="stylesheet" href="./css/" /> -->
+    <link rel="stylesheet" href="./css/memberMyEvent.css" />
     <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
     <!-- END OF PAGE'S CSS /\-->
 
@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <!-- <script src="./js/" defer></script> -->
+    <script src="./js/memberMyEvent.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -82,97 +82,27 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
+          <div class="col-6 d-flex align-items-center">
+            <h2>
+            <a href="memberHome.html" style="text-decoration: none; color: black;">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
+            </h2>
+          </div>
           <h1 class="mt-3">My Events</h1>
           <p class="mb-3">View your upcoming and past events here</p>
-
+          
           <!-- Upcoming Events Section -->
           <h2 class="mb-4">Upcoming Events</h2>
-
-          <!-- First Upcoming Event -->
-          <div class="card mb-4">
-            <div class="row g-0">
-              <!-- Event Image -->
-              <div class="col-md-4">
-                <img
-                  src="./path-to-your-image/upcoming-event-image1.jpg"
-                  class="img-fluid rounded-start"
-                  alt="Public Speaking Workshop"
-                />
-              </div>
-
-              <!-- Event Details -->
-              <div class="col-md-8">
-                <div class="card-body text-start">
-                  <h5 class="card-title">Public Speaking Workshop</h5>
-                  <p class="card-text">Duration: 3.5 days</p>
-                  <p class="card-text">15 October 2024 - 18 October</p>
-                  <p class="card-text">1pm - 4pm daily</p>
-                  <p class="card-text">NTUC Life Long Learning Centre</p>
-                  <button class="btn btn-dark">View Invoice</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Second Upcoming Event -->
-          <div class="card mb-4">
-            <div class="row g-0">
-              <!-- Event Image -->
-              <div class="col-md-4">
-                <img
-                  src="./path-to-your-image/upcoming-event-image2.jpg"
-                  class="img-fluid rounded-start"
-                  alt="LinkedIn Makeover"
-                />
-              </div>
-
-              <!-- Event Details -->
-              <div class="col-md-8">
-                <div class="card-body text-start">
-                  <h5 class="card-title">LinkedIn Makeover</h5>
-                  <p class="card-text">Duration: 3.5 days</p>
-                  <p class="card-text">25 October 2024 - 28 October</p>
-                  <p class="card-text">1pm - 4pm daily</p>
-                  <p class="card-text">NTUC Life Long Learning Centre</p>
-                  <button class="btn btn-dark">View Invoice</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <div id="upcoming-events" class="mb-4"></div>
+          
           <!-- Divider Between Upcoming and Past Events -->
           <hr class="my-4" />
-
+          
           <!-- Past Events Section -->
           <h2 class="mb-4">Past Events</h2>
-
-          <!-- First Past Event -->
-          <div class="card mb-4">
-            <div class="row g-0">
-              <!-- Event Image -->
-              <div class="col-md-4">
-                <img
-                  src="./path-to-your-image/past-event-image1.jpg"
-                  class="img-fluid rounded-start"
-                  alt="Public Speaking Workshop"
-                />
-              </div>
-
-              <!-- Event Details -->
-              <div class="col-md-8">
-                <div class="card-body text-start">
-                  <h5 class="card-title">Public Speaking Workshop</h5>
-                  <p class="card-text">Duration: 3.5 days</p>
-                  <p class="card-text">15 October 2024 - 18 October</p>
-                  <p class="card-text">1pm - 4pm daily</p>
-                  <p class="card-text">NTUC Life Long Learning Centre</p>
-                  <button class="btn btn-dark">View Invoice</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Add more events as needed -->
+          <div id="past-events" class="mb-4"></div>
+          
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>

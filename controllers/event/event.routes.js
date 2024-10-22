@@ -13,6 +13,7 @@ const eventRoutes = express.Router();
 // ========== Routes ==========
 // Route to call the event function
 eventRoutes.get("/get-all-event", EventController.getAllEvent);
+eventRoutes.get("/get-event-by-member-id/:memberId", EventController.getEventByMemberId);
 
 // ========== Export ==========
 module.exports = eventRoutes;
