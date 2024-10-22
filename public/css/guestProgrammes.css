@@ -1,0 +1,108 @@
+
+
+/* Default blur effect on the image */
+.hover-blur {
+    filter: blur(2px); /* Slight blur by default */
+    transition: filter 0.3s ease-in-out; /* Smooth transition */
+  }
+  
+  /* Clear the image on hover */
+  .hover-clear:hover .hover-blur {
+    filter: blur(0); /* Remove blur on hover */
+  }
+
+
+/* Public Speaking Workshop CSS */
+
+.modal-body {
+  background-color: #F6EAC0;
+  border-radius: 15px;
+}
+
+.bg-beginner{
+  background-color: #CFDBE6ff;
+  border-radius: 15px;
+}
+
+.bg-intermediate{
+  background-color: #FEFEFEff;
+  border-radius: 15px;
+}
+
+.bg-advanced{
+  background-color: #CFDBE6ff;
+  border-radius: 15px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px; /* Adjust the spacing as needed */
+    display: flex; /* Create a flex container */
+    font-size: 14px;
+
+
+    
+  }
+
+  .fas.fa-check-circle {
+    margin-top: 4px;
+  }
+
+  .getstarted-btn {
+    background-color: #2C3D4E; /* Customize this color to match the desired style */
+    color: white;
+    padding: 0.4rem 1.5rem; /* Adjust padding for a larger button */
+    font-weight: 600; /* Bold font */
+    font-size: 0.9rem; /* Slightly increase the font size */
+    border-radius: 50px; /* Full pill-shaped button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    border: none; /* Remove border */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add smooth hover transition */
+    text-align: center;
+    width: 100%; /* Make the button take the full width of the parent container */
+    max-width: 300px; /* Limit the maximum width for larger screens */
+    text-decoration: none; /* Removes underline */
+  }
+  
+  .getstarted-btn:hover {
+    background-color: #445e78; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight hover effect */
+    text-decoration: none; /* Ensure underline is removed on hover */
+  }
+  
+  .getstarted-btn:active {
+    transform: translateY(1px); /* Button presses down slightly on click */
+    text-decoration: none; /* Ensure underline is removed on click */
+  }
+
+
+  .lightgetstarted-btn {
+    background-color: #FFFFFFff; /* Customize this color to match the desired style */
+    color: black;
+    padding: 0.4rem 1.5rem; /* Adjust padding for a larger button */
+    font-weight: 600; /* Bold font */
+    font-size: 0.9rem; /* Slightly increase the font size */
+    border-radius: 50px; /* Full pill-shaped button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    border: none; /* Remove border */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add smooth hover transition */
+    text-align: center;
+    width: 100%; /* Make the button take the full width of the parent container */
+    max-width: 300px; /* Limit the maximum width for larger screens */
+    text-decoration: none; /* Removes underline */
+  }
+  
+  .lightgetstarted-btn:hover {
+    background-color: #f1f1f1; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight hover effect */
+    text-decoration: none; /* Ensure underline is removed on hover */
+  }
+  
+  .lightgetstarted-btn:active {
+    transform: translateY(1px); /* Button presses down slightly on click */
+    text-decoration: none; /* Ensure underline is removed on click */
+  }

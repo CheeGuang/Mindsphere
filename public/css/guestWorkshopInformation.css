@@ -1,0 +1,16 @@
+
+.workshop-info {
+    background: #e0e0e0; /* Grey background color */
+    padding: 10px; /* Add some padding */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  /* Custom style for the input text field */
+  input[type=text] {
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  
