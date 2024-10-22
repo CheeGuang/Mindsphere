@@ -27,10 +27,28 @@ memberRoutes.put(
 );
 
 // Route to update Google member
-memberRoutes.put(
-  "/update-google-member",
-  MemberController.updateGoogleMember
+memberRoutes.put("/update-google-member", MemberController.updateGoogleMember);
+
+// Route to create a new member
+memberRoutes.post("/create-member", MemberController.createMember);
+
+// Route to send verification code
+memberRoutes.post(
+  "/send-verification-code",
+  MemberController.sendVerificationCode
 );
+
+// Route to verify the verification code
+memberRoutes.post(
+  "/verify-verification-code",
+  MemberController.verifyVerificationCode
+);
+
+// Route to log in a member
+memberRoutes.post("/login-member", MemberController.loginMember);
+
+// Route to update member password
+memberRoutes.put("/update-password", MemberController.updateMemberPassword);
 
 // ========== Export ==========
 module.exports = memberRoutes;
