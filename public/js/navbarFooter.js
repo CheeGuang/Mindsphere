@@ -3,11 +3,19 @@ const pageName = window.location.pathname.split("/").pop();
 
 // Function to update the profile picture in the navbar
 const updateProfilePicture = (profilePicture) => {
-  const profileIcon = document.querySelector("#profile-picture-icon"); // Make sure the profile icon element exists
-  if (profilePicture && profileIcon) {
-    // If a profile picture exists, replace the Font Awesome icon with the image
-    profileIcon.src = profilePicture;
-    profileIcon.classList.remove("fas", "fa-user-circle"); // Remove the Font Awesome classes
+  const accountIcon = document.querySelector(".fas.fa-user-circle"); // Target the Font Awesome placeholder
+
+  if (profilePicture && accountIcon) {
+    // Create an img element to replace the Font Awesome icon
+    const imgElement = document.createElement("img");
+    imgElement.src = profilePicture;
+    imgElement.alt = "Profile Picture";
+    imgElement.style.width = "40px"; // Adjust the size of the profile picture
+    imgElement.style.height = "40px";
+    imgElement.style.borderRadius = "50%"; // Make the profile picture round
+
+    // Replace the Font Awesome icon with the new img element
+    accountIcon.parentNode.replaceChild(imgElement, accountIcon);
   }
 };
 
@@ -53,15 +61,9 @@ fetch(navbarFile)
 
     // After inserting navbar, check if memberID exists and profile picture should be updated
     if (memberID) {
-      const profileIconElement = document.querySelector(
-        "#profile-picture-icon"
-      );
-      if (profileIconElement) {
-        // If profile picture exists in localStorage, update it in the navbar
-        const storedProfilePicture = localStorage.getItem("profilePicture");
-        if (storedProfilePicture) {
-          updateProfilePicture(storedProfilePicture);
-        }
+      const storedProfilePicture = localStorage.getItem("profilePicture");
+      if (storedProfilePicture) {
+        updateProfilePicture(storedProfilePicture);
       }
     }
   })
