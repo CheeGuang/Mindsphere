@@ -68,17 +68,28 @@ a {
   border-color: #e4c04b;
   border-radius: 1000px;
   font-weight: 600;
+  color: white;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
-.btn-primary:active {
-  background-color: #b09538;
-  border-color: #b09538;
+.btn-primary:active,
+.btn-primary:focus-visible {
+  background-color: #e4c04b;
+  border-color: #e4c04b;
+  color: white;
 }
 
+/* Box-shadow for focus to match the mustard yellow */
 .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(210, 177, 71, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(228, 192, 75, 0.5); /* Mustard yellow box-shadow */
+}
+
+/* To prevent default blue color on active */
+.btn-primary:active {
+  background-color: #e4c04b !important; /* Keep mustard yellow on click */
+  border-color: #e4c04b !important;
+  box-shadow: none !important;
 }
 
 .tracking-in-expand-fwd {

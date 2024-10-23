@@ -31,6 +31,10 @@ document.querySelector("form").addEventListener("submit", async function (e) {
 
     if (response.ok) {
       showCustomAlert(result.message || "Contact number updated successfully.");
+      // Redirect to memberHome.html after 3 seconds
+      setTimeout(() => {
+        window.location.href = "memberHome.html";
+      }, 3000);
     } else {
       showCustomAlert(result.error || "Failed to update contact number.");
     }
