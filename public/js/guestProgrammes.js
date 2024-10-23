@@ -32,7 +32,7 @@ $(document).ready(function () {
                 <h5>${eventData.title}</h5>
                 <p>${eventData.description || "Description not available."}</p>
                 <div class="d-flex justify-content-center mt-auto">
-                  <a href="index.html" target="_parent" class="${buttonClass} mt-3 mb-4">Get started</a>
+                  <a href="../guestWorkshopInformation.html" target="_parent" class="${buttonClass} mt-3 mb-4">Get started</a>
                 </div>
                 <ul class="list-unstyled">
                   <li><i class="fas fa-check-circle me-2"></i>Class size: ${
