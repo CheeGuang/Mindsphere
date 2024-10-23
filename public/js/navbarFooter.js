@@ -3,11 +3,11 @@ const pageName = window.location.pathname.split("/").pop();
 
 // Function to update the profile picture in the navbar
 const updateProfilePicture = (profilePicture) => {
-  if (profilePicture) {
-    const profileIcon = document.querySelector("#profile-picture-icon");
-    if (profileIcon) {
-      profileIcon.src = profilePicture; // Set profile picture source
-    }
+  const profileIcon = document.querySelector("#profile-picture-icon"); // Make sure the profile icon element exists
+  if (profilePicture && profileIcon) {
+    // If a profile picture exists, replace the Font Awesome icon with the image
+    profileIcon.src = profilePicture;
+    profileIcon.classList.remove("fas", "fa-user-circle"); // Remove the Font Awesome classes
   }
 };
 
@@ -27,12 +27,14 @@ if (memberID) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ memberID: memberID }),
+    body: JSON.stringify({ memberID: memberID }), // Ensure memberID is correctly included in the body
   })
     .then((response) => response.json())
     .then((data) => {
       if (data.success && data.profilePicture) {
         updateProfilePicture(data.profilePicture);
+        // Store the profile picture in localStorage for reuse
+        localStorage.setItem("profilePicture", data.profilePicture);
       }
     })
     .catch((error) =>
@@ -55,8 +57,11 @@ fetch(navbarFile)
         "#profile-picture-icon"
       );
       if (profileIconElement) {
-        // Profile picture icon placeholder should exist in memberNavbar.html
-        updateProfilePicture(localStorage.getItem("profilePicture"));
+        // If profile picture exists in localStorage, update it in the navbar
+        const storedProfilePicture = localStorage.getItem("profilePicture");
+        if (storedProfilePicture) {
+          updateProfilePicture(storedProfilePicture);
+        }
       }
     }
   })
