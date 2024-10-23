@@ -271,6 +271,34 @@ class MemberController {
       });
     }
   }
+
+  // Retrieve member profile picture by memberID
+  static async getMemberProfilePicture(req, res) {
+    try {
+      const { memberID } = req.body;
+
+      // Call the model function to get the profile picture
+      const profilePicture = await Member.getMemberProfilePicture(memberID);
+
+      if (profilePicture) {
+        res.status(200).json({
+          success: true,
+          profilePicture: profilePicture,
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "Profile picture not found.",
+        });
+      }
+    } catch (error) {
+      console.error(`Error in getMemberProfilePicture: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve profile picture.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

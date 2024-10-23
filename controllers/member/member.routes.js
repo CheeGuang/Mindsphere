@@ -50,5 +50,11 @@ memberRoutes.post("/login-member", MemberController.loginMember);
 // Route to update member password
 memberRoutes.put("/update-password", MemberController.updateMemberPassword);
 
+// Route to retrieve member profile picture by email
+memberRoutes.post(
+  "/get-member-profile-picture",
+  MemberController.getMemberProfilePicture
+);
+
 // ========== Export ==========
 module.exports = memberRoutes;

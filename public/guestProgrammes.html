@@ -17,7 +17,7 @@
       crossorigin="anonymous"
       defer
     ></script>
-    
+
     <!-- JQuery Link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -35,8 +35,6 @@
       rel="stylesheet"
     />
     <!-- <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet"> -->
-
-
 
     <!-- Page Name -->
     <title>Mindsphere</title>
@@ -58,7 +56,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <!-- <script src="./js/" defer></script> -->
+    <script src="./js/guestProgrammes.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -92,10 +90,14 @@
 
           <!-- Programme Cards -->
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-
             <!-- Public Speaking Workshops -->
             <div class="col">
-              <div class="card h-100 d-flex flex-column hover-clear" id="publicSpeakingCard" data-bs-toggle="modal" data-bs-target="#publicSpeakingModal">
+              <div
+                class="card h-100 d-flex flex-column hover-clear"
+                id="publicSpeakingCard"
+                data-bs-toggle="modal"
+                data-bs-target="#publicSpeakingModal"
+              >
                 <img
                   src="./img/workshop/public-speaking-workshop.jpg"
                   class="card-img-top hover-blur"
@@ -110,8 +112,17 @@
 
             <!-- PSLE Power Up Camp -->
             <div class="col">
-              <div class="card h-100 d-flex flex-column hover-clear" id="pslePowerUpCampCard" data-bs-toggle="modal" data-bs-target="#pslePowerUpCampModal">
-                <img src="./img/workshop/psle-powerup-camp.jpg" class="card-img-top hover-blur" alt="PSLE Power Up Camp">
+              <div
+                class="card h-100 d-flex flex-column hover-clear"
+                id="pslePowerUpCampCard"
+                data-bs-toggle="modal"
+                data-bs-target="#pslePowerUpCampModal"
+              >
+                <img
+                  src="./img/workshop/psle-powerup-camp.jpg"
+                  class="card-img-top hover-blur"
+                  alt="PSLE Power Up Camp"
+                />
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title fw-bold">PSLE Power Up Camp</h5>
                   <p class="card-text">An achiever's exam staple.</p>
@@ -121,279 +132,258 @@
 
             <!-- Future Entrepreneurs Labs -->
             <div class="col">
-              <div class="card h-100 d-flex flex-column hover-clear" id="futureEntrepreneursLabsCard" data-bs-toggle="modal" data-bs-target="#futureEntrepreneursLabsModal">
-                <img src="./img/workshop/future-entrepreneurs-labs.jpg" class="card-img-top hover-blur" alt="Future Entrepreneurs Labs">
+              <div
+                class="card h-100 d-flex flex-column hover-clear"
+                id="futureEntrepreneursLabsCard"
+                data-bs-toggle="modal"
+                data-bs-target="#futureEntrepreneursLabsModal"
+              >
+                <img
+                  src="./img/workshop/future-entrepreneurs-labs.jpg"
+                  class="card-img-top hover-blur"
+                  alt="Future Entrepreneurs Labs"
+                />
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title fw-bold">Future Entrepreneurs Labs</h5>
-                  <p class="card-text">Defining mindsets during the formative years.</p>
+                  <p class="card-text">
+                    Defining mindsets during the formative years.
+                  </p>
                 </div>
               </div>
             </div>
 
             <!-- Professionals -->
             <div class="col">
-              <div class="card h-100 d-flex flex-column hover-clear" id="professionalsCard" data-bs-toggle="modal" data-bs-target="#professionalsModal">
-                <img src="./img/workshop/professionals.jpg" class="card-img-top hover-blur" alt="Professionals">
+              <div
+                class="card h-100 d-flex flex-column hover-clear"
+                id="professionalsCard"
+                data-bs-toggle="modal"
+                data-bs-target="#professionalsModal"
+              >
+                <img
+                  src="./img/workshop/professionals.jpg"
+                  class="card-img-top hover-blur"
+                  alt="Professionals"
+                />
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title fw-bold">Professionals</h5>
                   <p class="card-text">Inspiring your career trajectory.</p>
                 </div>
               </div>
             </div>
-
           </div>
 
           <!-- Modal for Public Speaking Workshops -->
-          <div class="modal fade" id="publicSpeakingModal" tabindex="-1" aria-labelledby="publicSpeakingModalLabel" aria-hidden="true">
+          <div
+            class="modal fade"
+            id="publicSpeakingModal"
+            tabindex="-1"
+            aria-labelledby="publicSpeakingModalLabel"
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-body">
-                  <!-- Place the content of your 'guestPublicSpeakingWorkshop.html' here -->
-                  <button type="button" class="btn-close"  aria-label="Close" style="position: absolute; top: 10px; right: 10px;" onclick="window.top.location.href='guestProgrammes.html';"></button>
-          
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    style="position: absolute; top: 10px; right: 10px"
+                    onclick="window.top.location.href='guestProgrammes.html';"
+                  ></button>
+
                   <!-- H1 Title -->
                   <h1 class="mt-3">Public Speaking Workshops</h1>
                   <!-- H2 Subtitle -->
                   <p class="mb-3">
-                    We identify with what makes a speaker influential and his presence compelling.<br><br>
-                    Our tiered public speaking workshops are thoughtfully designed to transform your child into a seasoned stage storyteller through comprehensive training.<br><br>
-                    From dynamic activities to ample stage time, your child will acquire the skills and confidence to shine under the spotlight.<br><br>
-                    Watch them thrive as they learn the art and science of impactful speaking in a supportive and energetic environment.<br><br>
-                    Gift your child a breakthrough in powerful communication today, reach out to us for the programme synopsis and workshop coverage!
+                    We identify with what makes a speaker influential and his
+                    presence compelling.<br /><br />
+                    Our tiered public speaking workshops are thoughtfully
+                    designed to transform your child into a seasoned stage
+                    storyteller through comprehensive training.<br /><br />
+                    From dynamic activities to ample stage time, your child will
+                    acquire the skills and confidence to shine under the
+                    spotlight.<br /><br />
+                    Watch them thrive as they learn the art and science of
+                    impactful speaking in a supportive and energetic
+                    environment.<br /><br />
+                    Gift your child a breakthrough in powerful communication
+                    today, reach out to us for the programme synopsis and
+                    workshop coverage!
                   </p>
 
-                  
-
-                  <!-- Pricing Cards Section -->
+                  <!-- Pricing Cards Section (Dynamically populated using JS) -->
                   <div class="container">
-                    <div class="row justify-content-center">
-                      <!-- Beginner Card -->
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-0 shadow-sm bg-beginner">
-                          <div class="card-body d-flex flex-column text-start">
-                            <h3 class="card-title">$788*</h3>
-                            <p class="text-muted fw-bold"><s>Was $988</s></p>
-                            <h5>Beginner</h5>
-                            <p>Just getting started.</p>
-                            <div class="d-flex justify-content-center mt-auto">
-                              <a href="index.html" target="_parent" class="lightgetstarted-btn mt-3 mb-4">Get started</a>
-                            </div>
-                            <ul class="list-unstyled">
-                              <li><i class="fas fa-check-circle me-2"></i>Class size: 15 - 20</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Duration: 3.5 days</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lunch provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lesson materials provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Complimentary 1 year membership with access to our resources and member rates for all programmes</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Intermediate Card -->
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-0 shadow-sm bg-intermediate">
-                          <div class="card-body d-flex flex-column text-start">
-                            <h3 class="card-title">$988*</h3>
-                            <p class="text-muted fw-bold"><s>Was $1188</s></p>
-                            <h5>Intermediate</h5>
-                            <p>Perfect for someone who wants more.</p>
-                            <div class="d-flex justify-content-center mt-auto">
-                              <a href="index.html" target="_parent" class="getstarted-btn mt-3 mb-4">Get started</a>
-                            </div>
-                            <ul class="list-unstyled">
-                              <li><i class="fas fa-check-circle me-2"></i>Class size: 12 - 15</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Duration: 3 days</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lunch provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lesson materials provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Complimentary 1 year membership with access to our resources and member rates for all programmes</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Advanced Card -->
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-0 shadow-sm bg-advanced">
-                          <div class="card-body d-flex flex-column text-start">
-                            <h3 class="card-title">$1388</h3>
-                            <p class="text-muted" style="visibility: hidden;"><s>Was $xxxx</s></p>
-                            <h5>Advanced</h5>
-                            <p>Experts only.</p>
-                            <div class="d-flex justify-content-center mt-auto">
-                              <a href="index.html" target="_parent" class="lightgetstarted-btn mt-3 mb-4">Get started</a>
-                            </div>
-                            <ul class="list-unstyled">
-                              <li><i class="fas fa-check-circle me-2"></i>Class size: 10</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Duration: 3 days</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lunch provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Lesson materials provided</li>
-                              <li><i class="fas fa-check-circle me-2"></i>Complimentary 1 year membership with access to our resources and member rates for all programmes</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div
+                      class="row justify-content-center"
+                      id="publicSpeakingWorkshopContent"
+                    ></div>
                   </div>
-
-                  <!-- Add more content as necessary -->
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Modal for PSLE Power Up Camp -->
-          <div class="modal fade" id="pslePowerUpCampModal" tabindex="-1" aria-labelledby="pslePowerUpCampModalLabel" aria-hidden="true">
+          <div
+            class="modal fade"
+            id="pslePowerUpCampModal"
+            tabindex="-1"
+            aria-labelledby="pslePowerUpCampModalLabel"
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-body">
-                  <button type="button" class="btn-close"  aria-label="Close" style="position: absolute; top: 10px; right: 10px;" onclick="window.top.location.href='guestProgrammes.html';"></button>
-          
-                    <!-- H1 Title -->
-                    <h1 class="mt-3">PSLE Power Up Camp</h1>
-                    <!-- H2 Subtitle -->
-                    <p class="mb-3">
-                      Preparing your child for national examinations can be challenging,
-                      but the journey can become purposeful and balanced when we learn to dance in the rain.<br><br>
-                      Our dynamic 2-day PSLE Power Camp imparts the Learning Sphere designed
-                      to boost competency in managing examinations and to help adopters learn efficiently and effectively!<br><br>
-                      Crafted with learners needs in mind, our lesson plans incorporate activities which
-                      leverage interactive learning while encouraging individual contribution.<br><br>
-                      Throughout this transformative process, your child will discover that the
-                      skills needed for examination success are also highly sought after in the workforce.<br><br>
-                      Empower your child with our exam staple and see how PSLE management can enhance learning and future success!<br><br>
-                    </p>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    style="position: absolute; top: 10px; right: 10px"
+                    onclick="window.top.location.href='guestProgrammes.html';"
+                  ></button>
 
-                    
+                  <!-- H1 Title -->
+                  <h1 class="mt-3">PSLE Power Up Camp</h1>
+                  <!-- H2 Subtitle -->
+                  <p class="mb-3">
+                    Preparing your child for national examinations can be
+                    challenging, but the journey can become purposeful and
+                    balanced when we learn to dance in the rain.<br /><br />
+                    Our dynamic 2-day PSLE Power Camp imparts the Learning
+                    Sphere designed to boost competency in managing examinations
+                    and to help adopters learn efficiently and effectively!<br /><br />
+                    Empower your child with our exam staple and see how PSLE
+                    management can enhance learning and future success!
+                  </p>
 
-                    <!-- Pricing Cards Section -->
-                    <div class="container">
-                      <div class="row justify-content-center">
-                        <!-- PSLE Power Up -->
-                        <div class="col-md-4 mb-4">
-                          <div class="card h-100 border-0 shadow-sm bg-PSLE">
-                            <div class="card-body d-flex flex-column text-start">
-                              <h3 class="card-title">$388*</h3>
-                              <p class="text-muted fw-bold"><s>Was $428</s></p>
-                              <h5>PSLE Power Up</h5>
-                              <div class="d-flex justify-content-center mt-auto">
-                                <a href="#" target="_parent" class="getstarted-btn mt-3 mb-4">Get started</a>
-                              </div>
-                              <ul class="list-unstyled">
-                                <li><i class="fas fa-check-circle me-2"></i>Class size: 15 - 20</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Duration: 2 days</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Lunch provided</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Lesson materials provided</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Complimentary 1 year membership with access to our resources and member rates for all programmes</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- PSLE Chinese Oral Booster -->
-                        <div class="col-md-4 mb-4">
-                          <div class="card h-100 border-0 shadow-sm bg-PSLE">
-                            <div class="card-body d-flex flex-column text-start">
-                              <h3 class="card-title">Launching soon</h3>
-                              <p class="text-muted" style="visibility: hidden;"><s>Was $xxxx</s></p>
-                              <h5>PSLE Chinese Oral Booster</h5>
-                              <div class="d-flex justify-content-center mt-auto">
-                                <a href="index.html" target="_parent" class="getstarted-btn mt-3 mb-4">Get started</a>
-                              </div>
-                              <ul class="list-unstyled">
-                                <li><i class="fas fa-check-circle me-2"></i>Class size: 15 - 20</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Duration: 2 days</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Lunch provided</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Lesson materials provided</li>
-                                <li><i class="fas fa-check-circle me-2"></i>Complimentary 1 year membership with access to our resources and member rates for all programmes</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-
-                        
-                      </div>
-                    </div>
-                  
-
-                  <!-- Add more content as necessary -->
+                  <!-- Pricing Cards Section (Dynamically populated using JS) -->
+                  <div class="container">
+                    <div
+                      class="row justify-content-center"
+                      id="pslePowerUpCampContent"
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Modal for Future Entrepreneurs Labs-->
-          <div class="modal fade" id="futureEntrepreneursLabsModal" tabindex="-1" aria-labelledby="futureEntrepreneursLabsModalLabel" aria-hidden="true">
+          <div
+            class="modal fade"
+            id="futureEntrepreneursLabsModal"
+            tabindex="-1"
+            aria-labelledby="futureEntrepreneursLabsModalLabel"
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-body">
-                  <button type="button" class="btn-close"  aria-label="Close" style="position: absolute; top: 10px; right: 10px;" onclick="window.top.location.href='guestProgrammes.html';"></button>
-                <!-- H1 Title -->
-                <h1 class="mt-3">Future Entrepreneurs Labs</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    style="position: absolute; top: 10px; right: 10px"
+                    onclick="window.top.location.href='guestProgrammes.html';"
+                  ></button>
+                  <!-- H1 Title -->
+                  <h1 class="mt-3">Future Entrepreneurs Labs</h1>
 
-                <!-- H2 Subtitle -->
-                <p class="mb-3">
-                    Coming soon.
-                </p>
+                  <!-- H2 Subtitle -->
+                  <p class="mb-3">Coming soon.</p>
                 </div>
               </div>
             </div>
           </div>
 
-
           <!-- Modal for Professionals -->
-          <div class="modal fade" id="professionalsModal" tabindex="-1" aria-labelledby="professionalsModalLabel" aria-hidden="true">
+          <div
+            class="modal fade"
+            id="professionalsModal"
+            tabindex="-1"
+            aria-labelledby="professionalsModalLabel"
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-body">
-                  <button type="button" class="btn-close"  aria-label="Close" style="position: absolute; top: 10px; right: 10px;" onclick="window.top.location.href='guestProgrammes.html';"></button>
-                <!-- H1 Title -->
-                <h1 class="mt-3">Professionals</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    style="position: absolute; top: 10px; right: 10px"
+                    onclick="window.top.location.href='guestProgrammes.html';"
+                  ></button>
+                  <!-- H1 Title -->
+                  <h1 class="mt-3">Professionals</h1>
 
-                <!-- H2 Subtitle -->
-                <p class="mb-3">
-                    We recognize that every organization has unique talent development needs.
-                </p>
+                  <!-- H2 Subtitle -->
+                  <p class="mb-3">
+                    We recognize that every organization has unique talent
+                    development needs.
+                  </p>
 
-                <!-- Main Content -->
-                <div class="container">
+                  <!-- Main Content -->
+                  <div class="container">
                     <p class="mb-4">
-                        To meet these diverse requirements, our programmes for Professionals come in three customizable tiers:
-                        <strong>Lite, Comprehensive, and Premier.</strong>
+                      To meet these diverse requirements, our programmes for
+                      Professionals come in three customizable tiers:
+                      <strong>Lite, Comprehensive, and Premier.</strong>
                     </p>
 
                     <p class="mb-4">
-                        Each tier is carefully crafted to address your organization’s learning gaps and goals, ensuring your team receives
-                        the most relevant and impactful training.
+                      Each tier is carefully crafted to address your
+                      organization’s learning gaps and goals, ensuring your team
+                      receives the most relevant and impactful training.
                     </p>
 
                     <p class="mb-4">
-                        Some professional workshops we have successfully delivered are:
+                      Some professional workshops we have successfully delivered
+                      are:
                     </p>
 
                     <!-- List of workshops -->
                     <div class="text-center">
                       <ul class="list-unstyled d-inline-block text-start">
-                          <li><strong>1. Train-The-Trainer Programme</strong></li>
-                          <li><strong>2. Mastering the Art of Negotiation</strong></li>
-                          <li><strong>3. Time Mastery: Unlock Your Productive Potential</strong></li>
-                          <li><strong>4. LinkedIn Makeover: Boost Your Personal Brand</strong></li>
-                          <li><strong>5. Client Relationships and Communication</strong></li>
-                          <li><strong>6. Leadership Development Workshop</strong></li>
+                        <li><strong>1. Train-The-Trainer Programme</strong></li>
+                        <li>
+                          <strong>2. Mastering the Art of Negotiation</strong>
+                        </li>
+                        <li>
+                          <strong
+                            >3. Time Mastery: Unlock Your Productive
+                            Potential</strong
+                          >
+                        </li>
+                        <li>
+                          <strong
+                            >4. LinkedIn Makeover: Boost Your Personal
+                            Brand</strong
+                          >
+                        </li>
+                        <li>
+                          <strong
+                            >5. Client Relationships and Communication</strong
+                          >
+                        </li>
+                        <li>
+                          <strong>6. Leadership Development Workshop</strong>
+                        </li>
                       </ul>
                     </div>
 
                     <p class="mt-4">
-                        Foster a culture of continuous learning and development within your organization, partner with us to drive growth and success within your team!
+                      Foster a culture of continuous learning and development
+                      within your organization, partner with us to drive growth
+                      and success within your team!
                     </p>
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-
-
-            
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
@@ -407,19 +397,12 @@
       ></div>
     </footer>
 
-
-
-
-    
-
     <!-- Custom JS to Load customAlert.html -->
     <script>
       $(document).ready(function () {
         // Load the customAlert.html into the container
         $("#customAlertContainer").load("./customAlert.html");
 
-        
- 
         // Define the showCustomAlert function globally
         window.showCustomAlert = function (message) {
           var $alert = $("#customAlert");

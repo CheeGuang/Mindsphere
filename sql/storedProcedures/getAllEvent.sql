@@ -6,11 +6,17 @@ BEGIN
         type,
         title,
         price,
+        oldPrice,
+        classSize, 
         duration,
+        lunchProvided, 
+        lessonMaterialsProvided, 
+        accessToMembership, 
         availableDates,
         time,
         totalParticipants,
-        venue
+        venue,
+        picture
     FROM 
         Event;
 END;

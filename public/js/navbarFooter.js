@@ -1,27 +1,64 @@
 // Determine the current page's name
 const pageName = window.location.pathname.split("/").pop();
 
-// Fetch and insert the appropriate navbar HTML using JavaScript
+// Function to update the profile picture in the navbar
+const updateProfilePicture = (profilePicture) => {
+  if (profilePicture) {
+    const profileIcon = document.querySelector("#profile-picture-icon");
+    if (profileIcon) {
+      profileIcon.src = profilePicture; // Set profile picture source
+    }
+  }
+};
+
+// Fetch and insert the appropriate navbar HTML based on conditions
 let navbarFile;
-if (
-  pageName.includes("Login") ||
-  pageName.includes("SignUp") ||
-  pageName.includes("patientFacialRecognition") ||
-  pageName.includes("doctorFacialRecognition")
-) {
-  navbarFile = "navbar.html";
-} else if (pageName.includes("patient")) {
-  navbarFile = "patientNavbar.html";
-} else if (pageName.includes("doctor")) {
-  navbarFile = "doctorNavbar.html";
+
+// Check if memberID exists in localStorage
+const memberID = localStorage.getItem("memberID");
+
+if (memberID) {
+  // Fetch member-specific navbar and profile picture
+  navbarFile = "memberNavbar.html";
+
+  // Call the API to get the profile picture
+  fetch(`/api/member/get-member-profile-picture`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ memberID: memberID }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success && data.profilePicture) {
+        updateProfilePicture(data.profilePicture);
+      }
+    })
+    .catch((error) =>
+      console.error("Error fetching member profile picture:", error)
+    );
 } else {
+  // Default to general navbar if no memberID is found
   navbarFile = "navbar.html";
 }
 
+// Fetch the navbar HTML and insert it into the page
 fetch(navbarFile)
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("navbar-container").innerHTML = data;
+
+    // After inserting navbar, check if memberID exists and profile picture should be updated
+    if (memberID) {
+      const profileIconElement = document.querySelector(
+        "#profile-picture-icon"
+      );
+      if (profileIconElement) {
+        // Profile picture icon placeholder should exist in memberNavbar.html
+        updateProfilePicture(localStorage.getItem("profilePicture"));
+      }
+    }
   })
   .catch((error) => console.error("Error loading navbar:", error));
 

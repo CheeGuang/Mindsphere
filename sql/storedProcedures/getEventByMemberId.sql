@@ -8,15 +8,22 @@ BEGIN
         e.type,
         e.title,
         e.price,
+        e.oldPrice, 
+        e.classSize, 
         e.duration,
+        e.lunchProvided, 
+        e.lessonMaterialsProvided, 
+        e.accessToMembership, 
         e.availableDates,
         e.time,
         e.totalParticipants,
-        e.venue
+        e.venue,
+        e.picture
     FROM 
         Event e
     JOIN 
         memberEvent me ON e.eventID = me.eventID
     WHERE 
         me.memberID = @memberID;
+
 END;

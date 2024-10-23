@@ -324,6 +324,33 @@ class Member {
       throw error;
     }
   }
+
+  // Function to retrieve the profile picture of a member by memberID
+  static async getMemberProfilePicture(memberID) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the input for the stored procedure
+      request.input("memberID", sql.Int, memberID);
+
+      // Execute the stored procedure to get the profile picture
+      const result = await request.execute("getMemberProfilePicture");
+
+      connection.close();
+
+      // If no profile picture is found, return null
+      if (result.recordset.length === 0) {
+        return null;
+      }
+
+      // Return the profile picture URL
+      return result.recordset[0].profilePicture;
+    } catch (error) {
+      console.error("Error retrieving profile picture:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Member;

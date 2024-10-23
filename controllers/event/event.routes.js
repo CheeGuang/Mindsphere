@@ -11,9 +11,18 @@ const EventController = require("./eventController");
 const eventRoutes = express.Router();
 
 // ========== Routes ==========
-// Route to call the event function
+// Route to call the event function to get all events
 eventRoutes.get("/get-all-event", EventController.getAllEvent);
-eventRoutes.get("/get-event-by-member-id/:memberId", EventController.getEventByMemberId);
+
+// Route to get events by member ID
+eventRoutes.get(
+  "/get-event-by-member-id/:memberId",
+  EventController.getEventByMemberId
+);
+
+// Route to get unique event types
+eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);
 
 // ========== Export ==========
+// Exporting eventRoutes
 module.exports = eventRoutes;

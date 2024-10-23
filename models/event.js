@@ -4,19 +4,41 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class event {
-  constructor(eventID, type, title, price, duration, availableDates, time, totalParticipants, venue) {
+  constructor(
+    eventID,
+    type,
+    title,
+    price,
+    oldPrice, // Add oldPrice
+    classSize, // Add classSize
+    duration,
+    lunchProvided, // Add lunchProvided
+    lessonMaterialsProvided, // Add lessonMaterialsProvided
+    accessToMembership, // Add accessToMembership
+    availableDates,
+    time,
+    totalParticipants,
+    venue,
+    picture
+  ) {
     this.eventID = eventID;
     this.type = type;
     this.title = title;
     this.price = price;
+    this.oldPrice = oldPrice; // Assign oldPrice to the instance
+    this.classSize = classSize; // Assign classSize to the instance
     this.duration = duration;
+    this.lunchProvided = lunchProvided; // Assign lunchProvided to the instance
+    this.lessonMaterialsProvided = lessonMaterialsProvided; // Assign lessonMaterialsProvided to the instance
+    this.accessToMembership = accessToMembership; // Assign accessToMembership to the instance
     this.availableDates = availableDates;
     this.time = time;
     this.totalParticipants = totalParticipants;
     this.venue = venue;
+    this.picture = picture;
   }
 
-
+  // Fetch all events
   static async getAllEvent() {
     try {
       const connection = await sql.connect(dbConfig);
@@ -30,11 +52,17 @@ class event {
             row.type,
             row.title,
             row.price,
+            row.oldPrice, // Add oldPrice
+            row.classSize, // Add classSize
             row.duration,
+            row.lunchProvided, // Add lunchProvided
+            row.lessonMaterialsProvided, // Add lessonMaterialsProvided
+            row.accessToMembership, // Add accessToMembership
             row.availableDates,
             row.time,
             row.totalParticipants,
-            row.venue
+            row.venue,
+            row.picture
           )
       );
     } catch (error) {
@@ -43,34 +71,58 @@ class event {
     }
   }
 
-  
+  // Fetch events by memberID
   static async getEventByMemberId(memberID) {
-    const connection = await sql.connect(dbConfig);
-    const request = connection.request();
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
 
-    request.input("memberID", sql.NVarChar(100), memberID);
-    const result = await request.execute("usp_get_event_by_member_id");
+      request.input("memberID", sql.NVarChar(100), memberID);
+      const result = await request.execute("usp_get_event_by_member_id");
 
-    const memberEvent = result.recordset.map(
-      (row) =>
-        new event(
-          row.eventID,
-          row.type,
-          row.title,
-          row.price,
-          row.duration,
-          row.availableDates,
-          row.time,
-          row.totalParticipants,
-          row.venue
-        )
-    );
+      const memberEvent = result.recordset.map(
+        (row) =>
+          new event(
+            row.eventID,
+            row.type,
+            row.title,
+            row.price,
+            row.oldPrice, // Add oldPrice
+            row.classSize, // Add classSize
+            row.duration,
+            row.lunchProvided, // Add lunchProvided
+            row.lessonMaterialsProvided, // Add lessonMaterialsProvided
+            row.accessToMembership, // Add accessToMembership
+            row.availableDates,
+            row.time,
+            row.totalParticipants,
+            row.venue,
+            row.picture
+          )
+      );
 
-    connection.close();
+      connection.close();
 
-    return [...memberEvent];
+      return [...memberEvent];
+    } catch (error) {
+      console.error("Database error:", error);
+      throw error; // Rethrow to handle in the controller
+    }
   }
-  
+
+  // Function to get unique event types with associated pictures
+  static async getUniqueEventTypes() {
+    try {
+      const connection = await sql.connect(dbConfig); // Connect to the database
+      const request = connection.request(); // Create a new request
+      const result = await request.execute("usp_get_unique_event_types"); // Execute the stored procedure
+      connection.close(); // Close the connection
+      return result.recordset; // Return the result (list of unique types with pictures)
+    } catch (error) {
+      console.error("Error retrieving unique event types:", error);
+      throw error; // Rethrow to handle in the controller
+    }
+  }
 }
 
 module.exports = event;
