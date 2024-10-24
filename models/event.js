@@ -123,6 +123,41 @@ class event {
       throw error; // Rethrow to handle in the controller
     }
   }
+
+  // Enroll a member to an event
+  static async enrollMemberToEvent(
+    memberID,
+    eventID,
+    fullName,
+    age,
+    schoolName,
+    interests,
+    medicalConditions,
+    lunchOption,
+    specifyOther
+  ) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+      request.input("memberID", sql.Int, memberID);
+      request.input("eventID", sql.Int, eventID);
+      request.input("fullName", sql.NVarChar(100), fullName);
+      request.input("age", sql.NVarChar(10), age);
+      request.input("schoolName", sql.NVarChar(100), schoolName);
+      request.input("interests", sql.NVarChar(200), interests);
+      request.input("medicalConditions", sql.NVarChar(500), medicalConditions);
+      request.input("lunchOption", sql.NVarChar(100), lunchOption);
+      request.input("specifyOther", sql.NVarChar(200), specifyOther);
+
+      await request.execute("usp_enrollMemberToEvent");
+      connection.close();
+
+      return { success: true, message: "Enrollment successful." };
+    } catch (error) {
+      console.error("Database error:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = event;

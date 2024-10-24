@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <!-- <script src="./js/" defer></script> -->
+    <script src="./js/memberPaymentConfirmation.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -92,7 +92,7 @@
                 <li class="active-step list-inline-item">
                   <span class="dot"></span> Payment
                 </li>
-                <li class="list-inline-item">
+                <li class="active-step list-inline-item">
                   <span class="dot"></span> Confirmation
                 </li>
               </ul>
@@ -113,28 +113,30 @@
               <!-- Thank You Message -->
               <h2 class="thank-you-title mt-3">Thank you</h2>
               <p class="confirmation-message">
-                Your payment has been successful. Do check out for the
-                confirmation email in your inbox.
+                Your payment has been successful. A confirmation email has been
+                sent to your inbox.
               </p>
 
               <!-- Order Number and Total Amount Section -->
               <hr class="confirmation-line" />
               <div class="order-summary mt-3">
                 <p class="order-label">ORDER NUMBER</p>
-                <p class="order-number fw-bold">ABC0123</p>
+                <p id="order-number" class="order-number fw-bold">Loading...</p>
                 <p class="order-label">TOTAL AMOUNT</p>
-                <p class="total-amount fw-bold">S$ 1,250.00</p>
+                <p id="total-amount" class="total-amount fw-bold">Loading...</p>
               </div>
 
               <!-- Continue Shopping Button -->
               <div class="mt-4">
-                <button class="btn btn-primary btn-lg continue-shopping-btn">
+                <button
+                  id="continue-shopping-btn"
+                  class="btn btn-primary btn-lg continue-shopping-btn"
+                >
                   Continue shopping
                 </button>
               </div>
             </div>
           </div>
-
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>

@@ -23,6 +23,9 @@ eventRoutes.get(
 // Route to get unique event types
 eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);
 
+// Route to enroll a member to an event
+eventRoutes.get("/enroll-member-to-event", EventController.enrollMemberToEvent);
+
 // ========== Export ==========
 // Exporting eventRoutes
 module.exports = eventRoutes;

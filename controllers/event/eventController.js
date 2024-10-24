@@ -42,6 +42,42 @@ class EventController {
       res.status(500).send("Error retrieving unique event types");
     }
   };
+
+  // Event function handler to enroll a member to an event using GET parameters
+  static enrollMemberToEvent = async (req, res) => {
+    // Use req.query instead of req.body for GET request parameters
+    const {
+      memberID,
+      eventID,
+      fullName,
+      age,
+      schoolName,
+      interests,
+      medicalConditions,
+      lunchOption,
+      specifyOther,
+    } = req.query;
+
+    try {
+      const response = await Event.enrollMemberToEvent(
+        memberID,
+        eventID,
+        fullName,
+        age,
+        schoolName,
+        interests,
+        medicalConditions,
+        lunchOption,
+        specifyOther
+      );
+
+      // If enrollment is successful, respond with success
+      res.status(200).json(response);
+    } catch (error) {
+      console.error("Error enrolling member to event:", error);
+      res.status(500).send("Error enrolling member to event");
+    }
+  };
 }
 
 // ========== Export ==========

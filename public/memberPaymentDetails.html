@@ -18,6 +18,9 @@
       defer
     ></script>
 
+    <!-- QRCode Library (Include this in your HTML <head> or before the closing </body> tag) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <!-- JQuery Link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -55,7 +58,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <!-- <script src="./js/" defer></script> -->
+    <script src="./js/memberPaymentDetails.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -107,12 +110,12 @@
               <!-- Workshop Information Row -->
               <div class="row justify-content-between d-flex flex-wrap">
                 <div class="col-md-6 col-8">
-                  <p class="workshop-info text-start fw-bold">
-                    Power Skills Workshop ($788) x2
-                  </p>
+                  <!-- Placeholder for Workshop Title and Price -->
+                  <p class="workshop-info text-start fw-bold"></p>
                 </div>
                 <div class="col-md-6 col-4 text-end">
-                  <p class="total-price">$1576</p>
+                  <!-- Placeholder for Total Price -->
+                  <p class="total-price"></p>
                 </div>
               </div>
 
@@ -120,20 +123,15 @@
               <hr class="payment-line" />
 
               <!-- QR Code Section -->
+              <p class="qr-code-text fw-bold"></p>
+              <div
+                id="qrCodeContainer"
+                class="qr-code-container d-flex justify-content-center align-items-center"
+              ></div>
 
-              <p class="qr-code-text fw-bold">
-                Mindsphere<br />
-                Amount: $1576
+              <p class="qr-code-text-bottom mt-4">
+                Please PayNow to the QR code.
               </p>
-              <div class="qr-code-container text-center">
-                <img
-                  src="./img/misc/placeholder-qr.png"
-                  alt="PayNow QR Code"
-                  width="250"
-                  height="250"
-                />
-                <p class="qr-code-text mt-4">Please PayNow to the QR code.</p>
-              </div>
             </div>
           </div>
 
