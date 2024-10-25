@@ -43,13 +43,16 @@ CREATE TABLE [event] (
 );
 
 CREATE TABLE memberEvent (
+    memberEventID INT PRIMARY KEY IDENTITY(1,1), -- New unique primary key
     memberID INT,
     eventID INT,
-    parentsConsent BIT, -- true or false
-    dietaryOption NVARCHAR(100), -- noDietaryRestrictions, vegan, Dining Out, or remark
-    paid BIT, -- true or false
-    noOfParticipants INT, -- Number of participants attending
-    PRIMARY KEY (memberID, eventID),
+    fullName NVARCHAR(100),
+    age NVARCHAR(10),
+    schoolName NVARCHAR(100),
+    interests NVARCHAR(200),
+    medicalConditions NVARCHAR(500),
+    lunchOption NVARCHAR(100), 
+    specifyOther NVARCHAR(200), 
     FOREIGN KEY (memberID) REFERENCES [member](memberID),
     FOREIGN KEY (eventID) REFERENCES [event](eventID)
 );
@@ -58,8 +61,7 @@ CREATE TABLE memberEvent (
 
 -- Insert a dummy member
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
-VALUES ('John', 'Doe', 'john.doe@example.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
-
+VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 
@@ -75,12 +77,12 @@ VALUES
 ('Professionals', 'Client Relationships and Communication', 275.00, 325.00, '30', '1 day', 1, 1, 1, '2024-12-18', '9am-5pm', 30, '60 Paya Lebar Road, #07-54 Paya Lebar Square, Singapore 409501', './img/workshop/professionals.jpg'),
 ('Professionals', 'Leadership Development Workshop', 320.00, 370.00, '40', '2 days', 1, 1, 1, '2024-12-20,2024-12-21', '9am-5pm', 40, '60 Paya Lebar Road, #07-54 Paya Lebar Square, Singapore 409501', './img/workshop/professionals.jpg');
 
--- Insert dummy memberEvents
-INSERT INTO memberEvent (memberID, eventID, parentsConsent, dietaryOption, paid, noOfParticipants)
+-- Insert updated dummy memberEvents
+INSERT INTO memberEvent (memberID, eventID, fullName, age, schoolName, interests, medicalConditions, lunchOption, specifyOther)
 VALUES 
-(1, 1, 0, 'No Dietary Restrictions', 1, 1), -- John Doe attends 'Beginner' workshop
-(1, 2, 0, 'No Mango', 1, 1), -- John Doe attends 'Intermediate' workshop
-(1, 4, 1, 'Vegan', 1, 2); -- John Doe attends 'PSLE Power Up' camp with 2 participants
+(1, 1, 'John Doe', '35', 'NUS', 'Public Speaking', 'None', 'No Dietary Restrictions', ''),
+(1, 2, 'John Doe', '35', 'NUS', 'Leadership', 'None', 'No Mango', ''),
+(1, 4, 'John Doe', '35', 'NUS', 'Education', 'None', 'Vegan', 'Soy Milk Only');
 
 -- 4) Select all tables
 SELECT * FROM [member];

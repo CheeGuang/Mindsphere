@@ -56,5 +56,11 @@ memberRoutes.post(
   MemberController.getMemberProfilePicture
 );
 
+// Route to get member details by memberID
+memberRoutes.get(
+  "/member-details/:memberID",
+  MemberController.getMemberDetailsById
+);
+
 // ========== Export ==========
 module.exports = memberRoutes;

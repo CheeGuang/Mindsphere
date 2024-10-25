@@ -1,0 +1,125 @@
+/* Horizontal Progress bar styling */
+.progress-bar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0;
+  margin-bottom: 30px;
+  margin-top: 0;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.progress-bar-custom li {
+  font-size: 16px;
+  color: #ffcc00;
+  list-style-type: none;
+  position: relative;
+  text-align: center;
+  flex: 1;
+}
+
+.progress-bar-custom li .dot {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: #ffcc00;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-bar-custom li.active-step .dot {
+  background-color: #ffcc00; /* Yellow dot for active step */
+}
+
+.progress-bar-custom li.active-step {
+  color: #ffcc00;
+}
+
+.progress-bar-custom li::after {
+  content: "";
+  height: 2px;
+  width: 100%;
+  background-color: #dcdcdc; /* Grey color for inactive steps */
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  z-index: 0;
+}
+
+.progress-bar-custom li.active-step::after {
+  background-color: #ffcc00; /* Yellow line for active steps */
+}
+
+.progress-bar-custom li:first-child::after {
+  left: 50%; /* Line starts from middle */
+  background-color: #ffcc00; /* Yellow line from the first step */
+}
+
+.progress-bar-custom li:last-child::before {
+  content: ""; /* Adding a grey line before the last step */
+  height: 2px;
+  width: 50%;
+  background-color: #ffcc00; /* Grey line before the last step */
+  position: absolute;
+  top: 6px;
+  right: 50%;
+  z-index: 0;
+}
+
+.progress-bar-custom li:last-child::after {
+  content: none; /* Remove the line after the last step */
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .progress-bar-custom li {
+    font-size: 10px !important;
+  }
+}
+
+.checkmark-container {
+  font-size: 50px;
+  color: #2ecc71; /* Green checkmark */
+}
+
+.thank-you-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.confirmation-message {
+  font-size: 16px;
+  margin-top: 10px;
+  color: #6c757d;
+}
+
+.confirmation-line {
+  border: 1px solid #e0e0e0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.order-label {
+  font-size: 14px;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.order-number,
+.total-amount {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.continue-shopping-btn {
+  width: 100%;
+  max-width: 300px;
+}
