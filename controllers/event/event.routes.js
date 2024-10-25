@@ -35,6 +35,9 @@ eventRoutes.post("/trigger-qr-scan", EventController.triggerQRScan);
 // Add this route inside eventRoutes
 eventRoutes.get("/get-event-by-id/:eventId", EventController.getEventById);
 
+// New route to generate PDF and send payment confirmation email
+eventRoutes.post("/send-invoice-email", EventController.sendInvoiceEmail);
+
 // ========== Export ==========
 // Exporting eventRoutes
 module.exports = eventRoutes;

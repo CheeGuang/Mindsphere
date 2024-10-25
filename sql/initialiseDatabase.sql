@@ -61,8 +61,7 @@ CREATE TABLE memberEvent (
 
 -- Insert a dummy member
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
-VALUES ('John', 'Doe', 'john.doe@example.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
-
+VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 
