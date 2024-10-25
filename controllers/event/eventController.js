@@ -251,20 +251,14 @@ class EventController {
   static async generateInvoicePDF(
     eventDetails,
     participantsData,
+    memberDetails, // Accept memberDetails from the request body
     memberEventID
   ) {
     console.log("[DEBUG] Generating PDF invoice...");
 
     try {
-      // Retrieve member details before generating PDF
-      const memberDetails = await Member.getMemberDetailsByMemberEventID(
-        memberEventID
-      );
-      console.log(memberDetails);
       if (!memberDetails) {
-        throw new Error(
-          "Member details not found for the provided memberEventID."
-        );
+        throw new Error("Member details not provided in the request.");
       }
 
       // Use Promise.all to handle PDF generation
@@ -484,8 +478,13 @@ class EventController {
   }
 
   static sendInvoiceEmail = async (req, res) => {
-    const { eventID, participantsData, memberEventID, recipientEmail } =
-      req.body;
+    const {
+      eventID,
+      participantsData,
+      memberEventID,
+      recipientEmail,
+      memberDetails,
+    } = req.body;
     console.log("[DEBUG] Starting invoice email process...");
 
     try {
@@ -497,6 +496,7 @@ class EventController {
       const pdfKey = await EventController.generateInvoicePDF(
         eventDetails,
         participantsData,
+        memberDetails, // Pass memberDetails here
         memberEventID
       );
       console.log(`[DEBUG] PDF generation completed. pdfKey: ${pdfKey}`);

@@ -1,4 +1,26 @@
 $(document).ready(async function () {
+  // Function to fetch event details by ID and store in sessionStorage
+  async function fetchAndStoreEventDetails(eventId) {
+    try {
+      // Call the endpoint to get event details by ID
+      const response = await fetch(`api/event/get-event-by-id/${eventId}`);
+
+      if (response.ok) {
+        const eventDetails = await response.json();
+
+        // Store the fetched event details in sessionStorage
+        sessionStorage.setItem(
+          "selectedEventDetails",
+          JSON.stringify(eventDetails)
+        );
+      } else {
+        console.error("Failed to fetch event details.");
+      }
+    } catch (error) {
+      console.error("Error fetching event details:", error);
+    }
+  }
+
   // Load the customAlert.html into the container
   console.log("[DEBUG] Loading customAlert.html into #customAlertContainer");
   $("#customAlertContainer").load("./customAlert.html");
@@ -19,36 +41,18 @@ $(document).ready(async function () {
   const urlParams = new URLSearchParams(window.location.search);
   let enrollmentData = null;
 
-  // Retrieve `memberID` from `localStorage`
-  const memberID = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
+  // Retrieve `memberDetails` from `localStorage`
+  const memberDetails = JSON.parse(localStorage.getItem("memberDetails"));
+  const memberID = memberDetails?.memberID;
   console.log(`[DEBUG] Retrieved memberID from localStorage: ${memberID}`);
-  let recipientEmail = "";
+  let recipientEmail = memberDetails?.email || "";
 
-  if (memberID) {
-    try {
-      // Fetch member details using memberID
-      console.log(`[DEBUG] Fetching member details for memberID: ${memberID}`);
-      const memberResponse = await $.ajax({
-        url: `${window.location.origin}/api/member/member-details/${memberID}`,
-        method: "GET",
-      });
-
-      console.log(memberResponse);
-
-      // Extract email from the response
-      if (memberResponse && memberResponse.data.email) {
-        recipientEmail = memberResponse.data.email;
-        console.log(`[DEBUG] Retrieved recipient email: ${recipientEmail}`);
-      } else {
-        console.error("[DEBUG] Email not found for the member.");
-        return;
-      }
-    } catch (error) {
-      console.error("[DEBUG] Error fetching member details:", error);
-      return;
-    }
+  if (memberID && recipientEmail) {
+    console.log(
+      `[DEBUG] Retrieved recipient email from localStorage: ${recipientEmail}`
+    );
   } else {
-    console.error("[DEBUG] Member ID not found in localStorage.");
+    console.error("[DEBUG] Member ID or email not found in localStorage.");
     return;
   }
 
@@ -122,67 +126,8 @@ $(document).ready(async function () {
     }
   }
 
-  // Helper function to calculate total price
-  function calculateTotalPrice(pricePerParticipant, participantsData) {
-    const numberOfParticipants = participantsData ? participantsData.length : 0;
-    const total = pricePerParticipant * numberOfParticipants;
-    console.log(`[DEBUG] Calculated total price: $${total.toFixed(2)}`);
-    return total;
-  }
-
   if (enrollmentData) {
     const { memberID, eventID, participantsData } = enrollmentData;
-    let pricePerParticipant = 0;
-
-    // Check if sessionStorage has selectedEventDetails
-    const selectedEventDetails = sessionStorage.getItem("selectedEventDetails");
-
-    if (!selectedEventDetails) {
-      // If selectedEventDetails is missing, fetch event details by eventID
-      console.log(`[DEBUG] Fetching event details for eventID: ${eventID}`);
-      try {
-        const response = await $.ajax({
-          url: `${window.location.origin}/api/event/get-event-by-id/${eventID}`,
-          method: "GET",
-        });
-
-        if (response) {
-          console.log("[DEBUG] Event details fetched successfully.");
-          // Save fetched event details to sessionStorage for future use
-          sessionStorage.setItem(
-            "selectedEventDetails",
-            JSON.stringify(response)
-          );
-
-          // Use the price from the fetched event details
-          pricePerParticipant = response.price;
-
-          // Calculate total price and update the UI
-          const totalPrice = calculateTotalPrice(
-            pricePerParticipant,
-            participantsData
-          );
-          $("#total-amount").text(`$${totalPrice.toFixed(2)}`);
-        }
-      } catch (error) {
-        console.error(
-          "[DEBUG] Error fetching event details by event ID:",
-          error
-        );
-      }
-    } else {
-      // If selectedEventDetails exists, use the stored price
-      console.log("[DEBUG] Using event details from sessionStorage.");
-      const eventDetails = JSON.parse(selectedEventDetails);
-      pricePerParticipant = eventDetails.price;
-
-      // Calculate total price and update the UI
-      const totalPrice = calculateTotalPrice(
-        pricePerParticipant,
-        participantsData
-      );
-      $("#total-amount").text(`$${totalPrice.toFixed(2)}`);
-    }
 
     try {
       for (let participant of participantsData) {
@@ -251,6 +196,10 @@ $(document).ready(async function () {
             },
           });
 
+          await fetchAndStoreEventDetails(
+            localStorage.getItem("selectedEventID")
+          );
+
           // After successful enrollment, generate and send invoice if not sent before
           const eventDetails = JSON.parse(
             sessionStorage.getItem("selectedEventDetails")
@@ -258,6 +207,8 @@ $(document).ready(async function () {
           const participantsData = JSON.parse(
             sessionStorage.getItem("participantsData")
           );
+
+          console.log(eventDetails);
 
           // Check if invoice has already been sent
           if (
@@ -278,6 +229,7 @@ $(document).ready(async function () {
                   participantsData: participantsData,
                   memberEventID: response.memberEventID,
                   recipientEmail: recipientEmail,
+                  memberDetails: memberDetails, // Send memberDetails to backend
                 }),
                 success: function () {
                   console.log("[DEBUG] Invoice sent successfully!");
