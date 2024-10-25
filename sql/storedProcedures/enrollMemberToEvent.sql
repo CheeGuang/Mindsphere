@@ -1,4 +1,4 @@
--- 1) Create stored procedure to enroll a member to an event
+-- Example adjustment to usp_enrollMemberToEvent
 CREATE PROCEDURE usp_enrollMemberToEvent
     @memberID INT,
     @eventID INT,
@@ -8,50 +8,37 @@ CREATE PROCEDURE usp_enrollMemberToEvent
     @interests NVARCHAR(200),
     @medicalConditions NVARCHAR(500),
     @lunchOption NVARCHAR(100),
-    @specifyOther NVARCHAR(200)
+    @specifyOther NVARCHAR(200),
+    @memberEventID INT OUTPUT -- Add this OUTPUT parameter
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- Your INSERT logic here
+    INSERT INTO memberEvent (
+        memberID,
+        eventID,
+        fullName,
+        age,
+        schoolName,
+        interests,
+        medicalConditions,
+        lunchOption,
+        specifyOther
+    )
+    VALUES (
+        @memberID,
+        @eventID,
+        @fullName,
+        @age,
+        @schoolName,
+        @interests,
+        @medicalConditions,
+        @lunchOption,
+        @specifyOther
+    );
 
-    BEGIN TRY
-        -- Insert the data into memberEvent table
-        INSERT INTO memberEvent (
-            memberID,
-            eventID,
-            fullName,
-            age,
-            schoolName,
-            interests,
-            medicalConditions,
-            lunchOption,
-            specifyOther
-        )
-        VALUES (
-            @memberID,
-            @eventID,
-            @fullName,
-            @age,
-            @schoolName,
-            @interests,
-            @medicalConditions,
-            @lunchOption,
-            @specifyOther
-        );
+    -- Get the newly inserted memberEventID
+    SET @memberEventID = SCOPE_IDENTITY();
 
-        PRINT 'Enrollment successful.';
-    END TRY
-    BEGIN CATCH
-        -- Catch any error and display the error message
-        DECLARE @ErrorMessage NVARCHAR(4000);
-        DECLARE @ErrorSeverity INT;
-        DECLARE @ErrorState INT;
-
-        SELECT 
-            @ErrorMessage = ERROR_MESSAGE(),
-            @ErrorSeverity = ERROR_SEVERITY(),
-            @ErrorState = ERROR_STATE();
-
-        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
-    END CATCH;
+    -- Return success with the memberEventID
+    RETURN 0;
 END;
-GO

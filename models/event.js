@@ -124,7 +124,7 @@ class event {
     }
   }
 
-  // Enroll a member to an event
+  // Enroll a member to an event and return the memberEventID
   static async enrollMemberToEvent(
     memberID,
     eventID,
@@ -139,6 +139,8 @@ class event {
     try {
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
+
+      // Set up input parameters
       request.input("memberID", sql.Int, memberID);
       request.input("eventID", sql.Int, eventID);
       request.input("fullName", sql.NVarChar(100), fullName);
@@ -149,13 +151,69 @@ class event {
       request.input("lunchOption", sql.NVarChar(100), lunchOption);
       request.input("specifyOther", sql.NVarChar(200), specifyOther);
 
-      await request.execute("usp_enrollMemberToEvent");
+      // Output parameter to capture the new memberEventID
+      request.output("memberEventID", sql.Int);
+
+      // Execute the stored procedure and capture the result
+      const result = await request.execute("usp_enrollMemberToEvent");
+
+      // Retrieve the memberEventID from the output parameter
+      const memberEventID = result.output.memberEventID;
+
+      // Close the connection
       connection.close();
 
-      return { success: true, message: "Enrollment successful." };
+      // Return success response with memberEventID
+      return {
+        success: true,
+        message: "Enrollment successful.",
+        memberEventID: memberEventID,
+      };
     } catch (error) {
       console.error("Database error:", error);
       throw error;
+    }
+  }
+
+  // Add this function inside the event class
+  static async getEventById(eventID) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Add the input parameter for eventID
+      request.input("eventID", sql.Int, eventID);
+
+      // Execute the stored procedure
+      const result = await request.execute("usp_get_event_by_eventID");
+
+      // Assuming only one event is returned, map the result to the event object
+      if (result.recordset.length > 0) {
+        const row = result.recordset[0];
+        return new event(
+          row.eventID,
+          row.type,
+          row.title,
+          row.price,
+          row.oldPrice,
+          row.classSize,
+          row.duration,
+          row.lunchProvided,
+          row.lessonMaterialsProvided,
+          row.accessToMembership,
+          row.availableDates,
+          row.time,
+          row.totalParticipants,
+          row.venue,
+          row.picture
+        );
+      }
+
+      connection.close();
+      return null; // Return null if no event found
+    } catch (error) {
+      console.error("Database error:", error);
+      throw error; // Rethrow to handle in the controller
     }
   }
 }

@@ -26,6 +26,15 @@ eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);
 // Route to enroll a member to an event
 eventRoutes.get("/enroll-member-to-event", EventController.enrollMemberToEvent);
 
+// Route for SSE endpoint to listen for QR code scans
+eventRoutes.get("/qr-scan-sse", EventController.qrScanSSE);
+
+// Route to trigger the QR scan event (for testing or actual QR scan)
+eventRoutes.post("/trigger-qr-scan", EventController.triggerQRScan);
+
+// Add this route inside eventRoutes
+eventRoutes.get("/get-event-by-id/:eventId", EventController.getEventById);
+
 // ========== Export ==========
 // Exporting eventRoutes
 module.exports = eventRoutes;

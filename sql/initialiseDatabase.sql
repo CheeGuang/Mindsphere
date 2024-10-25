@@ -43,6 +43,7 @@ CREATE TABLE [event] (
 );
 
 CREATE TABLE memberEvent (
+    memberEventID INT PRIMARY KEY IDENTITY(1,1), -- New unique primary key
     memberID INT,
     eventID INT,
     fullName NVARCHAR(100),
@@ -52,7 +53,6 @@ CREATE TABLE memberEvent (
     medicalConditions NVARCHAR(500),
     lunchOption NVARCHAR(100), 
     specifyOther NVARCHAR(200), 
-    PRIMARY KEY (memberID, eventID, fullName), 
     FOREIGN KEY (memberID) REFERENCES [member](memberID),
     FOREIGN KEY (eventID) REFERENCES [event](eventID)
 );
