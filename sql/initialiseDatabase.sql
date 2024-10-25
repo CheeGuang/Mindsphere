@@ -8,6 +8,12 @@ IF OBJECT_ID('dbo.member', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.event', 'U') IS NOT NULL
     DROP TABLE dbo.[event];
 
+IF OBJECT_ID('dbo.admin', 'U') IS NOT NULL
+    DROP TABLE dbo.admin;
+
+IF OBJECT_ID('dbo.appointment', 'U') IS NOT NULL
+    DROP TABLE dbo.appointment;
+
 -- 2) Create tables according to the ER diagram
 
 CREATE TABLE [member] (
@@ -57,11 +63,37 @@ CREATE TABLE memberEvent (
     FOREIGN KEY (eventID) REFERENCES [event](eventID)
 );
 
+CREATE TABLE admin (
+    adminID INT PRIMARY KEY IDENTITY(1,1), 
+    firstName NVARCHAR(100),
+    lastName NVARCHAR(100),
+    email NVARCHAR(100) UNIQUE,
+    emailVC NVARCHAR(100),
+    emailVCTimestamp DATETIME,
+    contactNo NVARCHAR(20),
+    contactNoVC NVARCHAR(100),
+    contactNoVCTimestamp DATETIME,
+    password NVARCHAR(100),
+    profilePicture NVARCHAR(500)
+);
+
+CREATE TABLE appointment (
+    AppointmentID INT IDENTITY(1,1) PRIMARY KEY,
+    MemberID INT,
+    AdminID INT,
+    endDateTime DATETIME,
+    PatientURL NVARCHAR(1000),
+    HostRoomURL NVARCHAR(1000),
+    FOREIGN KEY (MemberID) REFERENCES [member](memberID),
+    FOREIGN KEY (AdminID) REFERENCES admin(adminID)
+);
+
 -- 3) Insert dummy data
 
 -- Insert a dummy member
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
 VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
+
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 
@@ -84,7 +116,17 @@ VALUES
 (1, 2, 'John Doe', '35', 'NUS', 'Leadership', 'None', 'No Mango', ''),
 (1, 4, 'John Doe', '35', 'NUS', 'Education', 'None', 'Vegan', 'Soy Milk Only');
 
+-- Insert a dummy admin data
+INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
+VALUES ('Christine', 'Chua', 'mindsphere.services@gmail.com', '654321', GETDATE(), '91234567', '123456', GETDATE(), 'adminpass123', NULL);
+
+-- Insert a dummy appointment data
+INSERT INTO appointment (MemberID, AdminID, endDateTime, PatientURL, HostRoomURL)
+VALUES (1, 1, '2024-11-01 14:30:00', 'https://example.com/patient/johndoe', 'https://example.com/host/room123');
+
 -- 4) Select all tables
 SELECT * FROM [member];
 SELECT * FROM [event];
 SELECT * FROM memberEvent;
+SELECT * FROM admin;
+SELECT * FROM appointment;
