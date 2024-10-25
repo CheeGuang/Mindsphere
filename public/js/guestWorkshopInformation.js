@@ -98,7 +98,9 @@ $(document).ready(function () {
 
     // Add click event listener for registration button
     $(".btn-register").on("click", function () {
-      const memberID = localStorage.getItem("memberID");
+      const memberID = JSON.parse(
+        localStorage.getItem("memberDetails")
+      )?.memberID;
 
       // Create a single JSON object to store eventID and price
       const eventDetails = {

@@ -16,7 +16,9 @@ $(document).ready(function () {
 
   // Function to generate the QR code for enrollment
   function generateEnrollmentQRCode() {
-    const memberID = localStorage.getItem("memberID");
+    const memberID = JSON.parse(
+      localStorage.getItem("memberDetails")
+    )?.memberID;
     const eventDetails = JSON.parse(
       sessionStorage.getItem("selectedEventDetails")
     );

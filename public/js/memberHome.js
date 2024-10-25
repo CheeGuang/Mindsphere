@@ -1,6 +1,6 @@
 // Function to fetch events from the API and update the HTML
 async function fetchAndDisplayEvents() {
-  const memberId = JSON.parse(localStorage.getItem("memberID"));
+  const memberId = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
 
   if (!memberId) {
     console.error("Error: Patient ID not found in local storage");

@@ -20,7 +20,7 @@ $(document).ready(async function () {
   let enrollmentData = null;
 
   // Retrieve `memberID` from `localStorage`
-  const memberID = localStorage.getItem("memberID");
+  const memberID = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
   console.log(`[DEBUG] Retrieved memberID from localStorage: ${memberID}`);
   let recipientEmail = "";
 

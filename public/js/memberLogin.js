@@ -34,9 +34,8 @@ function handleCredentialResponse(response) {
     .then((response) => response.json())
     .then((data) => {
       if (data.emailExists && data.contactExists) {
-        // Step 2: If both email and contact exist, store memberID in local storage and redirect to memberHome.html
-        localStorage.setItem("memberID", data.memberID);
-        window.location.href = "memberHome.html";
+        // Fetch member details by memberID
+        fetchMemberDetails(data.memberID, "memberHome.html");
       } else if (data.emailExists && !data.contactExists) {
         localStorage.setItem("memberID", data.memberID);
         window.location.href = "memberGoogleSignUp.html";
@@ -56,9 +55,8 @@ function handleCredentialResponse(response) {
         })
           .then((response) => response.json())
           .then((createData) => {
-            // Step 6: Once created, store the memberID in local storage and redirect to googleSignUp.html
-            localStorage.setItem("memberID", createData.memberID);
-            window.location.href = "memberGoogleSignUp.html";
+            // Fetch member details by newly created memberID
+            fetchMemberDetails(createData.memberID, "memberGoogleSignUp.html");
           })
           .catch((error) => {
             console.error("Error creating Google member:", error);
@@ -67,6 +65,30 @@ function handleCredentialResponse(response) {
     })
     .catch((error) => {
       console.error("Error checking email and contact:", error);
+    });
+}
+
+// Function to fetch member details by memberID and store them in localStorage as a single JSON object
+function fetchMemberDetails(memberID, redirectUrl) {
+  fetch(`/api/member/member-details/${memberID}`)
+    .then((response) => response.json())
+    .then((memberDetails) => {
+      // Store member details as a JSON object in localStorage
+      const memberDetailsJson = {
+        memberID: memberDetails.data.memberID,
+        firstName: memberDetails.data.firstName,
+        lastName: memberDetails.data.lastName,
+        email: memberDetails.data.email,
+        contactNo: memberDetails.data.contactNo,
+        profilePicture: memberDetails.data.profilePicture,
+      };
+      localStorage.setItem("memberDetails", JSON.stringify(memberDetailsJson));
+
+      // Redirect to the appropriate page
+      window.location.href = redirectUrl;
+    })
+    .catch((error) => {
+      console.error("Error fetching member details:", error);
     });
 }
 
@@ -109,9 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          // If login is successful, store the memberID in localStorage
-          localStorage.setItem("memberID", data.memberID);
-          window.location.href = "memberHome.html"; // Redirect to memberHome.html
+          // Fetch member details by memberID
+          fetchMemberDetails(data.memberID, "memberHome.html");
         } else {
           // Show an error message if login failed
           showCustomAlert(data.message);
@@ -127,8 +148,5 @@ document.addEventListener("DOMContentLoaded", function () {
 // Handle guest login
 document.getElementById("guestButton").addEventListener("click", function () {
   // Set the memberID in localStorage for guest user
-  localStorage.setItem("memberID", 1);
-
-  // Redirect to memberHome.html
-  window.location.href = "./memberHome.html";
+  fetchMemberDetails(1, "./memberHome.html");
 });

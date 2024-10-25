@@ -2,7 +2,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   e.preventDefault(); // Prevent the default form submission
 
   // Get memberID from local storage
-  const memberID = localStorage.getItem("memberID");
+  const memberID = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
   if (!memberID) {
     showCustomAlert("Member ID not found. Please ensure you are logged in.");
     return;

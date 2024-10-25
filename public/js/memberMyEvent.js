@@ -1,6 +1,8 @@
 const fetchAndDisplayEvents = async () => {
   try {
-    const memberId = JSON.parse(localStorage.getItem("memberID")); // Get member ID from local storage
+    const memberId = JSON.parse(
+      localStorage.getItem("memberDetails")
+    )?.memberID; // Get member ID from local storage
 
     if (!memberId) {
       console.error("Error: Member ID not found in local storage");

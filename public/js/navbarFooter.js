@@ -23,7 +23,7 @@ const updateProfilePicture = (profilePicture) => {
 let navbarFile;
 
 // Check if memberID exists in localStorage
-const memberID = localStorage.getItem("memberID");
+const memberID = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
 
 if (memberID) {
   // Fetch member-specific navbar and profile picture
