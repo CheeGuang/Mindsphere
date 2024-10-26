@@ -22,3 +22,160 @@
 .hero-text {
   color: white !important;
 }
+.text-center{
+  margin-top: 50px;
+}
+.clogo img{
+  max-width: 150px;
+    /* Adjust the size as needed */
+    max-height: 100px;
+    /* Maintain height limit */
+    width: auto;
+    height: auto;
+    padding: auto;
+}
+
+.our-story {
+  background-color: #2e4457;
+  color: white;
+  padding: 50px 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+.os-title{
+  color: white;
+}
+.our-story .os-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.our-story p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.oal img{
+  max-width: 50%;
+  height: auto;
+}
+.oal h2,
+.oal p{
+    color:#2e4457;
+}
+.card {
+  border-radius: 15px;
+  border: 1px solid whitesmoke;
+  box-shadow: 10px 10px 15px gainsboro;
+  height: auto;
+ 
+  
+}
+
+.card-body p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.card img {
+  object-fit: cover;
+}
+.About img {
+  max-width: 50%;
+  height: auto;
+}
+
+.About h2,
+.About p {
+  color: #2e4457;
+}
+.founders-section {
+  margin-top: 10px;
+  padding: 30px 0;
+  font-family: 'Arial', sans-serif;
+    line-height: 1.8;
+    background-color: #f8f9fa;
+    text-align: justify;
+    
+}
+
+.founders-section h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2e4457;
+}
+
+.founders-section p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #2e4457;
+}
+
+.founders-section ul {
+  list-style-type: none;
+  color: #2e4457;
+  padding-left: 0;
+}
+
+.founders-section ul li::before {
+  content: '• ';
+  color: #2e4457;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.founder-title {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2e4457;
+}
+
+.founders-section .card {
+  border: none;
+  background-color: transparent;
+}
+.testimonials h3,.testimonials p{
+  color: #2e4457;
+}
+.cardbox{
+ box-sizing: border-box;
+    text-align: justify;
+}
+.tbox{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  
+}
+.to-top{
+  
+  position: fixed;
+  bottom: 16px;
+  right: 32px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e4457;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .4s;
+}
+.to-top.active{
+  bottom: 32px;
+  pointer-events: auto;
+  opacity: 1;
+}
+.to-top span{
+  font-size: 69px;
+}
+.material-symbols-outlined{
+  background-color: #f8f9fa;
+    color: #2e4457;
+
+}
+html{
+  scroll-behavior: smooth;
+}
