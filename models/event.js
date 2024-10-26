@@ -71,6 +71,45 @@ class event {
     }
   }
 
+  // Fetch events by eventID
+  static async getEventById(eventID) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      request.input("eventID", sql.NVarChar(100), eventID);
+      const result = await request.execute("usp_get_event_by_id");
+
+      const eventDetails = result.recordset.map(
+        (row) =>
+          new event(
+            row.eventID,
+            row.type,
+            row.title,
+            row.price,
+            row.oldPrice, // Add oldPrice
+            row.classSize, // Add classSize
+            row.duration,
+            row.lunchProvided, // Add lunchProvided
+            row.lessonMaterialsProvided, // Add lessonMaterialsProvided
+            row.accessToMembership, // Add accessToMembership
+            row.availableDates,
+            row.time,
+            row.totalParticipants,
+            row.venue,
+            row.picture
+          )
+      );
+
+      connection.close();
+
+      return [...eventDetails];
+    } catch (error) {
+      console.error("Database error:", error);
+      throw error; // Rethrow to handle in the controller
+    }
+  }
+
   // Fetch events by memberID
   static async getEventByMemberId(memberID) {
     try {
@@ -123,6 +162,47 @@ class event {
       throw error; // Rethrow to handle in the controller
     }
   }
+
+  static async updateEvent(eventID, updatedData) {
+    try {
+        const connection = await sql.connect(dbConfig);
+        const request = connection.request();
+
+        request.input("eventID", sql.Int, eventID);
+        request.input("title", sql.NVarChar(255), updatedData.title);
+        request.input("price", sql.Float, updatedData.price);
+        request.input("availableDates", sql.NVarChar(255), updatedData.availableDates);
+        request.input("venue", sql.NVarChar(255), updatedData.venue);
+        request.input("duration", sql.NVarChar(255), updatedData.duration);
+        request.input("picture", sql.NVarChar(255), updatedData.picture);
+
+        const result = await request.execute("usp_update_event"); // Ensure stored procedure exists
+        connection.close();
+
+        return result.recordset; // Return the updated event if needed
+    } catch (error) {
+        console.error("Database error:", error); // Log the error
+        throw error; // Rethrow to handle in the controller
+    }
+  }
+
+  // Function to delete an event by eventID
+static async deleteEventById(eventID) {
+  try {
+      const connection = await sql.connect(dbConfig); // Connect to the database
+      const request = connection.request(); // Create a new request
+
+      request.input("eventID", sql.Int, eventID); // Pass eventID as input parameter
+      await request.execute("usp_delete_event_by_id"); // Execute the stored procedure to delete
+
+      connection.close(); // Close the connection
+      return { message: "Event deleted successfully" }; // Return success message
+  } catch (error) {
+      console.error("Error deleting event:", error); // Log the error
+      throw error; // Rethrow to handle in the controller
+  }
+}
+
 }
 
 module.exports = event;

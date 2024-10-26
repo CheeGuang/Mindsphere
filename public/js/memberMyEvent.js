@@ -75,7 +75,7 @@ const fetchAndDisplayEvents = async () => {
       card.innerHTML = `
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="${eventImageSrc}" class="img-fluid rounded-start" alt="${
+            <img src="${eventImageSrc}" class="img-fluid event-image rounded-start" alt="${
         event.title
       }" />
           </div>
