@@ -1,3 +1,4 @@
+
 -- 1) Check if tables exist and drop them
 IF OBJECT_ID('dbo.memberEvent', 'U') IS NOT NULL
     DROP TABLE dbo.memberEvent;
@@ -95,6 +96,7 @@ CREATE TABLE appointment (
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
 VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
 
+Jeffrey, [26/10/2024 3:19 pm]
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 

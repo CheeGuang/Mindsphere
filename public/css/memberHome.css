@@ -23,7 +23,7 @@
   /* Image styling */
   .event-image {
     width: 150px;
-    height: 150px;
+    height: 100%;
     object-fit: cover;
     border-radius: 10px 0px 0px 10px; /* Rounded left side */
   }

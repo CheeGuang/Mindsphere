@@ -13,3 +13,8 @@
     color: var(--font-color);
   }
   
+/* Image styling */
+.event-image {
+  height: 100%;
+  object-fit: cover;
+}
