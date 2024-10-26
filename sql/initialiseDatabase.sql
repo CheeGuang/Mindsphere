@@ -2,6 +2,9 @@
 IF OBJECT_ID('dbo.memberEvent', 'U') IS NOT NULL
     DROP TABLE dbo.memberEvent;
 
+IF OBJECT_ID('dbo.appointment', 'U') IS NOT NULL
+    DROP TABLE dbo.appointment;
+
 IF OBJECT_ID('dbo.member', 'U') IS NOT NULL
     DROP TABLE dbo.[member];
 
@@ -11,8 +14,6 @@ IF OBJECT_ID('dbo.event', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.admin', 'U') IS NOT NULL
     DROP TABLE dbo.admin;
 
-IF OBJECT_ID('dbo.appointment', 'U') IS NOT NULL
-    DROP TABLE dbo.appointment;
 
 -- 2) Create tables according to the ER diagram
 
