@@ -10,7 +10,7 @@
       font-size: 1.2rem;
   }
   .box{
-    background-color: #f5fefd;
+    
     border-radius: 10px;
     margin: 15px;
     padding: 15px;
@@ -28,7 +28,7 @@
   #boxs {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);;
     border-radius: 25px;
-    background-color: #f5fefd;
+    background-color: white;
     padding: 10px;
     margin: 10px;
     font-weight: bold;
