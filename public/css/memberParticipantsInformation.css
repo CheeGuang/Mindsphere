@@ -1,0 +1,114 @@
+/* Horizontal Progress bar styling */
+.progress-bar-custom {
+  display: flex;
+  justify-content: space-between; /* Ensures even spacing between dots */
+  align-items: center;
+  padding-left: 0;
+  margin-bottom: 30px; /* Adds space between progress bar and participant information */
+  margin-top: 0;
+  width: 100%; /* Ensures full-width alignment for the progress bar */
+  max-width: 600px; /* Add a max-width to prevent it from stretching too much on larger screens */
+  margin-left: auto;
+  margin-right: auto; /* Center the progress bar */
+  position: relative;
+}
+
+.progress-bar-custom li {
+  font-size: 16px;
+  color: #6c757d;
+  list-style-type: none;
+  position: relative;
+  text-align: center; /* Center align text under dots */
+  flex: 1; /* Make each list item take equal space */
+}
+
+.progress-bar-custom li .dot {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: #dcdcdc;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1; /* Make sure dots are above lines */
+}
+
+.progress-bar-custom li.active-step .dot {
+  background-color: #ffcc00; /* Yellow dot for active step */
+}
+
+.progress-bar-custom li.active-step {
+  color: #ffcc00;
+}
+
+.progress-bar-custom li::after {
+  content: "";
+  height: 2px;
+  width: 100%; /* Adjusted to fill the gap between dots */
+  background-color: #dcdcdc; /* Grey color for inactive lines */
+  position: absolute;
+  top: 6px; /* Align the line with the dots */
+  left: 50%;
+  z-index: 0;
+}
+
+.progress-bar-custom li.active-step::after {
+  background-color: #dcdcdc; /* Grey line for all steps */
+}
+
+.progress-bar-custom li:first-child::after {
+  left: 50%; /* Line starts from middle */
+}
+
+.progress-bar-custom li:last-child::before {
+  content: ""; /* Adding a line before the last step */
+  height: 2px;
+  width: 50%;
+  background-color: #dcdcdc; /* Same grey color */
+  position: absolute;
+  top: 6px;
+  right: 50%;
+  z-index: 0;
+}
+
+.progress-bar-custom li:last-child::after {
+  content: none; /* Remove the line after the last step */
+}
+
+/* Form and card styling */
+.participant-card {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+h5 {
+  font-weight: bold;
+}
+
+input.form-control,
+textarea.form-control {
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+textarea {
+  resize: none;
+}
+
+input.form-control-sm.specify-input {
+  width: 150px;
+}
+
+button.btn {
+  border-radius: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .progress-bar-custom li {
+    font-size: 10px !important; /* Smaller font size on smaller screens */
+  }
+}

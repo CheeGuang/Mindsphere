@@ -299,6 +299,35 @@ class MemberController {
       });
     }
   }
+
+  // Retrieve member details by memberID
+  static async getMemberDetailsById(req, res) {
+    console.log("Running getMemberDetailsById Controller");
+    try {
+      const { memberID } = req.params;
+
+      // Call the model function to get member details
+      const memberDetails = await Member.getMemberDetailsById(memberID);
+
+      if (memberDetails) {
+        res.status(200).json({
+          success: true,
+          data: memberDetails,
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "Member not found.",
+        });
+      }
+    } catch (error) {
+      console.error(`Error in getMemberDetailsById: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve member details.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

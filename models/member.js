@@ -351,6 +351,63 @@ class Member {
       throw error;
     }
   }
+
+  // Function to get member details by memberID using the stored procedure
+  static async getMemberDetailsById(memberID) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the input for the stored procedure
+      request.input("memberID", sql.Int, memberID);
+
+      // Execute the stored procedure
+      const result = await request.execute("usp_get_member_details_by_id");
+
+      connection.close();
+
+      // Check if the result has data
+      if (result.recordset.length === 0) {
+        return null; // No member found with the given memberID
+      }
+
+      console.log(result);
+      // Return the member details
+      return result.recordset[0];
+    } catch (error) {
+      console.error("Error retrieving member details:", error);
+      throw error;
+    }
+  }
+
+  // Function to get member details by memberEventID using a stored procedure
+  static async getMemberDetailsByMemberEventID(memberEventID) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the input for the stored procedure
+      request.input("memberEventID", sql.Int, memberEventID);
+
+      // Execute the stored procedure
+      const result = await request.execute(
+        "usp_get_member_details_by_memberEventID"
+      );
+
+      connection.close();
+
+      // Check if the result has data
+      if (result.recordset.length === 0) {
+        return null; // No data found with the given memberEventID
+      }
+
+      // Return the member details
+      return result.recordset[0];
+    } catch (error) {
+      console.error("Error retrieving member details by memberEventID:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Member;

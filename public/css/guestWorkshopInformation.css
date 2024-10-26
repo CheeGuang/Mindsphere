@@ -1,16 +1,56 @@
+.card {
+  max-width: 700px;
+  margin: auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-.workshop-info {
-    background: #e0e0e0; /* Grey background color */
-    padding: 10px; /* Add some padding */
-    border-radius: 10px; /* Rounded corners */
-  }
-  
-  /* Custom style for the input text field */
-  input[type=text] {
-    padding: 5px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.card-title {
+  font-family: "Lora", serif;
+  font-size: 1.75rem;
+  margin: 0; /* Ensure no extra margin */
+  line-height: 1; /* Ensure consistent vertical alignment */
+  padding-bottom: 20px;
+}
 
-  
+.card-body p {
+  margin-bottom: 0.3rem;
+}
+
+.card h5 {
+  font-family: "Inter", sans-serif;
+}
+
+.workshop-info-title {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.info-section p {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+p span {
+  font-weight: 600;
+}
+
+.btn-register {
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+}
+
+.price-section {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+
+.old-price {
+  font-size: 1rem;
+  color: grey;
+  text-decoration: line-through;
+  margin: 0;
+}
