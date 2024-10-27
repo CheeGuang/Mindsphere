@@ -14,7 +14,9 @@ BEGIN
         contactNo,
         contactNoVC,
         contactNoVCTimestamp,
-        profilePicture
+        profilePicture,
+        bio,
+        availability
     FROM 
         [admin]
     WHERE 

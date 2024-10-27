@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
-    <link rel="stylesheet" href="./css/memberHome.css" />
+    <link rel="stylesheet" href="./css/memberAppointments.css" />
     <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
     <!-- END OF PAGE'S CSS /\-->
 
@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <script src="./js/memberHome.js" defer></script>
+    <!-- <script src="./js/" defer></script> -->
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -82,118 +82,123 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <!-- H1 Title -->
-          <!-- Main Event Section Container -->
-          <div class="container">
-            <h2 class="text-start">
-              <a
-                href="memberMyEvent.html"
-                style="text-decoration: none; color: black"
-              >
-                My Event <i class="fas fa-arrow-right"></i>
-              </a>
-            </h2>
+          <!-- H1 Title Outside Container -->
+          <h1 class="text-center my-4">Coaching Appointments</h1>
 
-            <p id="event-count" class="text-start">0 events upcoming</p>
-
-            <!-- Event Cards Horizontal Scroll Container -->
-            <div id="event-scroll-container" class="d-flex overflow-auto"></div>
-          </div>
-
-          <!-- Coaching Appointments Section -->
           <div class="container my-5">
             <!-- Header -->
-            <div class="row mb-4">
-              <div class="col">
-                <h2 class="text-start">
-                  <a
-                    href="./memberAppointments.html"
-                    style="text-decoration: none; color: black"
-                  >
-                    Coaching Appointments <i class="fas fa-arrow-right"></i>
-                  </a>
-                </h2>
+            <div
+              class="appointment-header d-flex justify-content-between align-items-center shadow-sm"
+            >
+              <div class="text-start">
+                <h5><strong>Book 1-1 Coaching</strong></h5>
+                <p>
+                  Select a coach, choose a time, and get started with your first
+                  session
+                </p>
+              </div>
+              <a href="memberBookAppointment.html">
+                <button class="btn btn-primary">Book Now</button>
+              </a>
+            </div>
+
+            <!-- Upcoming Appointments Section -->
+            <div>
+              <h4 class="appointment-section-title text-start">
+                Upcoming Appointments
+              </h4>
+
+              <!-- Highlighted Appointment Card -->
+              <div
+                class="upcoming-card highlight d-flex align-items-center shadow-sm"
+              >
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Your Coaching Session will Start Soon.</h5>
+                </div>
+                <button class="btn btn-primary-custom">Join Call</button>
+              </div>
+
+              <!-- Regular Appointment Cards -->
+              <div class="upcoming-card d-flex align-items-center shadow-sm">
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Coaching Session</h5>
+                  <p class="appointment-time">
+                    Leadership Development - Today, 3:00pm
+                  </p>
+                </div>
+              </div>
+
+              <div class="upcoming-card d-flex align-items-center shadow-sm">
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Coaching Session</h5>
+                  <p class="appointment-time">
+                    Career Planning - Tomorrow, 11:00am
+                  </p>
+                </div>
               </div>
             </div>
 
-            <!-- Appointments Scroll Container -->
-            <div
-              id="appointments-scroll-container"
-              class="d-flex overflow-auto"
-            >
-              <!-- Example Appointment Cards -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Geryl Lim"
-                  />
+            <!-- Past Appointments Section -->
+            <div class="mt-4">
+              <h4 class="appointment-section-title text-start">
+                Past Appointments
+              </h4>
+
+              <div class="past-card d-flex align-items-center shadow-sm">
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Coaching Session</h5>
+                  <p class="appointment-time">Leadership Development</p>
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Geryl Lim</h5>
-                  <p class="card-text">Date: 2 November 2024, 10am - 11am</p>
-                </div>
-              </div>
-              <!-- Example Appointment Cards -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Geryl Lim"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Geryl Lim</h5>
-                  <p class="card-text">Date: 2 November 2024, 10am - 11am</p>
-                </div>
-              </div>
-              <!-- Example Appointment Cards -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Geryl Lim"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Geryl Lim</h5>
-                  <p class="card-text">Date: 2 November 2024, 10am - 11am</p>
-                </div>
-              </div>
-              <!-- Example Appointment Cards -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Geryl Lim"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Geryl Lim</h5>
-                  <p class="card-text">Date: 2 November 2024, 10am - 11am</p>
-                </div>
+                <button class="btn btn-secondary-custom">View Notes</button>
               </div>
 
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
+              <div class="past-card d-flex align-items-center shadow-sm">
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Coaching Session</h5>
+                  <p class="appointment-time">Leadership Development</p>
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
+                <button class="btn btn-secondary-custom">View Notes</button>
+              </div>
+
+              <div class="past-card d-flex align-items-center shadow-sm">
+                <img
+                  src="./img/misc/account-icon.png"
+                  alt="Coach Image"
+                  class="coach-image me-3"
+                />
+                <div class="coach-details flex-grow-1 text-start">
+                  <h5>Coaching Session</h5>
+                  <p class="appointment-time">Career Planning</p>
                 </div>
+                <button class="btn btn-secondary-custom">View Notes</button>
               </div>
             </div>
           </div>
-
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>

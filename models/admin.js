@@ -4,13 +4,24 @@ const EmailService = require("./emailService"); // Import EmailService
 const bcrypt = require("bcrypt"); // Import bcrypt
 
 class Admin {
-  constructor(adminID, firstName, lastName, email, profilePicture, contactNo) {
+  constructor(
+    adminID,
+    firstName,
+    lastName,
+    email,
+    profilePicture,
+    contactNo,
+    availability,
+    bio
+  ) {
     this.adminID = adminID;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.profilePicture = profilePicture;
     this.contactNo = contactNo;
+    this.availability = availability; // New field for availability
+    this.bio = bio; // New field for bio
   }
 
   // Function to create a Google admin using stored procedure
@@ -18,7 +29,9 @@ class Admin {
     firstName,
     lastName,
     email,
-    profilePicture = null
+    profilePicture = null,
+    availability = null, // New parameter for availability
+    bio = null // New parameter for bio
   ) {
     try {
       const connection = await sql.connect(dbConfig);
@@ -28,6 +41,8 @@ class Admin {
       request.input("lastName", sql.NVarChar(100), lastName);
       request.input("Email", sql.NVarChar(100), email);
       request.input("profilePicture", sql.NVarChar(500), profilePicture);
+      request.input("availability", sql.NVarChar(sql.MAX), availability); // Input for availability
+      request.input("bio", sql.NVarChar(1000), bio); // Input for bio
 
       const result = await request.execute("usp_create_google_admin");
 
@@ -110,7 +125,9 @@ class Admin {
     firstName,
     lastName,
     email,
-    profilePicture = null
+    profilePicture = null,
+    availability = null, // New parameter for availability
+    bio = null // New parameter for bio
   ) {
     try {
       const connection = await sql.connect(dbConfig);
@@ -120,6 +137,8 @@ class Admin {
       request.input("lastName", sql.NVarChar(100), lastName);
       request.input("Email", sql.NVarChar(100), email);
       request.input("profilePicture", sql.NVarChar(500), profilePicture);
+      request.input("availability", sql.NVarChar(sql.MAX), availability); // Input for availability
+      request.input("bio", sql.NVarChar(1000), bio); // Input for bio
 
       const result = await request.execute("usp_update_google_admin");
 
@@ -134,7 +153,15 @@ class Admin {
   }
 
   // Function to create an admin using stored procedure with password encryption
-  static async createAdmin(firstName, lastName, email, contactNo, password) {
+  static async createAdmin(
+    firstName,
+    lastName,
+    email,
+    contactNo,
+    password,
+    availability = null,
+    bio = null
+  ) {
     try {
       // Hash the password using bcrypt before storing it
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -147,6 +174,8 @@ class Admin {
       request.input("email", sql.NVarChar(100), email);
       request.input("contactNo", sql.NVarChar(20), contactNo);
       request.input("password", sql.NVarChar(100), hashedPassword); // Store hashed password
+      request.input("availability", sql.NVarChar(sql.MAX), availability); // Input for availability
+      request.input("bio", sql.NVarChar(1000), bio); // Input for bio
 
       const result = await request.execute("usp_create_admin");
 
@@ -373,11 +402,52 @@ class Admin {
         return null; // No admin found with the given adminID
       }
 
-      console.log(result);
-      // Return the admin details
-      return result.recordset[0];
+      // Return the admin details, including availability and bio
+      return {
+        adminID: result.recordset[0].adminID,
+        firstName: result.recordset[0].firstName,
+        lastName: result.recordset[0].lastName,
+        email: result.recordset[0].email,
+        profilePicture: result.recordset[0].profilePicture,
+        contactNo: result.recordset[0].contactNo,
+        availability: result.recordset[0].availability,
+        bio: result.recordset[0].bio,
+      };
     } catch (error) {
       console.error("Error retrieving admin details:", error);
+      throw error;
+    }
+  }
+
+  // Function to update an admin's availability using the stored procedure
+  static async updateAdminAvailability(adminID, newAvailability) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the inputs for the stored procedure
+      request.input("adminID", sql.Int, adminID);
+      request.input("newAvailability", sql.NVarChar(sql.MAX), newAvailability);
+
+      // Execute the stored procedure to update the availability
+      const result = await request.execute("usp_update_admin_availability");
+
+      connection.close();
+
+      // Check if the update was successful
+      if (result.returnValue === 0) {
+        return {
+          success: true,
+          message: "Availability updated successfully.",
+        };
+      } else {
+        return {
+          success: false,
+          message: "Failed to update availability.",
+        };
+      }
+    } catch (error) {
+      console.error("Error updating admin availability:", error);
       throw error;
     }
   }

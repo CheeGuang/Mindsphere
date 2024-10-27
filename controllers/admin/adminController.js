@@ -6,14 +6,17 @@ class AdminController {
   // Create a Google admin
   static async createGoogleAdmin(req, res) {
     try {
-      const { firstName, lastName, email, profilePicture } = req.body;
+      const { firstName, lastName, email, profilePicture, availability, bio } =
+        req.body;
 
       // Call the model function to create a Google admin
       const adminID = await Admin.createGoogleAdmin(
         firstName,
         lastName,
         email,
-        profilePicture
+        profilePicture,
+        availability, // Include availability
+        bio // Include bio
       );
 
       res.status(201).json({
@@ -94,14 +97,17 @@ class AdminController {
   // Update Google admin
   static async updateGoogleAdmin(req, res) {
     try {
-      const { firstName, lastName, email, profilePicture } = req.body;
+      const { firstName, lastName, email, profilePicture, availability, bio } =
+        req.body;
 
       // Call the model function to update the Google admin
       const adminID = await Admin.updateGoogleAdmin(
         firstName,
         lastName,
         email,
-        profilePicture
+        profilePicture,
+        availability, // Include availability
+        bio // Include bio
       );
 
       res.status(200).json({
@@ -121,7 +127,15 @@ class AdminController {
   // Create a new admin
   static async createAdmin(req, res) {
     try {
-      const { firstName, lastName, email, contactNo, password } = req.body;
+      const {
+        firstName,
+        lastName,
+        email,
+        contactNo,
+        password,
+        availability,
+        bio,
+      } = req.body;
 
       // Call the model function to create an admin
       const adminID = await Admin.createAdmin(
@@ -129,7 +143,9 @@ class AdminController {
         lastName,
         email,
         contactNo,
-        password
+        password,
+        availability, // Include availability
+        bio // Include bio
       );
 
       res.status(201).json({
@@ -325,6 +341,37 @@ class AdminController {
       res.status(500).json({
         success: false,
         message: "Failed to retrieve admin details.",
+      });
+    }
+  }
+
+  // Update admin availability
+  static async updateAdminAvailability(req, res) {
+    try {
+      const { adminID, newAvailability } = req.body;
+
+      // Call the model function to update the admin's availability
+      const updateResult = await Admin.updateAdminAvailability(
+        adminID,
+        newAvailability
+      );
+
+      if (updateResult.success) {
+        res.status(200).json({
+          success: true,
+          message: updateResult.message,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: updateResult.message,
+        });
+      }
+    } catch (error) {
+      console.error(`Error in updateAdminAvailability: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update admin availability.",
       });
     }
   }

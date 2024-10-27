@@ -64,29 +64,30 @@ async function fetchAndDisplayEvents() {
     // Loop through the upcoming events and create HTML elements
     upcomingEvents.forEach((event) => {
       const eventCard = document.createElement("div");
-      eventCard.classList.add("card", "d-flex", "flex-row", "mx-3");
-      eventCard.style.minWidth = "600px";
-      eventCard.style.alignItems = "center";
+      eventCard.classList.add("common-card", "d-flex", "flex-row", "mx-3");
 
       // Use the event picture or a placeholder if not available
       const eventImageSrc = event.picture
         ? `${event.picture}`
         : "https://via.placeholder.com/150x150";
 
+      // Build the inner HTML for the event card
       eventCard.innerHTML = `
-        <img src="${eventImageSrc}" class="event-image" alt="${
+    <div class="image-container">
+      <img src="${eventImageSrc}" class="common-image" alt="${
         event.title
-      } Image" style="width: 150px; height: 150px;">
-        <div class="card-body">
-          <h5 class="card-title">${event.title}</h5>
-          <p class="card-text">
-            Duration: ${event.duration}<br>
-            ${formatDateRange(event.availableDates)}<br>
-            ${event.time}<br>
-            ${event.venue}
-          </p>
-        </div>
-      `;
+      } Image">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">${event.title}</h5>
+      <p class="card-text">
+        Duration: ${event.duration}<br>
+        ${formatDateRange(event.availableDates)}<br>
+        ${event.time}<br>
+        ${event.venue}
+      </p>
+    </div>
+  `;
 
       // Append the event card to the container
       eventScrollContainer.appendChild(eventCard);

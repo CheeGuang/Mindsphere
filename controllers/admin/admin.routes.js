@@ -56,5 +56,11 @@ adminRoutes.post(
 // Route to get admin details by adminID
 adminRoutes.get("/admin-details/:adminID", AdminController.getAdminDetailsById);
 
+// Route to update admin availability
+adminRoutes.put(
+  "/update-admin-availability",
+  AdminController.updateAdminAvailability
+);
+
 // ========== Export ==========
 module.exports = adminRoutes;

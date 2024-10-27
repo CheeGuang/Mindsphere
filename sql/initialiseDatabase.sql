@@ -1,4 +1,3 @@
-
 -- 1) Check if tables exist and drop them
 IF OBJECT_ID('dbo.memberEvent', 'U') IS NOT NULL
     DROP TABLE dbo.memberEvent;
@@ -14,7 +13,6 @@ IF OBJECT_ID('dbo.event', 'U') IS NOT NULL
 
 IF OBJECT_ID('dbo.admin', 'U') IS NOT NULL
     DROP TABLE dbo.admin;
-
 
 -- 2) Create tables according to the ER diagram
 
@@ -76,7 +74,9 @@ CREATE TABLE admin (
     contactNoVC NVARCHAR(100),
     contactNoVCTimestamp DATETIME,
     password NVARCHAR(100),
-    profilePicture NVARCHAR(500)
+    profilePicture NVARCHAR(500),
+    availability NVARCHAR(MAX), -- Stores availability data as JSON
+    bio NVARCHAR(1000) -- New field to store a short biography
 );
 
 CREATE TABLE appointment (
@@ -86,6 +86,7 @@ CREATE TABLE appointment (
     endDateTime DATETIME,
     ParticipantURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
+    requestDescription NVARCHAR(1000),
     FOREIGN KEY (MemberID) REFERENCES [member](memberID),
     FOREIGN KEY (AdminID) REFERENCES admin(adminID)
 );
@@ -118,13 +119,54 @@ VALUES
 (1, 2, 'John Doe', '35', 'NUS', 'Leadership', 'None', 'No Mango', ''),
 (1, 4, 'John Doe', '35', 'NUS', 'Education', 'None', 'Vegan', 'Soy Milk Only');
 
--- Insert a dummy admin data
-INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
-VALUES ('Christine', 'Chua', 'mindsphere.services@gmail.com', '654321', GETDATE(), '91234567', '123456', GETDATE(), 'adminpass123', NULL);
+-- Insert a dummy admin data with updated availability format
+INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture, availability, bio) 
+VALUES 
+    (
+        'Simon', 
+        'Yio', 
+        'simon.mindsphere@gmail.com', 
+        '654321', 
+        GETDATE(), 
+        '91234567', 
+        '123456', 
+        GETDATE(), 
+        'abc123', 
+        './img/coach/Simon.jpeg', 
+        '[{"utcDateTime": "2024-10-29T22:00:00.000Z"}, {"utcDateTime": "2024-11-05T22:00:00.000Z"}, {"utcDateTime": "2024-11-12T22:00:00.000Z"}, {"utcDateTime": "2024-11-19T22:00:00.000Z"}, {"utcDateTime": "2024-11-26T22:00:00.000Z"}]',
+        'Experienced coach in business and leadership.'
+    ),
+    (
+    'Christine', 
+    'Chua', 
+    'mindsphere.services@gmail.com', 
+    '654321', 
+    GETDATE(), 
+    '91234567', 
+    '123456', 
+    GETDATE(), 
+    'adminpass123', 
+    NULL, 
+    '[{"utcDateTime": "2024-10-31T09:00:00.000Z"},  
+      {"utcDateTime": "2024-10-31T11:00:00.000Z"},  
+      {"utcDateTime": "2024-11-01T09:00:00.000Z"},  
+      {"utcDateTime": "2024-11-01T11:00:00.000Z"},  
+      {"utcDateTime": "2024-11-07T09:00:00.000Z"},  
+      {"utcDateTime": "2024-11-07T11:00:00.000Z"},  
+      {"utcDateTime": "2024-11-08T09:00:00.000Z"},  
+      {"utcDateTime": "2024-11-08T11:00:00.000Z"},  
+      {"utcDateTime": "2024-11-14T09:00:00.000Z"},  
+      {"utcDateTime": "2024-11-14T11:00:00.000Z"},  
+      {"utcDateTime": "2024-11-15T09:00:00.000Z"},  
+      {"utcDateTime": "2024-11-15T11:00:00.000Z"}]  
+    ',
+    'Talent development leader in FinTech.'
+);
+
 
 -- Insert a dummy appointment data
-INSERT INTO appointment (MemberID, AdminID, endDateTime, ParticipantURL, HostRoomURL)
-VALUES (1, 1, '2024-11-01 14:30:00', 'https://example.com/patient/johndoe', 'https://example.com/host/room123');
+INSERT INTO appointment (MemberID, AdminID, endDateTime, ParticipantURL, HostRoomURL, requestDescription)
+VALUES (1, 1, '2024-11-01 14:30:00', 'https://example.com/patient/johndoe', 'https://example.com/host/room123', 'Need help to practice public speaking.');
 
 -- 4) Select all tables
 SELECT * FROM [member];

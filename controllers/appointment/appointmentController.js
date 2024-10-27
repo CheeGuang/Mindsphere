@@ -4,15 +4,11 @@ const { Appointment } = require("../../models/appointment");
 
 // ========== Controller ==========
 class AppointmentController {
-  /**
-   * Controller to create a new appointment.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   */
   static async createAppointment(req, res) {
     try {
       const apiUrl = "https://api.whereby.dev/v1/meetings";
-      const { endDate, ParticipantURL, MemberID, AdminID } = req.body;
+      const { endDate, ParticipantURL, MemberID, AdminID, requestDescription } =
+        req.body;
 
       // Parsing the end date to a moment object
       const endDateTime = moment.tz(endDate, "Asia/Singapore");
@@ -64,6 +60,7 @@ class AppointmentController {
         endDateTime: endDateTime.toISOString(),
         ParticipantURL: roomData.roomUrl,
         HostRoomURL: roomData.hostRoomUrl,
+        requestDescription: requestDescription, // Include requestDescription
       };
 
       try {
@@ -91,11 +88,6 @@ class AppointmentController {
     }
   }
 
-  /**
-   * Controller to get all appointments.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   */
   static async getAllAppointments(req, res) {
     try {
       const appointments = await Appointment.getAllAppointments();
@@ -112,11 +104,6 @@ class AppointmentController {
     }
   }
 
-  /**
-   * Controller to get an appointment by ID.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   */
   static async getAppointmentById(req, res) {
     const { id } = req.params;
     try {
@@ -140,11 +127,6 @@ class AppointmentController {
     }
   }
 
-  /**
-   * Controller to update an appointment.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   */
   static async updateAppointment(req, res) {
     const { id } = req.params;
     const newAppointmentData = req.body;
