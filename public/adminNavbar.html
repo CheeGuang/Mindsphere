@@ -23,20 +23,25 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Navigation Links -->
-    <div class="collapse navbar-collapse align-items-center" id="navbarNav">
+    <div
+      class="collapse navbar-collapse d-flex align-items-center"
+      id="navbarNav"
+    >
       <ul class="navbar-nav ms-auto">
         <!-- Aligns links to the right -->
-        <!-- Home Link -->
+        <!-- Admin Home Link -->
         <li class="nav-item d-flex align-items-center">
-          <a class="nav-link" href="./memberHome.html">Home</a>
+          <a class="nav-link" href="./adminHome.html">Admin Home</a>
         </li>
-        <!-- Programmes Link -->
+        <!-- Manage Programmes Link -->
         <li class="nav-item d-flex align-items-center">
-          <a class="nav-link" href="./guestProgrammes.html">Programmes</a>
+          <a class="nav-link" href="./adminProgrammes.html"
+            >Manage Programmes</a
+          >
         </li>
-        <!-- Locate Us Link -->
+        <!-- Manage Locations Link -->
         <li class="nav-item d-flex align-items-center">
-          <a class="nav-link" href="./guestLocateUs.html">Locate Us</a>
+          <a class="nav-link" href="./adminLocateUs.html">Manage Locations</a>
         </li>
         <!-- Media Dropdown -->
         <li class="nav-item dropdown d-flex align-items-center">
@@ -51,15 +56,19 @@
             Media
           </a>
           <ul class="dropdown-menu" aria-labelledby="mediaDropdown">
-            <li><a class="dropdown-item" href="#blog">Blog</a></li>
-            <li><a class="dropdown-item" href="#news">News</a></li>
+            <li>
+              <a class="dropdown-item" href="#adminBlog">Blog Management</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#adminNews">News Management</a>
+            </li>
           </ul>
         </li>
-        <!-- Account Circle Icon -->
+        <!-- Admin Account Icon -->
         <li class="nav-item">
-          <a href="./memberLogin.html" class="nav-link">
-            <i class="fas fa-user-circle fa-2x"></i>
-            <!-- Font Awesome icon -->
+          <a href="./adminLogin.html" class="nav-link">
+            <i class="fas fa-user-shield fa-2x"></i>
+            <!-- Font Awesome admin icon -->
           </a>
         </li>
       </ul>

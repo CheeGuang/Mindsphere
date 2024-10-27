@@ -22,17 +22,17 @@
 .hero-text {
   color: white !important;
 }
-.text-center{
+.text-center {
   margin-top: 50px;
 }
-.clogo img{
-  max-width: 150px;
-    /* Adjust the size as needed */
-    max-height: 100px;
-    /* Maintain height limit */
-    width: auto;
-    height: auto;
-    padding: auto;
+.clogo {
+  gap: 10vw !important;
+}
+.clogo img {
+  max-height: 60px; /* Set the maximum height */
+  width: auto; /* Adjust the width automatically to maintain aspect ratio */
+  height: auto; /* Ensure the height scales proportionally */
+  margin: 40px;
 }
 
 .our-story {
@@ -42,7 +42,7 @@
   width: 100vw;
   margin-left: calc(-50vw + 50%);
 }
-.os-title{
+.os-title {
   color: white;
 }
 .our-story .os-title {
@@ -55,21 +55,19 @@
   line-height: 1.8;
 }
 
-.oal img{
+.oal img {
   max-width: 50%;
   height: auto;
 }
 .oal h2,
-.oal p{
-    color:#2e4457;
+.oal p {
+  color: #2e4457;
 }
 .card {
   border-radius: 15px;
   border: 1px solid whitesmoke;
   box-shadow: 10px 10px 15px gainsboro;
   height: auto;
- 
-  
 }
 
 .card-body p {
@@ -92,11 +90,9 @@
 .founders-section {
   margin-top: 10px;
   padding: 30px 0;
-  font-family: 'Arial', sans-serif;
-    line-height: 1.8;
-    background-color: #f8f9fa;
-    text-align: justify;
-    
+  font-family: "Arial", sans-serif;
+  line-height: 1.8;
+  text-align: justify;
 }
 
 .founders-section h3 {
@@ -119,7 +115,7 @@
 }
 
 .founders-section ul li::before {
-  content: '• ';
+  content: "• ";
   color: #2e4457;
   font-weight: bold;
   margin-right: 10px;
@@ -135,25 +131,24 @@
   border: none;
   background-color: transparent;
 }
-.testimonials h3,.testimonials p{
+.testimonials h3,
+.testimonials p {
   color: #2e4457;
 }
-.cardbox{
- box-sizing: border-box;
-    text-align: justify;
+.cardbox {
+  box-sizing: border-box;
+  text-align: justify;
 }
-.tbox{
+.tbox {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  
 }
-.to-top{
-  
+.to-top {
   position: fixed;
   bottom: 16px;
   right: 32px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -161,21 +156,79 @@
   text-decoration: none;
   opacity: 0;
   pointer-events: none;
-  transition: all .4s;
+  transition: all 0.4s;
 }
-.to-top.active{
+.to-top.active {
   bottom: 32px;
   pointer-events: auto;
   opacity: 1;
 }
-.to-top span{
+.to-top span {
   font-size: 69px;
 }
-.material-symbols-outlined{
+.material-symbols-outlined {
   background-color: #f8f9fa;
-    color: #2e4457;
-
+  color: #2e4457;
 }
-html{
+html {
   scroll-behavior: smooth;
+}
+/* Position the testimonial image at the bottom right */
+.testimonial-image {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px; /* Adjust size if needed */
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Name styling */
+.card-name {
+  position: absolute;
+  bottom: 20px;
+  right: 80px; /* Adjust based on image position */
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.card-text {
+  padding-bottom: 40px !important;
+}
+
+/* Consistent cardbox styling */
+.cardbox {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
+  transition: transform 0.2s;
+  padding: 20px 20px 80px 20px; /* Ensure enough space for the image */
+  border-radius: 15px; /* Consistent rounded corners */
+  background-color: white; /* Ensure background color is the same */
+  border: 1px solid #f1f1f1; /* Consistent border */
+}
+
+/* Ensure text alignment is consistent */
+.cardbox p,
+.cardbox ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #2e4457;
+}
+
+/* Consistent image position and size */
+.testimonial-image {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%; /* Ensures round shape */
+}
+
+/* Consistent padding for the card-text */
+.card-text {
+  padding-bottom: 40px; /* Space for the absolute image */
+}
+
+section {
+  margin-bottom: 120px !important;
 }

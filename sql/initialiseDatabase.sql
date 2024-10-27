@@ -84,7 +84,7 @@ CREATE TABLE appointment (
     MemberID INT,
     AdminID INT,
     endDateTime DATETIME,
-    PatientURL NVARCHAR(1000),
+    ParticipantURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
     FOREIGN KEY (MemberID) REFERENCES [member](memberID),
     FOREIGN KEY (AdminID) REFERENCES admin(adminID)
@@ -96,7 +96,6 @@ CREATE TABLE appointment (
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
 VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
 
-Jeffrey, [26/10/2024 3:19 pm]
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 
@@ -124,7 +123,7 @@ INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contac
 VALUES ('Christine', 'Chua', 'mindsphere.services@gmail.com', '654321', GETDATE(), '91234567', '123456', GETDATE(), 'adminpass123', NULL);
 
 -- Insert a dummy appointment data
-INSERT INTO appointment (MemberID, AdminID, endDateTime, PatientURL, HostRoomURL)
+INSERT INTO appointment (MemberID, AdminID, endDateTime, ParticipantURL, HostRoomURL)
 VALUES (1, 1, '2024-11-01 14:30:00', 'https://example.com/patient/johndoe', 'https://example.com/host/room123');
 
 -- 4) Select all tables

@@ -1,84 +1,120 @@
-body {
-    background-color: #f8f9fa;
+/* Common Card Styling for Events and Appointments */
+.common-card {
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  min-width: 600px; /* Ensures the card is wide enough for image and text */
+  max-width: 650px; /* Keeps the card's width consistent */
+  flex: 0 0 auto; /* Ensures the cards don't shrink or grow and remain scrollable */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 20px; /* Space between cards */
+  transition: 0.3s; /* For hover effect transition */
+  padding: 15px; /* Adds padding inside the card */
+  overflow: hidden; /* Ensures content does not overflow */
 }
 
-h1 {
-    font-weight: bold;
+/* Hover effect on common cards */
+.common-card:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.event-card {
-    background-color: white;
+/* Image Container to ensure proper sizing */
+.image-container {
+  flex-shrink: 0; /* Prevents shrinking of the image container */
+  padding-right: 15px; /* Space between image and content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.container {
-    max-width: 1200px;
-}
-.box{
-    background-color: gainsboro;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 15px;
+/* Image Styling for Event and Appointment Images */
+.common-image {
+  width: 150px;
+  height: 150px;
+  max-height: 150px; /* Ensures image height doesn't exceed 150px */
+  object-fit: cover; /* Ensures the image covers the container proportionally */
+  border-radius: 10px;
 }
 
-/* Style for the entire event card section */
-#event-scroll-container {
-    display: flex;
-    flex-wrap: nowrap; /* No wrapping of cards to ensure horizontal scrolling */
-    overflow-x: auto; /* Enables horizontal scroll */
-    padding-bottom: 10px;
-    scrollbar-width: thin; /* For Firefox */
-    scroll-behavior: smooth; /* Smooth scrolling effect */
+/* Circular image styling for appointments */
+.circular-image {
+  border-radius: 50%;
+}
+
+/* Card body and text styling */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1; /* Allows the content to take available space */
+}
+
+/* Title styling for both events and appointments */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333; /* Dark grey for better contrast */
+}
+
+/* Text styling for details in cards */
+.card-text {
+  font-size: 0.9rem;
+  color: #555; /* Medium grey for descriptive text */
+  line-height: 1.5; /* Improves readability */
+}
+
+/* Scroll container styling for horizontal scrolling */
+#event-scroll-container,
+#appointments-scroll-container {
+  display: flex;
+  flex-wrap: nowrap; /* No wrapping of cards to ensure horizontal scrolling */
+  overflow-x: auto; /* Enables horizontal scroll */
+  padding-bottom: 10px;
+  scrollbar-width: thin; /* For Firefox */
+  scroll-behavior: smooth; /* Smooth scrolling effect */
+}
+
+/* Custom scrollbar for webkit browsers */
+#event-scroll-container::-webkit-scrollbar,
+#appointments-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+#event-scroll-container::-webkit-scrollbar-thumb,
+#appointments-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 10px;
+}
+
+#event-scroll-container::-webkit-scrollbar-track,
+#appointments-scroll-container::-webkit-scrollbar-track {
+  background-color: #f8f9fa;
+}
+
+/* Adjusts for small screens */
+@media (max-width: 768px) {
+  .common-card {
+    min-width: 100%; /* Cards take up full width on smaller screens */
+    margin-bottom: 20px; /* Add space between cards on small screens */
   }
-  
-  /* Styling for the individual cards */
-  .card {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    min-width: 600px; /* Ensures the card is wide enough for image and text */
-    flex: 0 0 auto; /* Ensures the cards don't shrink or grow and remain scrollable */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 20px; /* Space between cards */
-  }
-  
-  /* Image styling */
-  .event-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px 0px 0px 10px; /* Rounded left side */
-  }
-  
-  /* Card body and text styling */
+
   .card-body {
-    padding-left: 15px;
+    text-align: center; /* Center text on small screens */
   }
-  
-  .card-title {
-    font-size: 1.1rem;
-    font-weight: bold;
+
+  .image-container {
+    justify-content: center; /* Center image on small screens */
+    padding-bottom: 10px; /* Add space below the image on small screens */
   }
-  
-  .card-text {
-    font-size: 0.9rem;
-    color: #555;
-  }
-  
-  /* Hover effect on the cards */
-  .card:hover {
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-  }
-  
-  /* Adjusts for small screens */
-  @media (max-width: 768px) {
-    .card {
-      min-width: 100%; /* Cards take up full width on smaller screens */
-    }
-  
-    .card-body {
-      text-align: center;
-    }
-  }
-  
+}
+
+/* Specific Container Styling for Event and Appointment Headers */
+h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
