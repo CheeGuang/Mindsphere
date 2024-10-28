@@ -106,15 +106,25 @@
         $("#customAlertContainer").load("./customAlert.html");
 
         // Define the showCustomAlert function globally
-        window.showCustomAlert = function (message) {
+        window.showCustomAlert = function (message, redirectUrl) {
           var $alert = $("#customAlert");
           $alert.text(message); // Update alert message
           $alert.fadeIn(); // Show the alert
 
-          // Automatically hide after 5 seconds (5000ms)
+          // Determine the display duration based on the presence of a redirectUrl
+          var displayDuration = redirectUrl ? 3000 : 5000;
+
+          // Hide the alert after the specified duration
           setTimeout(function () {
             $alert.fadeOut();
-          }, 5000);
+
+            // If a redirect URL is provided, navigate to it after 3 seconds
+            if (redirectUrl) {
+              setTimeout(function () {
+                window.location.href = redirectUrl;
+              }, 1000); // Allow 1 second for fade-out effect
+            }
+          }, displayDuration);
         };
       });
     </script>
