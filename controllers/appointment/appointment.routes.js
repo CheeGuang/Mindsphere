@@ -17,22 +17,16 @@ appointmentRoutes.post(
   AppointmentController.createAppointment
 );
 
-// Route to get all appointments
+// Route to get all appointments by MemberID
 appointmentRoutes.get(
-  "/all-appointments",
-  AppointmentController.getAllAppointments
+  "/member/:memberID",
+  AppointmentController.getAllAppointmentsByMemberID
 );
 
-// Route to get an appointment by ID
+// Route to get all appointments by AdminID
 appointmentRoutes.get(
-  "/appointment-details/:id",
-  AppointmentController.getAppointmentById
-);
-
-// Route to update an appointment
-appointmentRoutes.put(
-  "/update-appointment/:id",
-  AppointmentController.updateAppointment
+  "/admin/:adminID",
+  AppointmentController.getAllAppointmentsByAdminID
 );
 
 // ========== Export ==========

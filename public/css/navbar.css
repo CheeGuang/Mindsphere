@@ -1,8 +1,9 @@
 .navbar {
   justify-content: space-between;
   width: 100% !important;
-  font-family: "Quicksand", "San-serif";
+  font-family: "Inter", "San-serif";
   font-weight: 600;
+  font-size: 1.13rem !important;
 }
 
 #mindsphere-logo {

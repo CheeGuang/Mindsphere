@@ -1,10 +1,5 @@
 const sql = require("mssql"); // Import the mssql library for SQL Server database operations
 const dbConfig = require("../dbConfig"); // Import the database configuration
-const EventEmitter = require("events");
-class AppointmentEmitter extends EventEmitter {}
-const appointmentEmitter = new AppointmentEmitter();
-const PDFDocument = require("pdfkit"); // Import the pdfkit library
-const path = require("path");
 
 class Appointment {
   constructor(
@@ -12,6 +7,7 @@ class Appointment {
     MemberID,
     AdminID,
     endDateTime,
+    startDateTime,
     ParticipantURL,
     HostRoomURL,
     requestDescription // New attribute for request description
@@ -20,87 +16,134 @@ class Appointment {
     this.MemberID = MemberID; // Assign the member ID
     this.AdminID = AdminID; // Assign the admin ID
     this.endDateTime = endDateTime; // Assign the end date and time
+    this.startDateTime = startDateTime; // Assign the end date and time
     this.ParticipantURL = ParticipantURL; // Assign the participant URL
     this.HostRoomURL = HostRoomURL; // Assign the host room URL
     this.requestDescription = requestDescription; // Assign the request description
   }
+  static async createAppointment(data) {
+    let pool; // Define pool outside the try block to access it in finally
+    try {
+      console.log("Connecting to the database...");
+      pool = await sql.connect(dbConfig); // Connect to the database
+      console.log("Database connected.");
 
-  static async getAllAppointments() {
-    const connection = await sql.connect(dbConfig); // Establish a connection to the database
-    const sqlQuery = `SELECT * FROM Appointment`; // SQL query to select all appointments
-    const request = connection.request(); // Create a request object
-    const result = await request.query(sqlQuery); // Execute the query
-    connection.close(); // Close the database connection
+      console.log("Executing stored procedure with input data:", data);
 
-    // Map the results to Appointment objects and return them
-    return result.recordset.map(
-      (row) =>
-        new Appointment(
-          row.AppointmentID,
-          row.MemberID,
-          row.AdminID,
-          row.endDateTime,
-          row.ParticipantURL,
-          row.HostRoomURL,
-          row.requestDescription // Include requestDescription
+      const result = await pool
+        .request()
+        .input("MemberID", sql.Int, data.MemberID)
+        .input("AdminID", sql.Int, data.AdminID)
+        .input("startDateTime", sql.NVarChar(40), data.startDateTime)
+        .input("endDateTime", sql.NVarChar(40), data.endDateTime)
+        .input("ParticipantURL", sql.NVarChar(1000), data.ParticipantURL)
+        .input("HostRoomURL", sql.NVarChar(1000), data.HostRoomURL)
+        .input(
+          "requestDescription",
+          sql.NVarChar(1000),
+          data.requestDescription
         )
-    );
+        .execute("usp_create_appointment"); // Execute the stored procedure
+
+      console.log("Stored procedure executed successfully.");
+      console.log("Result:", result);
+
+      // Check if rows were affected as an indication of success
+      if (result.rowsAffected[0] > 0) {
+        console.log("Appointment created successfully.");
+        return { message: "Appointment created successfully." };
+      } else {
+        console.warn("No rows affected. The appointment was not created.");
+        return {
+          message: "No rows affected. The appointment was not created.",
+        };
+      }
+    } catch (error) {
+      console.error(`Error in Appointment.createAppointment: ${error.message}`);
+      throw error;
+    } finally {
+      if (pool) {
+        await pool.close(); // Close the database connection if pool was defined
+        console.log("Database connection closed.");
+      }
+    }
+  }
+  // Function to get all appointments by MemberID
+  static async getAllAppointmentsByMemberID(memberID) {
+    let pool;
+    try {
+      console.log("Connecting to the database...");
+      pool = await sql.connect(dbConfig); // Connect to the database
+      console.log("Database connected.");
+
+      console.log("Executing stored procedure with input MemberID:", memberID);
+
+      const result = await pool
+        .request()
+        .input("MemberID", sql.Int, memberID) // Input parameter for MemberID
+        .execute("usp_get_all_appointments_by_memberID"); // Execute the stored procedure
+
+      console.log("Stored procedure executed successfully.");
+      console.log("Result:", result);
+
+      // Check if any rows were returned
+      if (result.recordset.length > 0) {
+        console.log("Appointments retrieved successfully.");
+        return result.recordset; // Return the list of appointments
+      } else {
+        console.warn("No appointments found for the given MemberID.");
+        return { message: "No appointments found for the given MemberID." };
+      }
+    } catch (error) {
+      console.error(
+        `Error in Appointment.getAllAppointmentsByMemberID: ${error.message}`
+      );
+      throw error;
+    } finally {
+      if (pool) {
+        await pool.close(); // Close the database connection if pool was defined
+        console.log("Database connection closed.");
+      }
+    }
   }
 
-  static async getAppointmentById(AppointmentID) {
-    const connection = await sql.connect(dbConfig); // Establish a connection to the database
-    const sqlQuery = `SELECT * FROM Appointment WHERE AppointmentID = @AppointmentID`; // SQL query to select an appointment by ID
-    const request = connection.request(); // Create a request object
-    request.input("AppointmentID", AppointmentID); // Add the input parameter for the query
-    const result = await request.query(sqlQuery); // Execute the query
-    connection.close(); // Close the database connection
+  // Function to get all appointments by AdminID
+  static async getAllAppointmentsByAdminID(adminID) {
+    let pool;
+    try {
+      console.log("Connecting to the database...");
+      pool = await sql.connect(dbConfig); // Connect to the database
+      console.log("Database connected.");
 
-    // Return the result as an Appointment object if found, otherwise return null
-    return result.recordset[0]
-      ? new Appointment(
-          result.recordset[0].AppointmentID,
-          result.recordset[0].MemberID,
-          result.recordset[0].AdminID,
-          result.recordset[0].endDateTime,
-          result.recordset[0].ParticipantURL,
-          result.recordset[0].HostRoomURL,
-          result.recordset[0].requestDescription // Include requestDescription
-        )
-      : null;
-  }
+      console.log("Executing stored procedure with input AdminID:", adminID);
 
-  static async createAppointment(newAppointmentData) {
-    const connection = await sql.connect(dbConfig); // Establish a connection to the database
-    const sqlQuery = `INSERT INTO Appointment (MemberID, AdminID, endDateTime, ParticipantURL, HostRoomURL, requestDescription) VALUES (@MemberID, @AdminID, @endDateTime, @ParticipantURL, @HostRoomURL, @requestDescription); SELECT SCOPE_IDENTITY() AS AppointmentID;`; // Updated SQL query to include requestDescription
-    const request = connection.request(); // Create a request object
-    request.input("MemberID", newAppointmentData.MemberID);
-    request.input("AdminID", newAppointmentData.AdminID);
-    request.input("endDateTime", newAppointmentData.endDateTime);
-    request.input("ParticipantURL", newAppointmentData.ParticipantURL);
-    request.input("HostRoomURL", newAppointmentData.HostRoomURL);
-    request.input("requestDescription", newAppointmentData.requestDescription); // Add requestDescription input
-    const result = await request.query(sqlQuery); // Execute the query
-    connection.close(); // Close the database connection
-    return this.getAppointmentById(result.recordset[0].AppointmentID); // Return the newly created appointment by its ID
-  }
+      const result = await pool
+        .request()
+        .input("AdminID", sql.Int, adminID) // Input parameter for AdminID
+        .execute("usp_get_all_appointments_by_adminID"); // Execute the stored procedure
 
-  static async updateAppointment(AppointmentID, newAppointmentData) {
-    const connection = await sql.connect(dbConfig); // Establish a connection to the database
-    const sqlQuery = `UPDATE Appointment SET MemberID = @MemberID, AdminID = @AdminID, endDateTime = @endDateTime, ParticipantURL = @ParticipantURL, HostRoomURL = @HostRoomURL, requestDescription = @requestDescription WHERE AppointmentID = @AppointmentID`; // Updated SQL query to include requestDescription
-    const request = connection.request(); // Create a request object
-    request.input("AppointmentID", AppointmentID);
-    request.input("MemberID", newAppointmentData.MemberID || null);
-    request.input("AdminID", newAppointmentData.AdminID || null);
-    request.input("endDateTime", newAppointmentData.endDateTime || null);
-    request.input("ParticipantURL", newAppointmentData.ParticipantURL || null);
-    request.input("HostRoomURL", newAppointmentData.HostRoomURL || null);
-    request.input(
-      "requestDescription",
-      newAppointmentData.requestDescription || null
-    ); // Add requestDescription input
-    await request.query(sqlQuery); // Execute the query
-    connection.close(); // Close the database connection
-    return this.getAppointmentById(AppointmentID); // Return the updated appointment by its ID
+      console.log("Stored procedure executed successfully.");
+      console.log("Result:", result);
+
+      // Check if any rows were returned
+      if (result.recordset.length > 0) {
+        console.log("Appointments retrieved successfully.");
+        return result.recordset; // Return the list of appointments
+      } else {
+        console.warn("No appointments found for the given AdminID.");
+        return { message: "No appointments found for the given AdminID." };
+      }
+    } catch (error) {
+      console.error(
+        `Error in Appointment.getAllAppointmentsByAdminID: ${error.message}`
+      );
+      throw error;
+    } finally {
+      if (pool) {
+        await pool.close(); // Close the database connection if pool was defined
+        console.log("Database connection closed.");
+      }
+    }
   }
 }
 

@@ -15,7 +15,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Lora", serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700; /* You can adjust the weight based on preference */
   color: #222;
   margin-bottom: 1rem;
@@ -49,12 +49,12 @@ h6 {
 /* Paragraphs */
 p {
   font-family: "Inter", sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   margin-bottom: 1.5rem;
 }
 
 a {
-  color: #0f45b8;
+  color: none;
 }
 
 .text-mustard {

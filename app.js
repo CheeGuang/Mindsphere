@@ -13,6 +13,8 @@ const memberRoutes = require("./controllers/member/member.routes");
 const eventRoutes = require("./controllers/event/event.routes");
 // Initialising admin Routes
 const adminRoutes = require("./controllers/admin/admin.routes");
+// Initialising appointment Routes
+const appointmentRoutes = require("./controllers/appointment/appointment.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -42,6 +44,9 @@ app.use("/api/event", eventRoutes);
 
 // Admin Route
 app.use("/api/admin", adminRoutes);
+
+// Appointment Route
+app.use("/api/appointment", appointmentRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000

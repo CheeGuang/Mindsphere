@@ -83,14 +83,14 @@ CREATE TABLE appointment (
     AppointmentID INT IDENTITY(1,1) PRIMARY KEY,
     MemberID INT,
     AdminID INT,
-    endDateTime DATETIME,
+    startDateTime NVARCHAR(40),
+    endDateTime NVARCHAR(40),
     ParticipantURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
     requestDescription NVARCHAR(1000),
     FOREIGN KEY (MemberID) REFERENCES [member](memberID),
     FOREIGN KEY (AdminID) REFERENCES admin(adminID)
 );
-
 -- 3) Insert dummy data
 
 -- Insert a dummy member
@@ -133,7 +133,7 @@ VALUES
         GETDATE(), 
         'abc123', 
         './img/coach/Simon.jpeg', 
-        '[{"utcDateTime": "2024-10-29T22:00:00.000Z"}, {"utcDateTime": "2024-11-05T22:00:00.000Z"}, {"utcDateTime": "2024-11-12T22:00:00.000Z"}, {"utcDateTime": "2024-11-19T22:00:00.000Z"}, {"utcDateTime": "2024-11-26T22:00:00.000Z"}]',
+        NULL,
         'Experienced coach in business and leadership.'
     ),
     (
@@ -154,8 +154,8 @@ VALUES
 
 
 -- Insert a dummy appointment data
-INSERT INTO appointment (MemberID, AdminID, endDateTime, ParticipantURL, HostRoomURL, requestDescription)
-VALUES (1, 1, '2024-11-01 14:30:00', 'https://example.com/patient/johndoe', 'https://example.com/host/room123', 'Need help to practice public speaking.');
+INSERT INTO appointment (MemberID, AdminID, startDateTime, endDateTime, ParticipantURL, HostRoomURL, requestDescription)
+VALUES (1, 1, '2024-11-07T09:00:00.000Z', '2024-11-07T10:00:00.000Z', 'https://example.com/patient/johndoe', 'https://example.com/host/room123', 'Need help to practice public speaking.');
 
 -- 4) Select all tables
 SELECT * FROM [member];

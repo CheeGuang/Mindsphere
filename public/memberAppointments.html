@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <!-- <script src="./js/" defer></script> -->
+    <script src="./js/memberAppointment.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -82,11 +82,8 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <!-- H1 Title Outside Container -->
-          <h1 class="text-center my-4">Coaching Appointments</h1>
-
+          <!-- Book Appointment Section -->
           <div class="container my-5">
-            <!-- Header -->
             <div
               class="appointment-header d-flex justify-content-between align-items-center shadow-sm"
             >
@@ -103,100 +100,19 @@
             </div>
 
             <!-- Upcoming Appointments Section -->
-            <div>
+            <div id="upcomingAppointmentsContainer" class="mt-5">
               <h4 class="appointment-section-title text-start">
                 Upcoming Appointments
               </h4>
-
-              <!-- Highlighted Appointment Card -->
-              <div
-                class="upcoming-card highlight d-flex align-items-center shadow-sm"
-              >
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Your Coaching Session will Start Soon.</h5>
-                </div>
-                <button class="btn btn-primary-custom">Join Call</button>
-              </div>
-
-              <!-- Regular Appointment Cards -->
-              <div class="upcoming-card d-flex align-items-center shadow-sm">
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Coaching Session</h5>
-                  <p class="appointment-time">
-                    Leadership Development - Today, 3:00pm
-                  </p>
-                </div>
-              </div>
-
-              <div class="upcoming-card d-flex align-items-center shadow-sm">
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Coaching Session</h5>
-                  <p class="appointment-time">
-                    Career Planning - Tomorrow, 11:00am
-                  </p>
-                </div>
-              </div>
+              <!-- Cards for upcoming appointments will be injected here by JS -->
             </div>
 
             <!-- Past Appointments Section -->
-            <div class="mt-4">
+            <div id="pastAppointmentsContainer" class="mt-5">
               <h4 class="appointment-section-title text-start">
                 Past Appointments
               </h4>
-
-              <div class="past-card d-flex align-items-center shadow-sm">
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Coaching Session</h5>
-                  <p class="appointment-time">Leadership Development</p>
-                </div>
-                <button class="btn btn-secondary-custom">View Notes</button>
-              </div>
-
-              <div class="past-card d-flex align-items-center shadow-sm">
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Coaching Session</h5>
-                  <p class="appointment-time">Leadership Development</p>
-                </div>
-                <button class="btn btn-secondary-custom">View Notes</button>
-              </div>
-
-              <div class="past-card d-flex align-items-center shadow-sm">
-                <img
-                  src="./img/misc/account-icon.png"
-                  alt="Coach Image"
-                  class="coach-image me-3"
-                />
-                <div class="coach-details flex-grow-1 text-start">
-                  <h5>Coaching Session</h5>
-                  <p class="appointment-time">Career Planning</p>
-                </div>
-                <button class="btn btn-secondary-custom">View Notes</button>
-              </div>
+              <!-- Cards for past appointments will be injected here by JS -->
             </div>
           </div>
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->

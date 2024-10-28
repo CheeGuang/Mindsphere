@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const calendarContainer = document.getElementById("custom-calendar");
-  const selectedTimeSlots = {};
+  let selectedTimeSlots = {};
   let selectedDay = null;
-  let isDragging = false;
+  let selectedCoach = null;
+  let coachAvailability = {};
 
   // Get current and next month dates
   const currentDate = new Date();
@@ -52,19 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to format availability dates from JSON string
+  // Function to format availability dates from JSON string to local date (SGT)
   function formatAvailability(availabilityJSON) {
     try {
       const availabilityArray = JSON.parse(availabilityJSON);
-      // Map through the dates and format them as readable dates
       const formattedDates = availabilityArray.map((item) => {
         const date = new Date(item.utcDateTime);
-        return date.toLocaleDateString();
+        return {
+          localDate: new Date(date.getTime() + 8 * 60 * 60 * 1000), // Convert UTC to SGT
+          utcDateTime: item.utcDateTime,
+        };
       });
-      return formattedDates.join(", ");
+      return formattedDates;
     } catch (error) {
       console.error("Error parsing availability:", error);
-      return "Unavailable";
+      return [];
     }
   }
 
@@ -83,13 +86,17 @@ document.addEventListener("DOMContentLoaded", function () {
         rowContent += `<div class="row justify-content-center mb-4">`;
       }
 
-      // Format the availability dates
-      const formattedAvailability = formatAvailability(coach.availability);
+      // Store availability in the global variable for each coach
+      coachAvailability[coach.firstName.toLowerCase()] = formatAvailability(
+        coach.availability
+      );
 
       // Create the coach card
       rowContent += `
         <div class="col-md-3 mb-3">
-          <div class="card coach-card d-flex align-items-center p-3" data-coach="${coach.firstName.toLowerCase()}">
+          <div class="card coach-card d-flex align-items-center p-3" data-coach="${coach.firstName.toLowerCase()}" data-adminId="${
+        coach.adminID
+      }">
             <img
               src="${coach.profilePicture}"
               alt="Coach ${coach.firstName}"
@@ -119,25 +126,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Add 'selected' class to the clicked card
       $(this).addClass("selected");
+
+      // Set the selected coach
+      selectedCoach = $(this).data("coach");
+      selectedadminId = $(this).data("adminid");
+
+      // Reset selected availability when a new coach is selected
+      selectedTimeSlots = {};
+      selectedDay = null;
+      updateSelectedDayDisplay();
+
+      // Render the calendar with the selected coach's availability
+      renderMonthCalendar(currentMonth);
     });
   }
 
   // Fetch and display the coaches when the page is ready
   fetchCoachesData();
-
-  // Get all coach cards
-  const coachCards = document.querySelectorAll(".coach-card");
-
-  // Add click event to each card
-  coachCards.forEach((card) => {
-    card.addEventListener("click", function () {
-      // Remove 'selected' class from all cards
-      coachCards.forEach((c) => c.classList.remove("selected"));
-
-      // Add 'selected' class to the clicked card
-      this.classList.add("selected");
-    });
-  });
 
   // Set the button labels to the actual month names
   document.getElementById("current-month-btn").textContent =
@@ -206,9 +211,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if the cell date is in the past
         const isPastDate = cellDate < today;
         const pastClass = isPastDate ? "past-date" : "";
-        const availableClass = isDateAvailable(fullDate) ? "available-day" : "";
+        const availableClass = isCoachAvailableOnDate(fullDate)
+          ? "available-day"
+          : "";
 
-        currentRowHTML += `<td class="calendar-day ${pastClass} ${availableClass}" data-date="${fullDate}">${dayCounter}</td>`;
+        // Check if the date is currently selected
+        const selectedClass = selectedDay === fullDate ? "selected-date" : "";
+
+        currentRowHTML += `<td class="calendar-day ${pastClass} ${availableClass} ${selectedClass}" data-date="${fullDate}">${dayCounter}</td>`;
         dayCounter++;
       }
     }
@@ -230,11 +240,14 @@ document.addEventListener("DOMContentLoaded", function () {
           // Check if the cell date is in the past
           const isPastDate = cellDate < today;
           const pastClass = isPastDate ? "past-date" : "";
-          const availableClass = isDateAvailable(fullDate)
+          const availableClass = isCoachAvailableOnDate(fullDate)
             ? "available-day"
             : "";
 
-          weekRowHTML += `<td class="calendar-day ${pastClass} ${availableClass}" data-date="${fullDate}">${dayCounter}</td>`;
+          // Check if the date is currently selected
+          const selectedClass = selectedDay === fullDate ? "selected-date" : "";
+
+          weekRowHTML += `<td class="calendar-day ${pastClass} ${availableClass} ${selectedClass}" data-date="${fullDate}">${dayCounter}</td>`;
           dayCounter++;
         } else {
           weekRowHTML += "<td></td>";
@@ -249,7 +262,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Attach event listeners to each day cell
     document.querySelectorAll(".calendar-day").forEach((cell) => {
-      if (!cell.classList.contains("past-date")) {
+      if (
+        !cell.classList.contains("past-date") &&
+        cell.classList.contains("available-day")
+      ) {
         cell.addEventListener("click", function () {
           selectedDay = cell.dataset.date;
           openTimeSlotModal(selectedDay);
@@ -258,59 +274,95 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Update the selected day display on the calendar
+  function updateSelectedDayDisplay() {
+    document.querySelectorAll(".calendar-day").forEach((cell) => {
+      if (cell.dataset.date !== selectedDay) {
+        cell.classList.remove("selected-date");
+      }
+    });
+  }
+
+  // Check if the selected coach is available on the given date
+  function isCoachAvailableOnDate(date) {
+    if (!selectedCoach || !coachAvailability[selectedCoach]) return false;
+    return coachAvailability[selectedCoach].some(
+      (availability) =>
+        availability.localDate.toISOString().slice(0, 10) === date
+    );
+  }
+
   // Open modal for time slot selection
   function openTimeSlotModal(date) {
     const timeSlotContainer = document.getElementById("time-slot-container");
     timeSlotContainer.innerHTML = ""; // Clear previous slots
 
-    // Get current date and time for comparison
-    const now = new Date();
+    // Get selected coach's availability for the chosen date
+    const availableSlots = getAvailableSlotsForDate(date);
 
-    // Create 1-hour slots from 6 AM to 11 PM
-    for (let hour = 6; hour <= 23; hour++) {
-      const timeSlotDate = new Date(
-        `${date}T${String(hour).padStart(2, "0")}:00:00+08:00`
-      );
-
-      // Check if the time slot is in the past
-      const isPastTime = timeSlotDate < now;
-      const pastTimeClass = isPastTime ? "past-time" : "";
+    // Create slots for available hours
+    availableSlots.forEach((slot) => {
+      // Subtract 8 hours from the slot date time
+      const slotDate = new Date(slot.localDate);
+      slotDate.setHours(slotDate.getHours() - 8); // Adjust time by -8 hours
+      const hour = slotDate.getHours();
 
       const timeSlot = document.createElement("div");
-      timeSlot.className = `col-3 mb-2 time-slot ${pastTimeClass}`;
+      timeSlot.className = `col-3 mb-2 time-slot available-slot`;
       timeSlot.dataset.hour = hour;
       timeSlot.textContent = formatHour(hour);
 
-      // Pre-select slots if they are already selected
+      // Check if this slot is already selected for this date
       if (selectedTimeSlots[date] && selectedTimeSlots[date].includes(hour)) {
         timeSlot.classList.add("selected-slot");
       }
 
-      // If the slot is in the past, skip attaching event listeners
-      if (!isPastTime) {
-        timeSlot.addEventListener("mousedown", function () {
-          isDragging = true;
-          toggleSlotSelection(timeSlot, date, hour);
-        });
-
-        timeSlot.addEventListener("mouseenter", function () {
-          if (isDragging) toggleSlotSelection(timeSlot, date, hour);
-        });
-
-        timeSlot.addEventListener("mouseup", function () {
-          isDragging = false;
-        });
-      }
+      timeSlot.addEventListener("click", function () {
+        // Reset previously selected slots (only 1 slot allowed)
+        resetSelectedTimeSlots(date);
+        updateSelectedDayDisplay();
+        toggleSlotSelection(timeSlot, date, hour);
+      });
 
       timeSlotContainer.appendChild(timeSlot);
-    }
+    });
 
     // Show the modal
     new bootstrap.Modal(document.getElementById("timeSlotModal")).show();
   }
 
+  // Reset selected time slots for dates other than the newly selected date
+  function resetSelectedTimeSlots(newlySelectedDate) {
+    Object.keys(selectedTimeSlots).forEach((date) => {
+      if (date !== newlySelectedDate) {
+        // Reset time slots for dates that are not the newly selected date
+        selectedTimeSlots[date] = [];
+      }
+    });
+
+    // Update UI to remove the 'selected-slot' class for all other dates
+    document.querySelectorAll(".time-slot").forEach((slot) => {
+      const slotDate = slot.closest(".calendar-day")?.dataset.date;
+      if (slotDate && slotDate !== newlySelectedDate) {
+        slot.classList.remove("selected-slot");
+      }
+    });
+  }
+
+  // Get available slots for the selected date
+  function getAvailableSlotsForDate(date) {
+    if (!selectedCoach || !coachAvailability[selectedCoach]) return [];
+    return coachAvailability[selectedCoach].filter(
+      (availability) =>
+        availability.localDate.toISOString().slice(0, 10) === date
+    );
+  }
+
   // Toggle time slot selection
   function toggleSlotSelection(slotElement, date, hour) {
+    // Only allow selection of available slots
+    if (!slotElement.classList.contains("available-slot")) return;
+
     slotElement.classList.toggle("selected-slot");
     if (!selectedTimeSlots[date]) selectedTimeSlots[date] = [];
 
@@ -322,8 +374,11 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-    // Update calendar cell background if slots are selected
+    // Update calendar cell background if a slot is selected
     updateCalendarCell(date);
+
+    // Display selected time slot info
+    showSelectedTimeSlot();
   }
 
   // Update calendar cell background based on availability
@@ -331,9 +386,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const cell = document.querySelector(`.calendar-day[data-date="${date}"]`);
     if (cell) {
       if (isDateAvailable(date)) {
-        cell.classList.add("available-day");
+        cell.classList.add("selected-date");
       } else {
-        cell.classList.remove("available-day");
+        cell.classList.remove("selected-date");
       }
     }
   }
@@ -343,6 +398,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return selectedTimeSlots[date] && selectedTimeSlots[date].length > 0;
   }
 
+  // Display the selected time slot information
+  function showSelectedTimeSlot() {
+    const selectedDate = Object.keys(selectedTimeSlots)[0];
+    const selectedHour = selectedTimeSlots[selectedDate]
+      ? selectedTimeSlots[selectedDate][0]
+      : null;
+
+    if (selectedDate && selectedHour !== null) {
+      const formattedTime = formatHour(selectedHour);
+      const formattedDate = new Date(selectedDate).toLocaleDateString();
+
+      console.log(`Selected Time Slot: ${formattedDate} at ${formattedTime}`);
+    }
+  }
+
   // Format hours for AM/PM display
   function formatHour(hour) {
     const suffix = hour >= 12 ? "PM" : "AM";
@@ -350,85 +420,75 @@ document.addEventListener("DOMContentLoaded", function () {
     return `${formattedHour}:00 ${suffix}`;
   }
 
-  // Handle 'Done' button click
-  document.getElementById("done-button").addEventListener("click", function () {
-    // Convert selected time slots from SGT to UTC
-    const utcTimeSlots = Object.entries(selectedTimeSlots)
-      .map(([date, hours]) => {
-        return hours.map((hour) => {
-          const sgtDate = new Date(
-            `${date}T${String(hour).padStart(2, "0")}:00:00+08:00`
-          );
-          return {
-            utcDateTime: sgtDate.toISOString(),
-          };
-        });
-      })
-      .flat();
-
-    // Output UTC time slots to the console
-    console.log("Selected Availability in UTC:", utcTimeSlots);
-
-    // Use custom alert instead of default alert
-    showCustomAlert(
-      "Availability saved successfully! Check the console for UTC times."
-    );
-  });
-
-  // Function to select time slots based on a weekday, start and end time
-  function autoSelectTimeSlots(dayOfWeek, startTime, endTime) {
-    const months = [currentMonth, nextMonth];
-    months.forEach((month) => {
-      const year = month.getFullYear();
-      const monthIndex = month.getMonth();
-      const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-
-      // Iterate through each day of the current month
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, monthIndex, day);
-        if (
-          date.getDay() === dayOfWeek &&
-          date >= new Date().setHours(0, 0, 0, 0)
-        ) {
-          const formattedDate = `${year}-${String(monthIndex + 1).padStart(
-            2,
-            "0"
-          )}-${String(day).padStart(2, "0")}`;
-
-          // Auto-select time slots within the start and end time
-          if (!selectedTimeSlots[formattedDate]) {
-            selectedTimeSlots[formattedDate] = [];
-          }
-
-          for (let hour = startTime; hour <= endTime; hour++) {
-            if (!selectedTimeSlots[formattedDate].includes(hour)) {
-              selectedTimeSlots[formattedDate].push(hour);
-            }
-          }
-
-          // Update calendar cell background if slots are selected
-          updateCalendarCell(formattedDate);
-        }
-      }
-    });
-  }
-
-  // Handle 'Auto Select' button click from the form
   document
-    .getElementById("auto-select-btn")
-    .addEventListener("click", function () {
-      const dayOfWeek = parseInt(document.getElementById("dayOfWeek").value);
-      const startTime = parseInt(document.getElementById("startTime").value);
-      const endTime = parseInt(document.getElementById("endTime").value);
+    .getElementById("book-now-btn")
+    .addEventListener("click", async function () {
+      const selectedDate = Object.keys(selectedTimeSlots)[0];
+      const selectedHour = selectedTimeSlots[selectedDate]
+        ? selectedTimeSlots[selectedDate][0]
+        : null;
+      const requestDescription =
+        document.getElementById("requestDescription").value;
 
-      if (isNaN(startTime) || isNaN(endTime) || startTime > endTime) {
-        showCustomAlert("Please enter valid start and end times.");
-        return;
+      // Retrieve memberID from localStorage
+      const memberDetails = JSON.parse(localStorage.getItem("memberDetails"));
+      const memberID = memberDetails ? memberDetails.memberID : null;
+
+      // Retrieve the adminID of the selected coach
+      const adminID = selectedadminId; // Assuming `selectedadminId` stores the adminID of the selected coach
+
+      console.log(memberID);
+      console.log(adminID);
+      if (selectedDate && selectedHour !== null && memberID && adminID) {
+        const startDateTime = new Date(selectedDate);
+        startDateTime.setHours(selectedHour, 0, 0); // Set hour and minutes to the selected hour
+
+        const endDateTime = new Date(startDateTime);
+        endDateTime.setHours(startDateTime.getHours() + 1); // Add 1 hour for end time
+
+        const bookingDetails = {
+          memberID: memberID,
+          adminID: adminID,
+          startDateTime: startDateTime.toISOString(),
+          endDateTime: endDateTime.toISOString(),
+          ParticipantURL: "https://example.com/participant", // Example URL, replace with actual if available
+          HostRoomURL: "https://example.com/host", // Example URL, replace with actual if available
+          requestDescription: requestDescription || "No description provided.",
+        };
+
+        console.log("Booking Details:\n", bookingDetails);
+
+        try {
+          // Send booking details to the backend
+          const response = await fetch(
+            `${window.location.origin}/api/appointment/create-appointment`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(bookingDetails),
+            }
+          );
+
+          if (response.ok) {
+            // Show success alert
+            showCustomAlert("Appointment successfully scheduled!");
+
+            // Redirect to memberAppointments.html after 3 seconds
+            setTimeout(() => {
+              window.location.href = "memberAppointments.html";
+            }, 3000);
+          } else {
+            console.error("Failed to create appointment:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error creating appointment:", error);
+        }
+      } else {
+        console.log(
+          "Missing required information (time slot, description, memberID, or adminID)."
+        );
       }
-
-      // Show a success message once the time slots are successfully auto-selected
-      showCustomAlert("Time slots have been successfully selected!");
-
-      autoSelectTimeSlots(dayOfWeek, startTime, endTime);
     });
 });

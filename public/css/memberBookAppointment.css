@@ -150,3 +150,18 @@
   transform: translateY(-8px) scale(1.05); /* Slightly bigger when selected */
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
 }
+
+/* Selected Calendar Date Cell */
+.selected-date {
+  background-color: #5dabff !important; /* Blue background */
+  color: white !important; /* White text for better contrast */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Selected Time Slot in Modal */
+.selected-slot {
+  background-color: #007bff !important; /* Blue background */
+  color: white !important; /* White text for better contrast */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
