@@ -33,6 +33,98 @@ document.addEventListener("DOMContentLoaded", function () {
     "December",
   ];
 
+  // Function to fetch all coaches' data from the server
+  function fetchCoachesData() {
+    fetch("/api/admin/get-all-admins")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Extract the coaches data
+          const coachesData = data.data;
+          // Display the coaches using the displayCoaches function
+          displayCoaches(coachesData);
+        } else {
+          console.error("Failed to fetch coaches data.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching coaches data:", error);
+      });
+  }
+
+  // Function to format availability dates from JSON string
+  function formatAvailability(availabilityJSON) {
+    try {
+      const availabilityArray = JSON.parse(availabilityJSON);
+      // Map through the dates and format them as readable dates
+      const formattedDates = availabilityArray.map((item) => {
+        const date = new Date(item.utcDateTime);
+        return date.toLocaleDateString();
+      });
+      return formattedDates.join(", ");
+    } catch (error) {
+      console.error("Error parsing availability:", error);
+      return "Unavailable";
+    }
+  }
+
+  // Function to dynamically display the coaches
+  function displayCoaches(coaches) {
+    const coachesSection = $("#coaches-section");
+    let rowContent = "";
+
+    coaches.forEach((coach, index) => {
+      if (index % 4 === 0) {
+        if (index !== 0) {
+          // Close the previous row
+          rowContent += `</div>`;
+        }
+        // Start a new row
+        rowContent += `<div class="row justify-content-center mb-4">`;
+      }
+
+      // Format the availability dates
+      const formattedAvailability = formatAvailability(coach.availability);
+
+      // Create the coach card
+      rowContent += `
+        <div class="col-md-3 mb-3">
+          <div class="card coach-card d-flex align-items-center p-3" data-coach="${coach.firstName.toLowerCase()}">
+            <img
+              src="${coach.profilePicture}"
+              alt="Coach ${coach.firstName}"
+              class="card-img-top coach-img"
+            />
+            <div class="card-body text-center">
+              <h5 class="card-title">${coach.firstName} ${coach.lastName}</h5>
+              <p class="card-text">${coach.bio}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // If it's the last coach, close the row
+      if (index === coaches.length - 1) {
+        rowContent += `</div>`;
+      }
+    });
+
+    // Append the generated content to the coaches section
+    coachesSection.html(rowContent);
+
+    // Add click event listener for selecting a coach
+    $(".coach-card").on("click", function () {
+      // Remove 'selected' class from all other cards
+      $(".coach-card").removeClass("selected");
+
+      // Add 'selected' class to the clicked card
+      $(this).addClass("selected");
+    });
+  }
+
+  // Fetch and display the coaches when the page is ready
+  fetchCoachesData();
+
   // Get all coach cards
   const coachCards = document.querySelectorAll(".coach-card");
 

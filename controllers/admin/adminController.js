@@ -375,6 +375,25 @@ class AdminController {
       });
     }
   }
+
+  // Controller to get all admins with their profile pictures and bio
+  static async getAllAdmins(req, res) {
+    try {
+      // Call the model function to get all admins
+      const admins = await Admin.getAllAdmins();
+
+      res.status(200).json({
+        success: true,
+        data: admins,
+      });
+    } catch (error) {
+      console.error(`Error in getAllAdmins: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve admins.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

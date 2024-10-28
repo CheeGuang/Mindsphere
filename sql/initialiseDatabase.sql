@@ -95,7 +95,7 @@ CREATE TABLE appointment (
 
 -- Insert a dummy member
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture)
-VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', NULL);
+VALUES ('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', './img/misc/account-icon.png');
 
 -- Insert dummy events with corresponding images and updated fields
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
@@ -146,19 +146,8 @@ VALUES
     '123456', 
     GETDATE(), 
     'adminpass123', 
-    NULL, 
-    '[{"utcDateTime": "2024-10-31T09:00:00.000Z"},  
-      {"utcDateTime": "2024-10-31T11:00:00.000Z"},  
-      {"utcDateTime": "2024-11-01T09:00:00.000Z"},  
-      {"utcDateTime": "2024-11-01T11:00:00.000Z"},  
-      {"utcDateTime": "2024-11-07T09:00:00.000Z"},  
-      {"utcDateTime": "2024-11-07T11:00:00.000Z"},  
-      {"utcDateTime": "2024-11-08T09:00:00.000Z"},  
-      {"utcDateTime": "2024-11-08T11:00:00.000Z"},  
-      {"utcDateTime": "2024-11-14T09:00:00.000Z"},  
-      {"utcDateTime": "2024-11-14T11:00:00.000Z"},  
-      {"utcDateTime": "2024-11-15T09:00:00.000Z"},  
-      {"utcDateTime": "2024-11-15T11:00:00.000Z"}]  
+    '/img/coach/Christine.jpeg', 
+    '[{"utcDateTime": "2024-10-31T09:00:00.000Z"}, {"utcDateTime": "2024-10-31T11:00:00.000Z"}, {"utcDateTime": "2024-11-01T09:00:00.000Z"}, {"utcDateTime": "2024-11-01T11:00:00.000Z"}, {"utcDateTime": "2024-11-07T09:00:00.000Z"}, {"utcDateTime": "2024-11-07T11:00:00.000Z"}, {"utcDateTime": "2024-11-08T09:00:00.000Z"}, {"utcDateTime": "2024-11-08T11:00:00.000Z"}, {"utcDateTime": "2024-11-14T09:00:00.000Z"}, {"utcDateTime": "2024-11-14T11:00:00.000Z"}, {"utcDateTime": "2024-11-15T09:00:00.000Z"}, {"utcDateTime": "2024-11-15T11:00:00.000Z"}]  
     ',
     'Talent development leader in FinTech.'
 );

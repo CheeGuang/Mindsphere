@@ -62,5 +62,8 @@ adminRoutes.put(
   AdminController.updateAdminAvailability
 );
 
+// Route to get all admins with their profile pictures and bio
+adminRoutes.get("/get-all-admins", AdminController.getAllAdmins);
+
 // ========== Export ==========
 module.exports = adminRoutes;

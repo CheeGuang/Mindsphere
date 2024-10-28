@@ -451,6 +451,24 @@ class Admin {
       throw error;
     }
   }
+
+  static async getAllAdmins() {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Execute the stored procedure to get all admins
+      const result = await request.execute("usp_get_all_admins");
+
+      connection.close();
+
+      // Return the list of admins with profile picture and bio
+      return result.recordset;
+    } catch (error) {
+      console.error("Error retrieving all admins:", error);
+      throw error;
+    }
+  }
 }
 
 // ========== Export ==========

@@ -73,42 +73,11 @@
             reach your goals.
           </p>
 
-          <!-- Coaches Section -->
-          <div class="row justify-content-center mb-4">
-            <!-- Coach Simon -->
-            <div class="col-md-4 mb-3">
-              <div
-                class="card coach-card d-flex align-items-center p-5"
-                data-coach="simon"
-              >
-                <img
-                  src="./img/coach/Simon.jpeg"
-                  alt="Coach Simon"
-                  class="card-img-top coach-img"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Simon</h5>
-                </div>
-              </div>
-            </div>
-
-            <!-- Coach Christine -->
-            <div class="col-md-4 mb-3">
-              <div
-                class="card coach-card d-flex align-items-center p-5"
-                data-coach="christine"
-              >
-                <img
-                  src="./img/coach/Christine.jpeg"
-                  alt="Coach Christine"
-                  class="card-img-top coach-img"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Christine</h5>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- Coaches Section (Dynamic) -->
+          <div
+            id="coaches-section"
+            class="row justify-content-center mb-4"
+          ></div>
 
           <!-- Calendar Section Heading -->
           <h3 class="mt-5">Pick an Available Date</h3>
@@ -138,7 +107,7 @@
           <h3 class="pt-5">Your Coaching Request</h3>
           <form
             id="coaching-request-form"
-            class="row g-3 justify-content-center"
+            class="row g-3 justify-content-center mb-5"
           >
             <div class="col-md-8">
               <label for="requestDescription" class="form-label"
@@ -152,15 +121,12 @@
                 required
               ></textarea>
             </div>
-            <div class="col-md-8 text-end">
-              <button type="submit" class="btn btn-primary mt-3">
-                Submit Request
-              </button>
-            </div>
           </form>
 
           <!-- Done Button -->
-          <button id="done-button" class="btn btn-primary mt-4">Done</button>
+          <button id="done-button" class="btn btn-primary mt-5">
+            Book Appointment Now
+          </button>
         </div>
       </div>
     </div>
