@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap Link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+      defer
+    ></script>
+
+    <!-- JQuery Link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/4f6d96e165.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Page Name -->
+    <title>Mindsphere</title>
+
+    <!-- Linking CSS -->
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
+
+    <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
+    <!-- <link rel="stylesheet" href="./css/" /> -->
+    <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
+    <!-- END OF PAGE'S CSS /\-->
+
+    <link rel="stylesheet" href="./css/footer.css" defer />
+
+    <!-- Linking JS -->
+    <script src="./js/script.js" defer></script>
+    <script src="./js/navbarFooter.js" defer></script>
+
+    <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
+    <!-- <script src="./js/" defer></script> -->
+    <!-- ######################################## END OF PAGE'S JS ########################################################### -->
+    <!-- END OF PAGE'S JS /\-->
+
+    <!-- Add a favicon to the tab bar -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./img/logo/mindsphere-logo.png"
+    />
+  </head>
+  <body>
+    <header>
+      <div id="navbar-container"></div>
+    </header>
+
+    <!-- Transparent Row with Small Height at the Top -->
+    <div class="row" style="height: 50px; background-color: transparent"></div>
+
+    <!-- Main Content Container -->
+    <div class="container text-center">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <!-- Load customAlert.html dynamically -->
+          <div id="customAlertContainer"></div>
+
+          <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
+      <!-- Business Collaboration Form -->
+      <h1 class="mt-3">Business Collaboration Form</h1>
+      
+      <div class="container mt-4">
+        <div class="card p-4 shadow-sm">
+          <!-- Business Details Section -->
+          <h5>Business Details</h5>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="businessName" class="form-label">Business Name</label>
+              <input type="text" class="form-control" id="businessName" placeholder="Enter business name" />
+            </div>
+            <div class="col-md-6">
+              <label for="contactNumber" class="form-label">Contact Number</label>
+              <input type="tel" class="form-control" id="contactNumber" placeholder="Enter contact number" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-10">
+              <label for="businessEmail" class="form-label">Business Email</label>
+              <input type="email" class="form-control" id="businessEmail" placeholder="Enter business email" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" class="btn btn-primary w-100">Confirm</button>
+            </div>
+          </div>
+      
+          <!-- Event Details Section -->
+          <h5>Event Details</h5>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="requestedDate" class="form-label">Requested Date</label>
+              <input type="date" class="form-control" id="requestedDate" />
+            </div>
+            <div class="col-md-6">
+              <label for="time" class="form-label">Time</label>
+              <input type="time" class="form-control" id="time" />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="venue" class="form-label">Venue</label>
+            <input type="text" class="form-control" id="venue" placeholder="Enter venue" />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description of Event</label>
+            <textarea class="form-control" id="description" rows="3" placeholder="Describe the event"></textarea>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="participants" class="form-label">Number of Participants</label>
+              <input type="number" class="form-control" id="participants" placeholder="Enter number of participants" />
+            </div>
+            <div class="col-md-3">
+              <label for="lunchNeeded" class="form-label">Lunch Needed?</label>
+              <select class="form-select" id="lunchNeeded">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+      
+          <!-- Submit Button -->
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-warning">Submit</button>
+          </div>
+        </div>
+      </div>
+          <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bd-footer py-4 py-md-5 mt-5">
+      <div
+        id="footer"
+        class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
+      ></div>
+    </footer>
+
+    <!-- Custom JS to Load customAlert.html -->
+    <script>
+      $(document).ready(function () {
+        // Load the customAlert.html into the container
+        $("#customAlertContainer").load("./customAlert.html");
+
+        // Define the showCustomAlert function globally
+        window.showCustomAlert = function (message, redirectUrl) {
+          var $alert = $("#customAlert");
+          $alert.text(message); // Update alert message
+          $alert.fadeIn(); // Show the alert
+
+          // Determine the display duration based on the presence of a redirectUrl
+          var displayDuration = redirectUrl ? 3000 : 5000;
+
+          // Hide the alert after the specified duration
+          setTimeout(function () {
+            $alert.fadeOut();
+
+            // If a redirect URL is provided, navigate to it after 3 seconds
+            if (redirectUrl) {
+              setTimeout(function () {
+                window.location.href = redirectUrl;
+              }, 1000); // Allow 1 second for fade-out effect
+            }
+          }, displayDuration);
+        };
+      });
+    </script>
+  </body>
+</html>
