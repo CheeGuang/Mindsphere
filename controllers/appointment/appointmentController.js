@@ -102,12 +102,10 @@ class AppointmentController {
       console.error(
         `Error in AppointmentController.getAllAppointmentsByMemberID: ${error.message}`
       );
-      return res
-        .status(500)
-        .json({
-          message: "Error retrieving appointments",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Error retrieving appointments",
+        error: error.message,
+      });
     }
   }
 
@@ -135,12 +133,10 @@ class AppointmentController {
       console.error(
         `Error in AppointmentController.getAllAppointmentsByAdminID: ${error.message}`
       );
-      return res
-        .status(500)
-        .json({
-          message: "Error retrieving appointments",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Error retrieving appointments",
+        error: error.message,
+      });
     }
   }
 }
