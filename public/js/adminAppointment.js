@@ -151,18 +151,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       const button = document.createElement("button");
       button.classList.add("btn", buttonClass);
       button.textContent = buttonText;
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         console.log(
           "Join Call button clicked. Opening URL:",
           appointment.HostRoomURL
         );
         window.open(appointment.HostRoomURL, "_blank");
+        // Send HostRoomURL to the server
+        await sendHostRoomURL(appointment.HostRoomURL, appointment.appointmentID);
       });
       card.appendChild(button);
     }
 
     console.log("Created card:", card);
     return card;
+  }
+
+  // Helper function to send HostRoomURL to the server
+  async function sendHostRoomURL(hostRoomURL, appointmentID) {
+    try {
+      const response = await fetch(`/api/appointment/${appointmentID}/join`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ hostRoomURL }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        console.log("Successfully sent HostRoomURL to the server:", result);
+      } else {
+        console.error("Failed to send HostRoomURL to the server:", result.message);
+      }
+    } catch (error) {
+      console.error("Error sending HostRoomURL to the server:", error);
+    }
   }
 
   // Helper function to format date and time
