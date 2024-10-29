@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let selectedDay = null;
   let isDragging = false;
 
+  // HTML element for displaying the selected timeslot summary
+  const summaryContainer = document.getElementById("timeslot-summary");
+
   // Get current and next month dates
   const currentDate = new Date();
   const currentMonth = new Date(
@@ -210,7 +213,72 @@ document.addEventListener("DOMContentLoaded", function () {
     new bootstrap.Modal(document.getElementById("timeSlotModal")).show();
   }
 
-  // Toggle time slot selection
+  // Function to update timeslot summary, grouping by date and organizing in rows
+  function updateTimeslotSummary() {
+    summaryContainer.innerHTML = ""; // Clear previous summary
+
+    // Group dates and format
+    const dates = Object.keys(selectedTimeSlots).sort();
+    let rowContainer = null; // To hold groups of up to five dates per row
+
+    dates.forEach((date, index) => {
+      const hours = selectedTimeSlots[date].sort((a, b) => a - b);
+      if (hours.length > 0) {
+        // Create a date container
+        const dateContainer = document.createElement("div");
+        dateContainer.className = "col mb-3"; // Use Bootstrap column classes for grid layout
+
+        // Format the date as "10 Nov 2024 (Thu)"
+        const dateObj = new Date(date);
+        const day = dateObj.getDate().toString().padStart(2, "0"); // Ensure day is two digits
+        const month = dateObj.toLocaleString("en-GB", { month: "short" }); // Short month name
+        const year = dateObj.getFullYear();
+        const weekday = dateObj.toLocaleString("en-GB", { weekday: "short" }); // Short weekday name
+        const formattedDate = `${day} ${month} ${year} (${weekday})`;
+
+        const dateHeader = document.createElement("h5");
+        dateHeader.className = "fw-bold mb-2 text-center";
+        dateHeader.textContent = formattedDate;
+        dateContainer.appendChild(dateHeader);
+
+        // Create a list of timeslots for this date
+        const timeList = document.createElement("ul");
+        timeList.className = "list-group list-group-flush";
+        hours.forEach((hour) => {
+          const startTime = formatHour(hour);
+          const endTime = formatHour(hour + 1);
+
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item text-center";
+          listItem.textContent = `${startTime} - ${endTime}`;
+          timeList.appendChild(listItem);
+        });
+
+        dateContainer.appendChild(timeList);
+
+        // Add the date container to a new row every five dates
+        if (index % 5 === 0) {
+          rowContainer = document.createElement("div");
+          rowContainer.className = "row"; // Create a new row every five dates
+          summaryContainer.appendChild(rowContainer);
+        }
+
+        rowContainer.appendChild(dateContainer); // Add the date container to the current row
+      }
+    });
+  }
+
+  // Function to format hours as AM/PM
+  function formatHour(hour) {
+    const suffix = hour >= 12 ? "PM" : "AM";
+    const formattedHour = hour % 12 || 12;
+    return `${formattedHour}:00 ${suffix}`;
+  }
+
+  // Call updateTimeslotSummary on page load to display existing selections
+  updateTimeslotSummary();
+
+  // Rest of your existing code for toggleSlotSelection, autoSelectTimeSlots, etc.
   function toggleSlotSelection(slotElement, date, hour) {
     slotElement.classList.toggle("selected-slot");
     if (!selectedTimeSlots[date]) selectedTimeSlots[date] = [];
@@ -225,6 +293,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update calendar cell background if slots are selected
     updateCalendarCell(date);
+
+    // Update the summary
+    updateTimeslotSummary();
   }
 
   // Update calendar cell background based on availability
@@ -358,6 +429,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     });
+
+    // Update summary after auto-select
+    updateTimeslotSummary();
   }
 
   // Handle 'Auto Select' button click from the form

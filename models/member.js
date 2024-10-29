@@ -221,12 +221,12 @@ class Member {
         };
       }
 
-      // Check if the verification code was provided within 1 minute of the timestamp
+      // Check if the verification code was provided within 3 minutes of the timestamp
       const currentTime = new Date();
       const timestamp = new Date(emailVCTimestamp);
       const timeDifference = (currentTime - timestamp) / 1000 / 60; // Convert milliseconds to minutes
 
-      if (timeDifference > 1) {
+      if (timeDifference > 3) {
         return {
           success: false,
           message: "Verification code has expired. Please request a new one.",

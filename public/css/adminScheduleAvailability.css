@@ -50,7 +50,7 @@
 }
 
 .time-slot:hover {
-  background-color: #e0e0e0;
+  background-color: #2ea249;
   transform: scale(1.03); /* Slight scale effect on hover */
 }
 

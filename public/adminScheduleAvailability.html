@@ -95,6 +95,10 @@
           <!-- Day & Time Selection Form -->
           <div class="card p-4 mb-4">
             <h3>Select Day & Time Range</h3>
+            <p class="text-muted mb-5">
+              Use this form to quickly select multiple time slots for setting
+              availability across different days and time ranges.
+            </p>
             <form id="day-time-form" class="row g-3 justify-content-center">
               <div class="col-md-3">
                 <label for="dayOfWeek" class="form-label"
@@ -167,6 +171,17 @@
               </div>
             </form>
           </div>
+
+          <!-- Timeslot Summary Section -->
+          <div class="card p-4 mb-4">
+            <h3>Selected Timeslot Summary</h3>
+            <p class="text-muted mb-5">
+              Review your selected timeslots, grouped by date, with each
+              timeslot displayed as a 1-hour interval.
+            </p>
+            <div id="timeslot-summary"></div>
+          </div>
+
           <!-- Done Button -->
           <button id="done-button" class="btn btn-primary mt-4">Done</button>
         </div>

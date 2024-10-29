@@ -423,6 +423,10 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("book-now-btn")
     .addEventListener("click", async function () {
+      const button = this;
+      // Disable the button to prevent multiple clicks
+      button.disabled = true;
+
       const selectedDate = Object.keys(selectedTimeSlots)[0];
       const selectedHour = selectedTimeSlots[selectedDate]
         ? selectedTimeSlots[selectedDate][0]
@@ -435,10 +439,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const memberID = memberDetails ? memberDetails.memberID : null;
 
       // Retrieve the adminID of the selected coach
-      const adminID = selectedadminId; // Assuming `selectedadminId` stores the adminID of the selected coach
+      const adminID = selectedadminId;
 
-      console.log(memberID);
-      console.log(adminID);
       if (selectedDate && selectedHour !== null && memberID && adminID) {
         const startDateTime = new Date(selectedDate);
         startDateTime.setHours(selectedHour, 0, 0); // Set hour and minutes to the selected hour
@@ -451,12 +453,10 @@ document.addEventListener("DOMContentLoaded", function () {
           adminID: adminID,
           startDateTime: startDateTime.toISOString(),
           endDateTime: endDateTime.toISOString(),
-          ParticipantURL: "https://example.com/participant", // Example URL, replace with actual if available
-          HostRoomURL: "https://example.com/host", // Example URL, replace with actual if available
+          ParticipantURL: "https://example.com/participant", // Example URL
+          HostRoomURL: "https://example.com/host", // Example URL
           requestDescription: requestDescription || "No description provided.",
         };
-
-        console.log("Booking Details:\n", bookingDetails);
 
         try {
           // Send booking details to the backend
@@ -481,14 +481,17 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 3000);
           } else {
             console.error("Failed to create appointment:", response.statusText);
+            button.disabled = false; // Re-enable the button if there was an error
           }
         } catch (error) {
           console.error("Error creating appointment:", error);
+          button.disabled = false; // Re-enable the button if there was an error
         }
       } else {
         console.log(
           "Missing required information (time slot, description, memberID, or adminID)."
         );
+        button.disabled = false; // Re-enable the button if there was missing information
       }
     });
 });

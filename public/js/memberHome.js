@@ -180,7 +180,7 @@ async function fetchAppointments() {
             <p class="start-time"><strong>Start:</strong> ${new Date(
               appointment.startDateTime
             ).toLocaleDateString("en-GB", {
-              weekday: "long",
+              weekday: "short",
               month: "short",
               year: "numeric",
               day: "numeric",
@@ -195,7 +195,7 @@ async function fetchAppointments() {
             <p class="end-time"><strong>End:</strong> ${new Date(
               appointment.endDateTime
             ).toLocaleDateString("en-GB", {
-              weekday: "long",
+              weekday: "short",
               month: "short",
               year: "numeric",
               day: "numeric",
