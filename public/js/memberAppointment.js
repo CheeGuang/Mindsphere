@@ -1,3 +1,5 @@
+// memberAppointment.js
+
 document.addEventListener("DOMContentLoaded", async () => {
   const memberDetails = JSON.parse(localStorage.getItem("memberDetails"));
   console.log("Loaded member details from localStorage:", memberDetails);
@@ -153,10 +155,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       button.textContent = buttonText;
       button.addEventListener("click", () => {
         console.log(
-          "Join Call button clicked. Opening URL:",
-          appointment.ParticipantURL
+          "Join Call button clicked. Saving URL and navigating to memberVisitAppointment.html"
         );
-        window.open(appointment.ParticipantURL, "_blank");
+        localStorage.setItem("ParticipantURL", appointment.ParticipantURL);
+        window.location.href = "memberVisitAppointment.html";
       });
       card.appendChild(button);
     }
