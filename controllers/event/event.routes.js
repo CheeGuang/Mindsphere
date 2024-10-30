@@ -1,10 +1,13 @@
 // ========== Packages ==========
 // Initialising express
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
 
 // ========== Controllers ==========
 // Initialising EventController
 const EventController = require("./eventController");
+const event = require("../../models/event");
 
 // ========== Set-up ==========
 // Initialising templateRoutes
@@ -19,12 +22,38 @@ eventRoutes.get("/get-event/:eventId", EventController.getEventById);
 eventRoutes.put("/update-event/:eventId", EventController.updateEvent);
 // Route to delete an event
 eventRoutes.delete("/delete-event/:eventId", EventController.deleteEventById);
+// Route to create an event
+eventRoutes.post("/create-event", EventController.createEvent);
 
 // Route to get events by member ID
 eventRoutes.get(
   "/get-event-by-member-id/:memberId",
   EventController.getEventByMemberId
 );
+
+// Route to upload image
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../../public/img/workshop"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Define the image upload route
+eventRoutes.post("/uploadImage", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+
+  const filePath = `/img/workshop/${req.file.filename}`;
+  res.json({ filePath: filePath });
+});
+
 
 // Route to get unique event types
 eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);

@@ -11,13 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.679.0",
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mssql": "^11.0.1",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.7",
     "path": "^0.12.7",
     "pdfkit": "^0.15.0"
-  }
+  },
+  "keywords": []
 }

@@ -2,6 +2,7 @@
 // Initialise node packages here
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const axios = require("axios");
 
 class event {
   constructor(
@@ -200,6 +201,78 @@ static async deleteEventById(eventID) {
   } catch (error) {
       console.error("Error deleting event:", error); // Log the error
       throw error; // Rethrow to handle in the controller
+  }
+}
+
+static async sendTelegramMessage(eventData, eventId) {
+  const botToken = process.env.TelegramBotAPIToken; // Replace with your bot token
+  const channelID = "@Mindsphere_FSDP_Cooking"; // Replace with your channel username or chat ID
+
+  const message = 
+  `📣 New Event Alert! 🎉 We're excited to announce a new event! 
+  Here are the details: 
+  🌟 Title: ${eventData.title}
+  📅 Type: ${eventData.type}
+  💰 Price: ${eventData.price}
+  👥 Class Size: ${eventData.classSize}
+  ⏳ Duration: ${eventData.duration}
+  🍽️ Lunch Provided: ${eventData.lunchProvided ? "Yes" : "No"}
+  📚 Lesson Materials Provided: ${eventData.lessonMaterialsProvided ? "Yes" : "No"}
+  🗓️ Available Dates: ${eventData.availableDates}
+  🕒 Time: ${eventData.time}
+  📍 Venue: ${eventData.venue}
+  Don't miss out on this fantastic opportunity! 
+  Join us for an enriching experience. 
+  If you have any questions, feel free to ask!
+  Sign up now at https://mindsphere.onrender.com/`;
+
+
+  try {
+    const response = await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      chat_id: channelID,
+      text: message,
+    });
+    console.log("Telegram message sent successfully:", response.data);
+  } catch (error) {
+    console.error("Error sending Telegram message:", error.response ? error.response.data : error.message);
+    throw error; // Rethrow the error for handling in the caller
+  }
+}
+
+// Function to create an event
+static async createEvent(newData) {
+  try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      request.input("type", sql.NVarChar(100), newData.type);
+      request.input("title", sql.NVarChar(200), newData.title);
+      request.input("price", sql.Decimal(10, 2), newData.price);
+      request.input("oldPrice", sql.Decimal(10, 2), newData.oldPrice || null); // Allow null
+      request.input("classSize", sql.NVarChar(50), newData.classSize);
+      request.input("duration", sql.NVarChar(50), newData.duration);
+      request.input("lunchProvided", sql.Bit, newData.lunchProvided !== undefined ? newData.lunchProvided : 1); // Default to 1
+      request.input("lessonMaterialsProvided", sql.Bit, newData.lessonMaterialsProvided !== undefined ? newData.lessonMaterialsProvided : 1); // Default to 1
+      request.input("accessToMembership", sql.Bit, newData.accessToMembership !== undefined ? newData.accessToMembership : 1); // Default to 1
+      request.input("availableDates", sql.NVarChar(sql.MAX), newData.availableDates); // Handle as NVARCHAR(MAX)
+      request.input("time", sql.NVarChar(50), newData.time);
+      request.input("totalParticipants", sql.Int, newData.totalParticipants || 0); // Default to 0
+      request.input("venue", sql.NVarChar(500), newData.venue);
+      request.input("picture", sql.NVarChar(500), newData.picture);
+
+      const result = await request.execute("usp_create_event");
+
+      connection.close();
+
+      // Return the newly created eventID
+      const newEventID = result.recordset[0].newEventID;
+
+      await event.sendTelegramMessage(newData, newEventID);
+
+      return newEventID;
+  } catch (error) {
+      console.error("Error creating event:", error);
+      throw error;
   }
 }
 

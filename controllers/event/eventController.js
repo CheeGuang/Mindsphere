@@ -100,6 +100,21 @@ static deleteEventById = async (req, res) => {
   }
 };
 
+// Event function handler to create an event
+static createEvent = async (req, res) => {
+  const newEventData = req.body; // Get the new event data from the request body
+
+  try {
+      // Call the create function in the Event model
+      const newEventId = await Event.createEvent(newEventData);
+      res.status(201).json({ message: "Event created successfully", eventId: newEventId });
+  } catch (error) {
+      console.error("Error creating event:", error.message); // Log the error message
+      res.status(500).send("Failed to create event"); // Send a user-friendly error message
+  }
+};
+
+
   // Event function handler to enroll a member to an event using GET parameters
   static enrollMemberToEvent = async (req, res) => {
     // Use req.query instead of req.body for GET request parameters
