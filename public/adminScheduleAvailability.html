@@ -27,6 +27,9 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- Calendly -->
+    <script src="https://assets.calendly.com/assets/external/widget.js"></script>
+
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,144 +71,90 @@
 
           <!-- Page Title -->
           <h1 class="mt-3">Schedule Your Availability</h1>
-          <p class="mb-3">
+          <p class="mb-5">
             Select the current or next month and pick your availability by
             clicking on dates.
           </p>
 
-          <!-- Month Selector Buttons -->
-          <div class="mb-4">
-            <button
-              id="current-month-btn"
-              class="btn btn-outline-primary btn-month"
-            >
-              Current Month
-            </button>
-            <button
-              id="next-month-btn"
-              class="btn btn-outline-secondary btn-month"
-            >
-              Next Month
-            </button>
+          <!-- Calendly Instructions Section - Always Displayed -->
+          <div
+            id="calendly-instructions"
+            class="row justify-content-center mt-4"
+          >
+            <div class="col-8 text-start">
+              <h3 class="text-center">Set Up Your Calendly Event</h3>
+              <p>
+                Step 1:
+                <a href="https://calendly.com" target="_blank"
+                  >Log in to Calendly</a
+                >
+                or create an account. Click <strong>Create</strong> >
+                <strong>Event Type</strong> > <strong>One-on-One</strong> to set
+                up your event with your preferred availability and settings.
+              </p>
+              <p>
+                Step 2: From the event type page, choose
+                <strong>Share</strong> and copy the generated link.
+              </p>
+              <p>
+                Step 3: Paste your Calendly link in the box above, then click
+                <strong>Submit</strong> to integrate it with Mindsphere.
+              </p>
+            </div>
           </div>
+          <!-- Calendly Link Update Section -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+              <h3>Update Your Calendly Link</h3>
 
-          <!-- Calendar Container -->
-          <div id="custom-calendar" class="mb-5"></div>
-
-          <!-- Day & Time Selection Form -->
-          <div class="card p-4 mb-4">
-            <h3>Select Day & Time Range</h3>
-            <form id="day-time-form" class="row g-3 justify-content-center">
-              <div class="col-md-3">
-                <label for="dayOfWeek" class="form-label"
-                  >Day of the Week</label
-                >
-                <select id="dayOfWeek" class="form-select">
-                  <option value="0">Sunday</option>
-                  <option value="1">Monday</option>
-                  <option value="2">Tuesday</option>
-                  <option value="3">Wednesday</option>
-                  <option value="4">Thursday</option>
-                  <option value="5">Friday</option>
-                  <option value="6">Saturday</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label for="startTime" class="form-label">Start Time</label>
-                <select id="startTime" class="form-select">
-                  <option value="6">6:00 AM</option>
-                  <option value="7">7:00 AM</option>
-                  <option value="8">8:00 AM</option>
-                  <option value="9">9:00 AM</option>
-                  <option value="10">10:00 AM</option>
-                  <option value="11">11:00 AM</option>
-                  <option value="12">12:00 PM</option>
-                  <option value="13">1:00 PM</option>
-                  <option value="14">2:00 PM</option>
-                  <option value="15">3:00 PM</option>
-                  <option value="16">4:00 PM</option>
-                  <option value="17">5:00 PM</option>
-                  <option value="18">6:00 PM</option>
-                  <option value="19">7:00 PM</option>
-                  <option value="20">8:00 PM</option>
-                  <option value="21">9:00 PM</option>
-                  <option value="22">10:00 PM</option>
-                  <option value="23">11:00 PM</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label for="endTime" class="form-label">End Time</label>
-                <select id="endTime" class="form-select">
-                  <option value="6">6:00 AM</option>
-                  <option value="7">7:00 AM</option>
-                  <option value="8">8:00 AM</option>
-                  <option value="9">9:00 AM</option>
-                  <option value="10">10:00 AM</option>
-                  <option value="11">11:00 AM</option>
-                  <option value="12">12:00 PM</option>
-                  <option value="13">1:00 PM</option>
-                  <option value="14">2:00 PM</option>
-                  <option value="15">3:00 PM</option>
-                  <option value="16">4:00 PM</option>
-                  <option value="17">5:00 PM</option>
-                  <option value="18">6:00 PM</option>
-                  <option value="19">7:00 PM</option>
-                  <option value="20">8:00 PM</option>
-                  <option value="21">9:00 PM</option>
-                  <option value="22">10:00 PM</option>
-                  <option value="23">11:00 PM</option>
-                </select>
-              </div>
-              <div class="col-md-2 align-self-end">
-                <button
-                  type="button"
-                  id="auto-select-btn"
-                  class="btn btn-success"
-                >
-                  Auto Select
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="calendly-link-input"
+                  class="form-control"
+                  placeholder="https://calendly.com/your-username/your-event
+                  "
+                />
+                <button id="calendly-submit-button" class="btn btn-primary">
+                  Submit
                 </button>
               </div>
-            </form>
+            </div>
           </div>
+
+          <!-- Calendly Access Token Update Section -->
+          <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+              <h3>Update Your Calendly Access Token</h3>
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="calendly-token-input"
+                  class="form-control"
+                  placeholder="Enter your Calendly Access Token here"
+                />
+                <button
+                  id="calendly-token-submit-button"
+                  class="btn btn-primary"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability Preview Header (Displayed only if Calendly Link Exists) -->
+          <div id="calendly-section" class="mt-5">
+            <h3>Your Availability Preview</h3>
+            <div
+              id="calendly-inline-widget"
+              style="min-width: 320px; height: 670px"
+            ></div>
+          </div>
+
           <!-- Done Button -->
           <button id="done-button" class="btn btn-primary mt-4">Done</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Time Slot Modal -->
-    <div
-      class="modal fade"
-      id="timeSlotModal"
-      tabindex="-1"
-      aria-labelledby="timeSlotModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="timeSlotModalLabel">
-              Select Time Slots
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="time-slot-container" class="row"></div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
         </div>
       </div>
     </div>

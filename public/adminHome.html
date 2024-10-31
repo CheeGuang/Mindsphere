@@ -74,163 +74,38 @@
 
           <!-- Manage Events Section -->
           <div class="container">
-            <!-- Header -->
-            <div class="row mb-4">
-              <div class="col">
-                <h2 class="text-start">
-                  <a
-                    href="adminManageEvents.html"
-                    style="text-decoration: none; color: black"
-                  >
-                    Manage Events <i class="fas fa-arrow-right"></i>
-                  </a>
-                </h2>
+            <div class="row mb-5">
+              <h2 class="text-start">
+                <a
+                  href="adminManageEvents.html"
+                  style="text-decoration: none; color: black"
+                  >Manage Events <i class="fas fa-arrow-right"></i
+                ></a>
+              </h2>
+              <p id="event-count" class="text-start">0 events upcoming</p>
+
+              <!-- Event Cards Container -->
+              <div class="scrollable-container" id="event-container">
+                <!-- Event cards will be dynamically inserted here by JavaScript -->
               </div>
             </div>
 
-            <!-- Events Scroll Container -->
-            <div id="event-scroll-container" class="d-flex overflow-auto">
-              <!-- Event 1 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/event1.png"
-                    class="common-image"
-                    alt="Event 1"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Event Title 1</h5>
-                  <p class="card-text">
-                    Description of the event. Location, Date, and Time details.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Event 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/event2.png"
-                    class="common-image"
-                    alt="Event 2"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Event Title 2</h5>
-                  <p class="card-text">
-                    Description of the event. Location, Date, and Time details.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Upcoming Appointments Section -->
-          <div class="container my-5">
-            <!-- Header -->
-            <div class="row mb-4">
-              <div class="col">
+            <!-- Coaching Appointments Section -->
+            <div class="row mb-5">
+              <h2 class="text-start">
                 <a
                   href="./adminAppointments.html"
                   style="text-decoration: none; color: black"
-                >
-                  <h2 class="text-start">
-                    Coaching Appointments <i class="fas fa-arrow-right"></i>
-                  </h2>
-                </a>
-              </div>
-            </div>
+                  >Coaching Appointments <i class="fas fa-arrow-right"></i
+                ></a>
+              </h2>
+              <p id="appointment-count" class="text-start">
+                0 appointments upcoming
+              </p>
 
-            <!-- Appointments Scroll Container -->
-            <div
-              id="appointments-scroll-container"
-              class="d-flex overflow-auto"
-            >
-              <!-- Appointment 1 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Geryl Lim"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Geryl Lim</h5>
-                  <p class="card-text">Date: 2 November 2024, 10am - 11am</p>
-                </div>
-              </div>
-
-              <!-- Appointment 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
-                </div>
-              </div>
-              <!-- Appointment 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
-                </div>
-              </div>
-              <!-- Appointment 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
-                </div>
-              </div>
-              <!-- Appointment 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
-                </div>
-              </div>
-              <!-- Appointment 2 -->
-              <div class="common-card d-flex flex-row mx-3">
-                <div class="image-container">
-                  <img
-                    src="./img/testimonial/geryl-lim.png"
-                    class="common-image circular-image"
-                    alt="Jonathan Tan"
-                  />
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Jonathan Tan</h5>
-                  <p class="card-text">Date: 4 November 2024, 9am - 10am</p>
-                </div>
+              <!-- Coaching Appointments Cards Container -->
+              <div class="scrollable-container" id="appointment-container">
+                <!-- Appointment cards will be dynamically inserted here by JavaScript -->
               </div>
             </div>
           </div>

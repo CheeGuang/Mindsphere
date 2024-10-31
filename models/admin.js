@@ -12,7 +12,9 @@ class Admin {
     profilePicture,
     contactNo,
     availability,
-    bio
+    bio,
+    calendlyLink,
+    calendlyAccessToken
   ) {
     this.adminID = adminID;
     this.firstName = firstName;
@@ -22,6 +24,8 @@ class Admin {
     this.contactNo = contactNo;
     this.availability = availability; // New field for availability
     this.bio = bio; // New field for bio
+    this.calendlyLink = calendlyLink;
+    this.calendlyAccessToken = calendlyAccessToken;
   }
 
   // Function to create a Google admin using stored procedure
@@ -412,6 +416,7 @@ class Admin {
         contactNo: result.recordset[0].contactNo,
         availability: result.recordset[0].availability,
         bio: result.recordset[0].bio,
+        calendlyLink: result.recordset[0].calendlyLink,
       };
     } catch (error) {
       console.error("Error retrieving admin details:", error);
@@ -466,6 +471,71 @@ class Admin {
       return result.recordset;
     } catch (error) {
       console.error("Error retrieving all admins:", error);
+      throw error;
+    }
+  }
+
+  // Function to update the Calendly link by adminID
+  static async updateCalendlyLink(adminID, calendlyLink) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the inputs for the stored procedure
+      request.input("adminID", sql.Int, adminID);
+      request.input("calendlyLink", sql.NVarChar(500), calendlyLink);
+
+      // Execute the stored procedure
+      const result = await request.execute("usp_update_calendly_link");
+
+      connection.close();
+
+      // Check if the update was successful
+      if (result.returnValue === 0) {
+        return {
+          success: true,
+          message: "Calendly link updated successfully.",
+        };
+      } else {
+        return {
+          success: false,
+          message: "Failed to update Calendly link.",
+        };
+      }
+    } catch (error) {
+      console.error("Error updating Calendly link:", error);
+      throw error;
+    }
+  }
+
+  // Function to update the Calendly access token for an admin using the stored procedure
+  static async updateCalendlyAccessToken(adminID, newAccessToken) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set the input parameters for the stored procedure
+      request.input("adminID", sql.Int, adminID);
+      request.input("newAccessToken", sql.NVarChar(500), newAccessToken);
+
+      console.log(adminID);
+      console.log(newAccessToken);
+      // Execute the stored procedure
+      const result = await request.execute("usp_update_calendly_access_token");
+      console.log(result);
+
+      connection.close();
+
+      // Check if the update was successful
+      return {
+        success: result.returnValue === 0,
+        message:
+          result.returnValue === 0
+            ? "Calendly access token updated successfully."
+            : "Update failed. No matching adminID found.",
+      };
+    } catch (error) {
+      console.error("Error updating Calendly access token:", error);
       throw error;
     }
   }

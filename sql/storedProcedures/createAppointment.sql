@@ -4,10 +4,9 @@ CREATE PROCEDURE usp_create_appointment
     @startDateTime NVARCHAR(40),
     @endDateTime NVARCHAR(40),
     @ParticipantURL NVARCHAR(1000),
-    @HostRoomURL NVARCHAR(1000),
-    @requestDescription NVARCHAR(1000)
+    @HostRoomURL NVARCHAR(1000)
 AS
 BEGIN
-    INSERT INTO appointment (MemberID, AdminID, startDateTime, endDateTime, ParticipantURL, HostRoomURL, requestDescription)
-    VALUES (@MemberID, @AdminID, @startDateTime, @endDateTime, @ParticipantURL, @HostRoomURL, @requestDescription);
+    INSERT INTO appointment (MemberID, AdminID, startDateTime, endDateTime, ParticipantURL, HostRoomURL)
+    VALUES (@MemberID, @AdminID, @startDateTime, @endDateTime, @ParticipantURL, @HostRoomURL);
 END;

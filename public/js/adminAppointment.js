@@ -132,12 +132,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     name.style.marginBottom = "5px"; // Reduce spacing between text lines
     details.appendChild(name);
 
-    const description = document.createElement("p");
-    description.classList.add("member-request-description");
-    description.textContent = appointment.requestDescription;
-    description.style.marginBottom = "5px"; // Reduce spacing between text lines
-    details.appendChild(description);
-
     const time = document.createElement("p");
     time.classList.add("appointment-time");
     time.textContent = formatDate(appointment.startDateTime);
@@ -158,7 +152,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
         window.open(appointment.HostRoomURL, "_blank");
         // Send HostRoomURL to the server
-        await sendHostRoomURL(appointment.HostRoomURL, appointment.appointmentID);
+        await sendHostRoomURL(
+          appointment.HostRoomURL,
+          appointment.appointmentID
+        );
       });
       card.appendChild(button);
     }
@@ -181,7 +178,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (response.ok) {
         console.log("Successfully sent HostRoomURL to the server:", result);
       } else {
-        console.error("Failed to send HostRoomURL to the server:", result.message);
+        console.error(
+          "Failed to send HostRoomURL to the server:",
+          result.message
+        );
       }
     } catch (error) {
       console.error("Error sending HostRoomURL to the server:", error);

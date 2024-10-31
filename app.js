@@ -47,7 +47,6 @@ app.use("/api/admin", adminRoutes);
 
 // Appointment Route
 app.use("/api/appointment", appointmentRoutes);
-
 // ========== Initialise Server ==========
 // Server Listening at port 8000
 app.listen(port, async () => {

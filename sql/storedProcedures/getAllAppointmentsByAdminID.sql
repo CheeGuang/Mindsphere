@@ -10,7 +10,6 @@ BEGIN
         a.endDateTime,
         a.ParticipantURL,
         a.HostRoomURL,
-        a.requestDescription,
         m.firstName AS MemberFirstName,
         m.lastName AS MemberLastName,
         m.profilePicture AS MemberProfilePicture,

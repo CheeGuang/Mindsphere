@@ -16,7 +16,9 @@ BEGIN
         contactNoVCTimestamp,
         profilePicture,
         bio,
-        availability
+        availability,
+        calendlyLink,
+        calendlyAccessToken
     FROM 
         [admin]
     WHERE 

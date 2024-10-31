@@ -394,6 +394,63 @@ class AdminController {
       });
     }
   }
+
+  // Update Calendly link for admin by adminID
+  static async updateCalendlyLink(req, res) {
+    try {
+      const { adminID, calendlyLink } = req.body;
+
+      // Call the model function to update the Calendly link
+      const updateResult = await Admin.updateCalendlyLink(
+        adminID,
+        calendlyLink
+      );
+
+      if (updateResult.success) {
+        res.status(200).json({
+          success: true,
+          message: updateResult.message,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: updateResult.message,
+        });
+      }
+    } catch (error) {
+      console.error(`Error in updateCalendlyLink: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update Calendly link.",
+      });
+    }
+  }
+  // Controller method to update the Calendly access token for an admin
+  static async updateCalendlyAccessToken(req, res) {
+    try {
+      const { adminID, newAccessToken } = req.body;
+
+      console.log(`Updating Calendly access token for AdminID: ${adminID}`);
+
+      // Call the model method to update the token
+      const updateResult = await Admin.updateCalendlyAccessToken(
+        adminID,
+        newAccessToken
+      );
+
+      // Send response based on the result
+      res.status(200).json(updateResult);
+    } catch (error) {
+      console.error(
+        `Error in AdminController.updateCalendlyAccessToken: ${error.message}`
+      );
+      res.status(500).json({
+        success: false,
+        message: "Failed to update Calendly access token.",
+        error: error.message,
+      });
+    }
+  }
 }
 
 // ========== Export ==========

@@ -21,7 +21,7 @@ async function fetchAndDisplayEvents() {
       return eventDate >= today;
     });
 
-    // Sort upcoming events by date in ascending order
+    // Sort upcoming events by date in ascending order (most recent first)
     upcomingEvents.sort(
       (a, b) =>
         new Date(a.availableDates.split(",")[0].trim()) -
@@ -33,67 +33,41 @@ async function fetchAndDisplayEvents() {
       "event-count"
     ).textContent = `${upcomingEvents.length} events upcoming`;
 
-    // Get the container for event carousel items
-    const eventCarouselContainer = document.getElementById(
-      "event-carousel-container"
-    );
-    eventCarouselContainer.innerHTML = ""; // Clear existing content
+    // Get the container for event items
+    const eventContainer = document.getElementById("event-container");
+    eventContainer.innerHTML = ""; // Clear existing content
 
-    // Create carousel items in groups of three events
-    for (let i = 0; i < upcomingEvents.length; i += 3) {
-      const carouselItem = document.createElement("div");
-      carouselItem.classList.add("carousel-item");
-      if (i === 0) carouselItem.classList.add("active"); // Make the first item active
-
-      // Create a row to hold up to three event cards
-      const row = document.createElement("div");
-      row.classList.add("row", "justify-content-center");
-
-      // Add up to three event cards to the row
-      for (let j = i; j < i + 3 && j < upcomingEvents.length; j++) {
-        const event = upcomingEvents[j];
-        const eventImageSrc = event.picture
-          ? `${event.picture}`
-          : "https://via.placeholder.com/150x150";
-
-        const eventCard = document.createElement("div");
-        eventCard.classList.add("col-md-4");
-        eventCard.innerHTML = `
-          <div class="card carousel-card mx-auto mb-4">
-            <div class="card-body text-start">
-              <div class="row align-items-center">
-                <div class="col-3 text-start">
-                  <img src="${eventImageSrc}" class="common-image" alt="${
-          event.title
-        } Image">
-                </div>
-                <div class="col-9">
-                  <h5 class="card-title">${event.title}</h5>
-                </div>
+    // Display all upcoming events
+    upcomingEvents.forEach((event) => {
+      const eventImageSrc = event.picture
+        ? `${event.picture}`
+        : "https://via.placeholder.com/150x150";
+      const eventCard = document.createElement("div");
+      eventCard.classList.add("col-md-4");
+      eventCard.innerHTML = `
+        <div class="card carousel-card mx-auto mb-4">
+          <div class="card-body text-start">
+            <div class="row align-items-center">
+              <div class="col-3 text-start">
+                <img src="${eventImageSrc}" class="common-image" alt="${
+        event.title
+      } Image">
               </div>
-              <div class="time-details mt-3">
-                <p class="date-time"><strong>Date: </strong>${formatDateRange(
-                  event.availableDates
-                )}<br>
-                  <strong>Time: </strong>${event.time}</p>
+              <div class="col-9">
+                <h5 class="card-title">${event.title}</h5>
               </div>
-              <p class="card-text"><strong>Address:</strong> ${event.venue}</p>
             </div>
+            <div class="time-details mt-3">
+              <p class="date-time"><strong>Date: </strong>${formatDateRange(
+                event.availableDates
+              )}<br>
+                <strong>Time: </strong>${event.time}</p>
+            </div>
+            <p class="card-text"><strong>Address:</strong> ${event.venue}</p>
           </div>
-        `;
-        row.appendChild(eventCard);
-      }
-
-      // Append the row with event cards to the carousel item
-      carouselItem.appendChild(row);
-      eventCarouselContainer.appendChild(carouselItem);
-    }
-
-    // Enable the carousel controls if there are more than three events
-    if (upcomingEvents.length > 3) {
-      document.querySelector(".carousel-control-prev").classList.add("active");
-      document.querySelector(".carousel-control-next").classList.add("active");
-    }
+        </div>`;
+      eventContainer.appendChild(eventCard);
+    });
   } catch (error) {
     console.error("Error fetching events:", error);
   }
@@ -113,9 +87,8 @@ function formatDateRange(datesString) {
     ? `${formattedFirstDate} - ${formattedLastDate}`
     : formattedFirstDate;
 }
-// Existing function to fetch and display events remains unchanged
 
-// Function to fetch appointments from the API endpoint and update HTML
+// Function to fetch appointments from the API and update HTML
 async function fetchAppointments() {
   const memberId = JSON.parse(localStorage.getItem("memberDetails"))?.memberID;
 
@@ -131,109 +104,86 @@ async function fetchAppointments() {
     if (response.ok) {
       const appointments = data.appointments;
 
+      // Sort appointments by start date in ascending order (most recent first)
+      appointments.sort(
+        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
+      );
+
       // Update the appointment count
       document.getElementById(
         "appointment-count"
       ).textContent = `${appointments.length} appointments upcoming`;
 
-      const coachingCarouselContainer = document.querySelector(
-        "#coachingCarousel .carousel-inner"
+      const appointmentContainer = document.getElementById(
+        "appointment-container"
       );
-      coachingCarouselContainer.innerHTML = ""; // Clear existing content
+      appointmentContainer.innerHTML = ""; // Clear existing content
 
-      // Create carousel items in groups of three appointments
-      for (let i = 0; i < appointments.length; i += 3) {
-        const carouselItem = document.createElement("div");
-        carouselItem.classList.add("carousel-item");
-        if (i === 0) carouselItem.classList.add("active"); // Make the first item active
-
-        // Create a row to hold up to three appointment cards
-        const row = document.createElement("div");
-        row.classList.add("row", "justify-content-start");
-
-        // Add up to three appointment cards to the row
-        for (let j = i; j < i + 3 && j < appointments.length; j++) {
-          const appointment = appointments[j];
-          const profilePicture =
-            appointment.AdminProfilePicture ||
-            "https://via.placeholder.com/150x150";
-
-          const appointmentCard = document.createElement("div");
-          appointmentCard.classList.add("col-md-4");
-          appointmentCard.innerHTML = `
-      <div class="card carousel-card mx-auto mb-4">
-        <div class="card-body text-start">
-          <div class="row align-items-center">
-            <div class="col-3 text-start">
-              <img src="${profilePicture}" class="common-image" alt="${
-            appointment.AdminFirstName
-          } ${appointment.AdminLastName} Image">
+      // Display all appointments
+      appointments.forEach((appointment) => {
+        const profilePicture =
+          appointment.AdminProfilePicture ||
+          "https://via.placeholder.com/150x150";
+        const appointmentCard = document.createElement("div");
+        appointmentCard.classList.add("col-md-4");
+        appointmentCard.innerHTML = `
+          <div class="card carousel-card mx-auto mb-4">
+            <div class="card-body text-start">
+              <div class="row align-items-center">
+                <div class="col-3 text-start">
+                  <img src="${profilePicture}" class="common-image" alt="${
+          appointment.AdminFirstName
+        } ${appointment.AdminLastName} Image">
+                </div>
+                <div class="col-9">
+                  <h5 class="card-title">${appointment.AdminFirstName} ${
+          appointment.AdminLastName
+        }</h5>
+                  <p class="card-text bio">${appointment.AdminBio}</p>
+                </div>
+              </div>
+              <div class="time-details mt-3 mb-3">
+                <p class="start-time"><strong>Start:</strong> ${new Date(
+                  appointment.startDateTime
+                ).toLocaleDateString("en-GB", {
+                  weekday: "short",
+                  month: "short",
+                  year: "numeric",
+                  day: "numeric",
+                })} at ${new Date(appointment.startDateTime).toLocaleTimeString(
+          "en-GB",
+          {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          }
+        )}</p>
+                <p class="end-time"><strong>End:</strong> ${new Date(
+                  appointment.endDateTime
+                ).toLocaleDateString("en-GB", {
+                  weekday: "short",
+                  month: "short",
+                  year: "numeric",
+                  day: "numeric",
+                })} at ${new Date(appointment.endDateTime).toLocaleTimeString(
+          "en-GB",
+          {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          }
+        )}</p>
+              </div>
+              <p class="card-text email"><strong>Email:</strong> ${
+                appointment.AdminEmail
+              }</p>
+              <button class="btn btn-primary-custom mt-3" data-participant-url="${
+                appointment.ParticipantURL
+              }">Join Call</button>
             </div>
-            <div class="col-9">
-              <h5 class="card-title">${appointment.AdminFirstName} ${
-            appointment.AdminLastName
-          }</h5>
-              <p class="card-text bio">${appointment.AdminBio}</p>
-            </div>
-          </div>
-          <div class="time-details mt-3 mb-3">
-            <p class="start-time"><strong>Start:</strong> ${new Date(
-              appointment.startDateTime
-            ).toLocaleDateString("en-GB", {
-              weekday: "long",
-              month: "short",
-              year: "numeric",
-              day: "numeric",
-            })} at ${new Date(appointment.startDateTime).toLocaleTimeString(
-            "en-GB",
-            {
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            }
-          )}</p>
-            <p class="end-time"><strong>End:</strong> ${new Date(
-              appointment.endDateTime
-            ).toLocaleDateString("en-GB", {
-              weekday: "long",
-              month: "short",
-              year: "numeric",
-              day: "numeric",
-            })} at ${new Date(appointment.endDateTime).toLocaleTimeString(
-            "en-GB",
-            {
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            }
-          )}</p>
-          </div>
-          <p class="card-text email"><strong>Email:</strong> ${
-            appointment.AdminEmail
-          }</p>
-          <button class="btn btn-primary-custom mt-3" data-participant-url="${
-            appointment.ParticipantURL
-          }">Join Call</button>
-        </div>
-      </div>
-    `;
-          row.appendChild(appointmentCard);
-        }
-
-        // Append the row with appointment cards to the carousel item
-        carouselItem.appendChild(row);
-        coachingCarouselContainer.appendChild(carouselItem);
-      }
-
-      // Enable the carousel controls if there are more than three appointments
-      if (appointments.length > 3) {
-        document
-          .querySelector(".carousel-control-prev")
-          .classList.add("active");
-        document
-          .querySelector(".carousel-control-next")
-          .classList.add("active");
-      }
+          </div>`;
+        appointmentContainer.appendChild(appointmentCard);
+      });
     } else {
       console.error("Failed to fetch appointments:", data.message);
     }
