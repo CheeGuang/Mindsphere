@@ -9,7 +9,9 @@ BEGIN
         contactNo,
         profilePicture,
         availability,
-        bio
+        bio,
+        calendlyLink,
+        calendlyAccessToken
     FROM 
         admin;
 END;

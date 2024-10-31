@@ -76,7 +76,11 @@ CREATE TABLE admin (
     password NVARCHAR(100),
     profilePicture NVARCHAR(500),
     availability NVARCHAR(MAX), -- Stores availability data as JSON
-    bio NVARCHAR(1000) -- New field to store a short biography
+    bio NVARCHAR(1000), -- New field to store a short biography
+    calendlyLink NVARCHAR(500), -- New field for Calendly link
+    calendlyAccessToken NVARCHAR(500) -- New field for Calendly access token
+
+    
 );
 
 CREATE TABLE appointment (
@@ -87,7 +91,6 @@ CREATE TABLE appointment (
     endDateTime NVARCHAR(40),
     ParticipantURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
-    requestDescription NVARCHAR(1000),
     FOREIGN KEY (MemberID) REFERENCES [member](memberID),
     FOREIGN KEY (AdminID) REFERENCES admin(adminID)
 );
@@ -120,7 +123,7 @@ VALUES
 (1, 4, 'John Doe', '35', 'NUS', 'Education', 'None', 'Vegan', 'Soy Milk Only');
 
 -- Insert a dummy admin data with updated availability format
-INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture, availability, bio) 
+INSERT INTO admin (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture, availability, bio, calendlyLink, calendlyAccessToken) 
 VALUES 
     (
         'Simon', 
@@ -134,7 +137,9 @@ VALUES
         'abc123', 
         './img/coach/Simon.jpeg', 
         NULL,
-        'Experienced coach in business and leadership.'
+        'Experienced coach in business and leadership.',
+        'https://calendly.com/simon-mindsphere/1-1-executive-coaching',
+        'eyJraWQiOiIxY2UxZTEzNjE3ZGNmNzY2YjNjZWJjY2Y4ZGM1YmFmYThhNjVlNjg0MDIzZjdjMzJiZTgzNDliMjM4MDEzNWI0IiwidHlwIjoiUEFUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1dGguY2FsZW5kbHkuY29tIiwiaWF0IjoxNzMwMjk1Njc0LCJqdGkiOiI5N2RjZTZlOS1kNzRhLTRjNjEtODU4OS1jYTNkZDZmZjJlZWIiLCJ1c2VyX3V1aWQiOiIyOTM1Y2ZlOC1jOTExLTQxNTAtODEzOS0zOTVlZjFiMjIyYTUifQ.bPLZUqYY4FFtx54rNwBXyd8JMC2U3fXrSXTYeO42nOokj-X-EeBuS_BLaOAGn-1wdfvJ37oW2mP-u3t0ZBQzEg'
     ),
     (
     'Christine', 
@@ -149,13 +154,15 @@ VALUES
     '/img/coach/Christine.jpeg', 
     '[{"utcDateTime": "2024-10-31T09:00:00.000Z"}, {"utcDateTime": "2024-10-31T11:00:00.000Z"}, {"utcDateTime": "2024-11-01T09:00:00.000Z"}, {"utcDateTime": "2024-11-01T11:00:00.000Z"}, {"utcDateTime": "2024-11-07T09:00:00.000Z"}, {"utcDateTime": "2024-11-07T11:00:00.000Z"}, {"utcDateTime": "2024-11-08T09:00:00.000Z"}, {"utcDateTime": "2024-11-08T11:00:00.000Z"}, {"utcDateTime": "2024-11-14T09:00:00.000Z"}, {"utcDateTime": "2024-11-14T11:00:00.000Z"}, {"utcDateTime": "2024-11-15T09:00:00.000Z"}, {"utcDateTime": "2024-11-15T11:00:00.000Z"}]  
     ',
-    'Talent development leader in FinTech.'
+    'Talent development leader in FinTech.',
+    'https://calendly.com/christine-mindsphere/1-1-executive-coaching',
+    'eyJraWQiOiIxY2UxZTEzNjE3ZGNmNzY2YjNjZWJjY2Y4ZGM1YmFmYThhNjVlNjg0MDIzZjdjMzJiZTgzNDliMjM4MDEzNWI0IiwidHlwIjoiUEFUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1dGguY2FsZW5kbHkuY29tIiwiaWF0IjoxNzMwMzEyNDMyLCJqdGkiOiJhNDJmMDExMC02NmM1LTQwMzgtOTU0Ny04ZDZiNTgwZmIyZjAiLCJ1c2VyX3V1aWQiOiIzMWIyYWYyZC1jZmFiLTQwNTgtYjQxNy1hYzE2NjAzY2VjNzkifQ.q1bMc94syvDmQwvApqmUUSPgVC4xR7P8XC6l8LYC8kbCYK38nbL9Do1iCuWVlZa6GvrNyD9mrGjoZOttLktytw'
 );
 
 
 -- Insert a dummy appointment data
-INSERT INTO appointment (MemberID, AdminID, startDateTime, endDateTime, ParticipantURL, HostRoomURL, requestDescription)
-VALUES (1, 1, '2024-11-07T09:00:00.000Z', '2024-11-07T10:00:00.000Z', 'https://example.com/patient/johndoe', 'https://example.com/host/room123', 'Need help to practice public speaking.');
+INSERT INTO appointment (MemberID, AdminID, startDateTime, endDateTime, ParticipantURL, HostRoomURL)
+VALUES (1, 1, '2024-11-07T09:00:00.000Z', '2024-11-07T10:00:00.000Z', 'https://example.com/patient/johndoe', 'https://example.com/host/room123');
 
 -- 4) Select all tables
 SELECT * FROM [member];

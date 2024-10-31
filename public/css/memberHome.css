@@ -91,3 +91,30 @@
 .carousel-inner .carousel-item .row {
   justify-content: flex-start !important;
 }
+
+/* Container styling for horizontal scrolling */
+.scrollable-container {
+  display: flex;
+  overflow-x: hidden;
+  padding-bottom: 10px;
+  gap: 20px;
+  transition: overflow 0.3s ease;
+}
+
+.scrollable-container:hover {
+  overflow-x: auto;
+}
+
+/* Styling for scrollbars on hover */
+.scrollable-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: transparent;
+}

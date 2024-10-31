@@ -9,8 +9,7 @@ class Appointment {
     endDateTime,
     startDateTime,
     ParticipantURL,
-    HostRoomURL,
-    requestDescription // New attribute for request description
+    HostRoomURL
   ) {
     this.AppointmentID = AppointmentID; // Assign the appointment ID
     this.MemberID = MemberID; // Assign the member ID
@@ -19,7 +18,6 @@ class Appointment {
     this.startDateTime = startDateTime; // Assign the end date and time
     this.ParticipantURL = ParticipantURL; // Assign the participant URL
     this.HostRoomURL = HostRoomURL; // Assign the host room URL
-    this.requestDescription = requestDescription; // Assign the request description
   }
   static async createAppointment(data) {
     let pool; // Define pool outside the try block to access it in finally
@@ -38,11 +36,6 @@ class Appointment {
         .input("endDateTime", sql.NVarChar(40), data.endDateTime)
         .input("ParticipantURL", sql.NVarChar(1000), data.ParticipantURL)
         .input("HostRoomURL", sql.NVarChar(1000), data.HostRoomURL)
-        .input(
-          "requestDescription",
-          sql.NVarChar(1000),
-          data.requestDescription
-        )
         .execute("usp_create_appointment"); // Execute the stored procedure
 
       console.log("Stored procedure executed successfully.");
@@ -143,6 +136,30 @@ class Appointment {
         await pool.close(); // Close the database connection if pool was defined
         console.log("Database connection closed.");
       }
+    }
+  }
+  static async fetchAppointmentDetails(eventID) {
+    try {
+      const response = await axios.get(
+        `https://api.calendly.com/scheduled_events/${eventID}`,
+        {
+          headers: {
+            Authorization: `Bearer YOUR_ACCESS_TOKEN`,
+          },
+        }
+      );
+
+      const { start_time, end_time } = response.data.resource.calendar_event;
+      console.log("Start Time:", start_time);
+      console.log("End Time:", end_time);
+
+      return {
+        start_time: start_time, // ISO format string
+        end_time: end_time, // ISO format string
+      };
+    } catch (error) {
+      console.error(`Error fetching appointment details: ${error.message}`);
+      throw error;
     }
   }
 }

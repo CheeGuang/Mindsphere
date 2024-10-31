@@ -65,5 +65,14 @@ adminRoutes.put(
 // Route to get all admins with their profile pictures and bio
 adminRoutes.get("/get-all-admins", AdminController.getAllAdmins);
 
+// Route to update admin Calendly link by adminID
+adminRoutes.put("/update-calendly-link", AdminController.updateCalendlyLink);
+
+// Route to update admin Calendly access token by adminID
+adminRoutes.put(
+  "/update-calendly-access-token",
+  AdminController.updateCalendlyAccessToken
+);
+
 // ========== Export ==========
 module.exports = adminRoutes;

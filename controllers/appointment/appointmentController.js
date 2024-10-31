@@ -1,22 +1,35 @@
 // ========== Models ==========
+const fetch = require("node-fetch");
+
 // Importing Appointment model
 const Appointment = require("../../models/appointment");
 API_KEY = process.env.WherebyAPIKey;
 
 // ========== Controller ==========
 class AppointmentController {
+  // Controller to create appointment with start and end time from eventURI
   static async createAppointment(req, res) {
     try {
-      const apiUrl = "https://api.whereby.dev/v1/meetings";
-      const {
-        startDateTime,
-        endDateTime,
-        memberID,
-        adminID,
-        requestDescription,
-      } = req.body;
+      const { eventURI, memberID, adminID, calendlyAccessToken } = req.body;
 
-      // Data for creating the meeting in Whereby
+      // Retrieve the start and end time from Calendly using getAppointmentDetails
+      const startEndDateTimeResponse =
+        await AppointmentController.getAppointmentDetails(
+          { body: { eventURI, calendlyAccessToken } },
+          {
+            status: (code) => ({ json: (data) => data }), // Mock response to capture data
+          }
+        );
+
+      if (!startEndDateTimeResponse.success) {
+        throw new Error(startEndDateTimeResponse.message);
+      }
+
+      const { start_time: startDateTime, end_time: endDateTime } =
+        startEndDateTimeResponse;
+
+      // Whereby API endpoint and data for creating the meeting
+      const apiUrl = "https://api.whereby.dev/v1/meetings";
       const requestData = {
         endDate: endDateTime,
         fields: ["hostRoomUrl"],
@@ -53,7 +66,6 @@ class AppointmentController {
         endDateTime,
         ParticipantURL: roomData.roomUrl,
         HostRoomURL: roomData.hostRoomUrl,
-        requestDescription,
       };
 
       console.log(newAppointmentData);
@@ -75,9 +87,11 @@ class AppointmentController {
       res.status(500).json({
         success: false,
         message: "Failed to create appointment.",
+        error: error.message,
       });
     }
   }
+
   // Controller to get all appointments by MemberID
   static async getAllAppointmentsByMemberID(req, res) {
     try {
@@ -135,6 +149,54 @@ class AppointmentController {
       );
       return res.status(500).json({
         message: "Error retrieving appointments",
+        error: error.message,
+      });
+    }
+  }
+
+  // Controller to fetch and return only the start and end time in ISO format
+  static async getAppointmentDetails(req, res) {
+    try {
+      const { eventURI, calendlyAccessToken } = req.body; // Retrieve eventURI and calendlyAccessToken from request body
+
+      console.log("Fetching appointment details for Event URI:", eventURI);
+
+      // Make the request to Calendly API using the provided token
+      const response = await fetch(eventURI, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${calendlyAccessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Parse the response data
+      const data = await response.json();
+      console.log(data);
+      const { start_time, end_time } = data.resource;
+      console.log(end_time);
+      console.log(start_time);
+
+      if (!start_time || !end_time) {
+        return res.status(404).json({
+          success: false,
+          message: "Start and end time not found for the given event.",
+        });
+      }
+
+      // Return only the start and end time in ISO format
+      return res.status(200).json({
+        success: true,
+        start_time, // ISO format
+        end_time, // ISO format
+      });
+    } catch (error) {
+      console.error(
+        `Error in AppointmentController.getAppointmentDetails: ${error.message}`
+      );
+      return res.status(500).json({
+        success: false,
+        message: "Failed to fetch appointment details.",
         error: error.message,
       });
     }
