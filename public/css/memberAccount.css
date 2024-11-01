@@ -3,13 +3,15 @@ h1 {
   font-family: "Lora", serif;
   font-weight: 700;
   font-size: 2.5rem;
-  color: #2c3e50; /* Darker blue-gray */
+  color: #2c3e50;
+  /* Darker blue-gray */
   margin-bottom: 20px;
 }
 
 p {
   font-size: 1.25rem;
-  color: #7f8c8d; /* Soft grey */
+  color: #7f8c8d;
+  /* Soft grey */
 }
 
 #profilePicture {
@@ -21,17 +23,21 @@ p {
 .nav-tabs .nav-link {
   font-size: 1rem;
   font-weight: 600;
-  color: #555; /* Neutral grey for tabs */
+  color: #555;
+  /* Neutral grey for tabs */
   transition: color 0.3s;
 }
 
 .nav-tabs .nav-link.active {
-  color: #3498db; /* Blue for active tab */
-  border-color: #3498db; /* Match active color */
+  color: #3498db;
+  /* Blue for active tab */
+  border-color: #3498db;
+  /* Match active color */
 }
 
 .nav-tabs .nav-link:hover {
-  color: #2980b9; /* Darker blue on hover */
+  color: #2980b9;
+  /* Darker blue on hover */
 }
 
 /* Card Styling */
@@ -41,13 +47,15 @@ p {
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05); /* Soft shadow */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05);
+  /* Soft shadow */
 }
 
 /* Form Fields Styling */
 .form-label {
   font-weight: 600;
-  color: #34495e; /* Dark grey-blue */
+  color: #34495e;
+  /* Dark grey-blue */
 }
 
 .form-control {
@@ -59,22 +67,11 @@ p {
 
 .form-control:focus {
   border-color: #3498db;
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4); /* Blue glow */
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+  /* Blue glow */
 }
 
-.btn-danger {
-  background-color: #e74c3c;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-weight: 600;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
 
-.btn-danger:hover {
-  background-color: #c0392b;
-  box-shadow: 0 5px 15px rgba(192, 57, 43, 0.3); /* Red shadow */
-}
 
 /* Sign Out Button Center Alignment */
 .mt-3.text-center {
@@ -94,7 +91,8 @@ input[type="file"] {
 /* Form Button Spacing */
 button[type="submit"] {
   margin-top: 15px;
-  width: 100%; /* Make the button full-width */
+  width: 100%;
+  /* Make the button full-width */
 }
 
 /* Custom styles for buttons */
@@ -107,15 +105,49 @@ button[type="submit"] {
 }
 
 .sign-out-btn {
-  background-color: #dc3545;
-  border-color: #dc3545;
+  color: white;
+  background-color: #FFD700;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .sign-out-btn:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
+  background-color: #fff09c;
+
 }
 
 .btn-wide {
-  width: 120px; /* Adjust the width to your preference */
+  width: 120px;
+  /* Adjust the width to your preference */
+}
+
+.sub-text {
+  font-size: 15px;
+}
+
+.eye-icon {
+  color: #FFD700;
+  /* Replace with your preferred color */
+}
+
+#newPassword:focus,
+#confirmPassword:focus {
+  outline: none;
+  border-color: #FFD700;
+  /* Choose your preferred color */
+  box-shadow: 0 0 5px #FFD700;
+}
+
+#confirmText {
+  text-transform: uppercase;
+}
+
+.custom-badge {
+  font-size: 1.2rem;
+  padding: 8px 16px;
+  background-color: #FFD700;
+  border-radius: 10px;
 }

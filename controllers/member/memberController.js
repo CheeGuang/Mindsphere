@@ -328,6 +328,56 @@ class MemberController {
       });
     }
   }
+
+  //  update member info 
+ static async updateMember(req, res) {
+    const { memberID } = req.params;
+    const { firstName, lastName, email, contactNo } = req.body;
+
+    try {
+      const updatedMemberID = await Member.updateMemberinfo(memberID, {
+        firstName,
+        lastName,
+        email,
+        contactNo,
+        
+      });
+
+      if (updatedMemberID) {
+        return res.status(200).json({
+          message: "Member updated successfully",
+          memberID: updatedMemberID
+        });
+      } else {
+        return res.status(404).json({ error: "Member not found" });
+      }
+    } catch (error) {
+      console.error("Error in updateMember controller:", error);
+      return res.status(500).json({ error: "An error occurred while updating the member" });
+    }
+  }
+
+
+   static async deleteMember(req, res) {
+        try {
+            // Extract memberID from the request params
+            const { memberID } = req.params;
+            
+            // Call the deleteMember method from the model
+            const isDeleted = await Member.deleteMember(memberID);
+
+            // Check the result and respond accordingly
+            if (isDeleted) {
+                res.status(200).json({ message: "Member deleted successfully." });
+            } else {
+                res.status(404).json({ message: "Member not found." });
+            }
+        } catch (error) {
+            console.error("Error in deleteMember controller:", error);
+            res.status(500).json({ message: "An error occurred while deleting the member." });
+        }
+    }
+  
 }
 
 // ========== Export ==========
