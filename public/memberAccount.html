@@ -90,49 +90,87 @@
               <div class="col-12">
                 <h1 class="mt-3">Account</h1>
                 <p class="mb-3">Mindsphere Services</p>
-          
+
                 <!-- Navigation Tabs -->
                 <ul class="nav nav-tabs mb-3" id="accountTabs" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="account-tab" data-bs-toggle="tab" href="#account" role="tab"
-                      aria-controls="account" aria-selected="true">Account</a>
+                    <a
+                      class="nav-link active"
+                      id="account-tab"
+                      data-bs-toggle="tab"
+                      href="#account"
+                      role="tab"
+                      aria-controls="account"
+                      aria-selected="true"
+                      >Account</a
+                    >
                   </li>
                   <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#changePassword" role="tab"
-                      aria-controls="changePassword" aria-selected="false">Change Password</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="delete-account-tab" data-bs-toggle="tab" href="#deleteAccount" role="tab"
-                      aria-controls="deleteAccount" aria-selected="false">Delete Account</a>
+                    <a
+                      class="nav-link"
+                      id="change-password-tab"
+                      data-bs-toggle="tab"
+                      href="#changePassword"
+                      role="tab"
+                      aria-controls="changePassword"
+                      aria-selected="false"
+                      >Change Password</a
+                    >
                   </li>
                 </ul>
-          
+
                 <!-- Tab Content -->
                 <div class="tab-content">
                   <!-- Account Tab Pane -->
-                  <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                  <div
+                    class="tab-pane fade show active"
+                    id="account"
+                    role="tabpanel"
+                    aria-labelledby="account-tab"
+                  >
                     <div class="card p-4 text-start">
                       <form>
                         <!-- Profile Picture Header -->
                         <div class="mb-3">
                           <h4 class="d-flex align-items-center">
                             <strong>Profile Picture</strong>
-                            <button type="button" class="btn btn-link p-0 ms-2 edit-btn" id="editProfilePicture">
+                            <button
+                              type="button"
+                              class="btn btn-link p-0 ms-2 edit-btn"
+                              id="editProfilePicture"
+                            >
                               <i class="fas fa-edit text-black"></i>
                             </button>
                           </h4>
                           <div class="d-flex align-items-center">
-                            <img src="./img/misc/account-icon.png" alt="Profile Picture" class="rounded-circle me-3"
-                              style="width: 100px; height: 100px" id="currentProfilePicture" />
-                            <div id="profilePictureButtons" class="d-none ms-3" style="width: 400px !important">
+                            <img
+                              src="./img/misc/account-icon.png"
+                              alt="Profile Picture"
+                              class="rounded-circle me-3"
+                              style="width: 100px; height: 100px"
+                              id="currentProfilePicture"
+                            />
+                            <div
+                              id="profilePictureButtons"
+                              class="d-none ms-3"
+                              style="width: 400px !important"
+                            >
                               <div class="row gx-2">
                                 <div class="col">
-                                  <button type="button" class="btn btn-success save-btn btn-wide" id="saveProfilePicture">
+                                  <button
+                                    type="button"
+                                    class="btn btn-success save-btn btn-wide"
+                                    id="saveProfilePicture"
+                                  >
                                     <i class="fas fa-save"></i> Save
                                   </button>
                                 </div>
                                 <div class="col">
-                                  <button type="button" class="btn btn-secondary cancel-btn btn-wide" id="cancelProfilePicture">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary cancel-btn btn-wide"
+                                    id="cancelProfilePicture"
+                                  >
                                     <i class="fas fa-times"></i> Cancel
                                   </button>
                                 </div>
@@ -140,34 +178,56 @@
                             </div>
                           </div>
                         </div>
-          
-          
+
                         <!-- Membership Information -->
-                        <div class="mb-3 text-start d-flex align-items-center gap-2">
+                        <div
+                          class="mb-3 text-start d-flex align-items-center gap-2"
+                        >
                           <span class="badge custom-badge">MEMBER</span>
                           <p class="mb-0 sub-text">Expires: 12 October 2025</p>
                         </div>
-          
-          
+
                         <!-- First Name Field -->
                         <div class="mb-3">
                           <label for="firstName" class="form-label">
                             <strong>First Name</strong>
                           </label>
                           <div class="d-flex align-items-center">
-                            <input type="text" class="form-control me-2" id="firstName" value="Mindsphere" readonly />
-                            <button type="button" class="btn btn-link p-0 edit-btn" id="editFirstName">
+                            <input
+                              type="text"
+                              class="form-control me-2"
+                              id="firstName"
+                              value="Mindsphere"
+                              readonly
+                            />
+                            <button
+                              type="button"
+                              class="btn btn-link p-0 edit-btn"
+                              id="editFirstName"
+                            >
                               <i class="fas fa-edit text-black"></i>
                             </button>
-                            <div id="firstNameButtons" class="d-none ms-2" style="width: 400px !important">
+                            <div
+                              id="firstNameButtons"
+                              class="d-none ms-2"
+                              style="width: 400px !important"
+                            >
                               <div class="row gx-2">
                                 <div class="col">
-                                  <button type="button" class="btn btn-success save-btn btn-wide" id="saveFirstName">
+                                  <button
+                                    type="button"
+                                    class="btn btn-success save-btn btn-wide"
+                                    id="saveFirstName"
+                                  >
                                     <i class="fas fa-save"></i> Save
                                   </button>
                                 </div>
                                 <div class="col">
-                                  <button type="button" class="btn btn-secondary cancel-btn btn-wide" id="cancelFirstName">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary cancel-btn btn-wide"
+                                    id="cancelFirstName"
+                                  >
                                     <i class="fas fa-times"></i> Cancel
                                   </button>
                                 </div>
@@ -175,26 +235,48 @@
                             </div>
                           </div>
                         </div>
-          
+
                         <!-- Last Name Field -->
                         <div class="mb-3">
                           <label for="lastName" class="form-label">
                             <strong>Last Name</strong>
                           </label>
                           <div class="d-flex align-items-center">
-                            <input type="text" class="form-control me-2" id="lastName" value="Services" readonly />
-                            <button type="button" class="btn btn-link p-0 edit-btn" id="editLastName">
+                            <input
+                              type="text"
+                              class="form-control me-2"
+                              id="lastName"
+                              value="Services"
+                              readonly
+                            />
+                            <button
+                              type="button"
+                              class="btn btn-link p-0 edit-btn"
+                              id="editLastName"
+                            >
                               <i class="fas fa-edit text-black"></i>
                             </button>
-                            <div id="lastNameButtons" class="d-none ms-2" style="width: 400px !important">
+                            <div
+                              id="lastNameButtons"
+                              class="d-none ms-2"
+                              style="width: 400px !important"
+                            >
                               <div class="row gx-2">
                                 <div class="col">
-                                  <button type="button" class="btn btn-success save-btn btn-wide" id="saveLastName">
+                                  <button
+                                    type="button"
+                                    class="btn btn-success save-btn btn-wide"
+                                    id="saveLastName"
+                                  >
                                     <i class="fas fa-save"></i> Save
                                   </button>
                                 </div>
                                 <div class="col">
-                                  <button type="button" class="btn btn-secondary cancel-btn btn-wide" id="cancelLastName">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary cancel-btn btn-wide"
+                                    id="cancelLastName"
+                                  >
                                     <i class="fas fa-times"></i> Cancel
                                   </button>
                                 </div>
@@ -204,21 +286,45 @@
                         </div>
                         <!-- Contact Number Field -->
                         <div class="mb-3">
-                          <label for="contactNo" class="form-label"><strong>Contact Number</strong></label>
+                          <label for="contactNo" class="form-label"
+                            ><strong>Contact Number</strong></label
+                          >
                           <div class="d-flex align-items-center">
-                            <input type="text" class="form-control me-2" id="contactNo" value="admin" readonly />
-                            <button type="button" class="btn btn-link p-0 edit-btn" id="editContactNo">
+                            <input
+                              type="text"
+                              class="form-control me-2"
+                              id="contactNo"
+                              value="admin"
+                              readonly
+                            />
+                            <button
+                              type="button"
+                              class="btn btn-link p-0 edit-btn"
+                              id="editContactNo"
+                            >
                               <i class="fas fa-edit text-black"></i>
                             </button>
-                            <div id="contactNoButtons" class="d-none ms-2" style="width: 360px !important">
+                            <div
+                              id="contactNoButtons"
+                              class="d-none ms-2"
+                              style="width: 360px !important"
+                            >
                               <div class="row gx-2">
                                 <div class="col">
-                                  <button type="button" class="btn btn-success save-btn btn-wide" id="saveContactNo">
+                                  <button
+                                    type="button"
+                                    class="btn btn-success save-btn btn-wide"
+                                    id="saveContactNo"
+                                  >
                                     <i class="fas fa-save"></i> Save
                                   </button>
                                 </div>
                                 <div class="col">
-                                  <button type="button" class="btn btn-secondary cancel-btn btn-wide" id="cancelContactNo">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary cancel-btn btn-wide"
+                                    id="cancelContactNo"
+                                  >
                                     <i class="fas fa-times"></i> Cancel
                                   </button>
                                 </div>
@@ -226,27 +332,48 @@
                             </div>
                           </div>
                         </div>
-                        
+
                         <!-- Email Address Field -->
                         <div class="mb-3">
                           <label for="email" class="form-label">
                             <strong>E-mail Address</strong>
                           </label>
                           <div class="d-flex align-items-center">
-                            <input type="email" class="form-control me-2" id="email" value="mindsphere.services@gmail.com"
-                              readonly />
-                            <button type="button" class="btn btn-link p-0 edit-btn" id="editEmail">
+                            <input
+                              type="email"
+                              class="form-control me-2"
+                              id="email"
+                              value="mindsphere.services@gmail.com"
+                              readonly
+                            />
+                            <button
+                              type="button"
+                              class="btn btn-link p-0 edit-btn"
+                              id="editEmail"
+                            >
                               <i class="fas fa-edit text-black"></i>
                             </button>
-                            <div id="emailButtons" class="d-none ms-2" style="width: 400px !important">
+                            <div
+                              id="emailButtons"
+                              class="d-none ms-2"
+                              style="width: 400px !important"
+                            >
                               <div class="row gx-2">
                                 <div class="col">
-                                  <button type="button" class="btn btn-success save-btn btn-wide" id="saveEmail">
+                                  <button
+                                    type="button"
+                                    class="btn btn-success save-btn btn-wide"
+                                    id="saveEmail"
+                                  >
                                     <i class="fas fa-save"></i> Save
                                   </button>
                                 </div>
                                 <div class="col">
-                                  <button type="button" class="btn btn-secondary cancel-btn btn-wide" id="cancelEmail">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary cancel-btn btn-wide"
+                                    id="cancelEmail"
+                                  >
                                     <i class="fas fa-times"></i> Cancel
                                   </button>
                                 </div>
@@ -261,130 +388,115 @@
                           Sign Out
                         </button>
                       </div>
-          
                     </div>
                   </div>
-          
+
                   <!-- Change Password Tab Pane -->
-                  <div class="tab-pane fade" id="changePassword" role="tabpanel" aria-labelledby="change-password-tab">
-                    <div class="container p-4" style=" border: 1px solid #ddd; border-radius: 10px;">
+                  <div
+                    class="tab-pane fade"
+                    id="changePassword"
+                    role="tabpanel"
+                    aria-labelledby="change-password-tab"
+                  >
+                    <div
+                      class="container p-4"
+                      style="border: 1px solid #ddd; border-radius: 10px"
+                    >
                       <h3 class="mb-3">Change Password</h3>
-                      <p class="mb-5 sub-text">Enter a new password below to change your password</p>
+                      <p class="mb-5 sub-text">
+                        Enter a new password below to change your password
+                      </p>
                       <!-- New Password Field -->
                       <div class="mb-3 position-relative text-start">
-                        <label for="newPassword" class="form-label">New Password</label>
+                        <label for="newPassword" class="form-label"
+                          >New Password</label
+                        >
                         <div class="position-relative">
-                          <input type="password" class="form-control pe-5" id="newPassword" placeholder="New Password" />
-                          <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y me-2"
-                            style="padding: 0; line-height: 1;">
-                            <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
+                          <input
+                            type="password"
+                            class="form-control pe-5"
+                            id="newPassword"
+                            placeholder="New Password"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y me-2"
+                            style="padding: 0; line-height: 1"
+                          >
+                            <i
+                              class="fa fa-eye-slash eye-icon"
+                              aria-hidden="true"
+                            ></i>
                           </button>
                         </div>
                       </div>
-          
+
                       <!-- Confirm Password Field -->
                       <div class="mb-4 position-relative text-start">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <label for="confirmPassword" class="form-label"
+                          >Confirm Password</label
+                        >
                         <div class="position-relative">
-                          <input type="password" class="form-control pe-5" id="confirmPassword"
-                            placeholder="Confirm your password" />
-                          <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y me-2"
-                            style="padding: 0; line-height: 1;">
-                            <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
+                          <input
+                            type="password"
+                            class="form-control pe-5"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y me-2"
+                            style="padding: 0; line-height: 1"
+                          >
+                            <i
+                              class="fa fa-eye-slash eye-icon"
+                              aria-hidden="true"
+                            ></i>
                           </button>
                         </div>
                       </div>
-          
-          
-          
+
                       <!-- Submit Button -->
-                      <button type="button" class="btn btn-warning w-100">Change Password</button>
-          
+                      <button type="button" class="btn btn-warning w-100">
+                        Change Password
+                      </button>
                     </div>
                     <!-- Bootstrap Modal for password mismatch -->
-                    <div class="modal fade" id="passwordMismatchModal" tabindex="-1" aria-labelledby="passwordMismatchLabel"
-                      aria-hidden="true">
+                    <div
+                      class="modal fade"
+                      id="passwordMismatchModal"
+                      tabindex="-1"
+                      aria-labelledby="passwordMismatchLabel"
+                      aria-hidden="true"
+                    >
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="passwordMismatchLabel">Password Mismatch</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="passwordMismatchLabel">
+                              Password Mismatch
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
                           <div class="modal-body">
                             Passwords do not match. Please try again.
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
-
-
-                  </div>
-          
-                  <!-- Delete Account Tab Pane -->
-                  <div class="tab-pane fade" id="deleteAccount" role="tabpanel" aria-labelledby="delete-account-tab">
-                    <div class="container">
-                      <div class="card  text-center p-4">
-                        <div class="card-body">
-                          <div class="mb-3">
-                            <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
-                          </div>
-                          <h3 class="card-title">Are you sure you want to delete your account permanently?</h3>
-                          <p class="card-text sub-text">
-                            By doing this, your account will be deleted permanently, and you will not be able to recover it
-                            anymore.
-                          </p>
-                          <!-- Bootstrap Modal for Error Message -->
-                          <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="errorModalLabel">Error</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body" id="errorMessage">
-                                  Please type <strong>'DELETE'</strong> exactly to confirm account deletion.
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <form id="deleteAccountForm" class="mt-3">
-                            <div class="mb-3 mx-auto set-width">
-                              <label for="confirmText" class="form-label">To confirm this, type "DELETE"</label>
-                              <input type="text" class="form-control text-center" id="confirmText" placeholder="DELETE" required>
-                            </div>
-                            <div class="d-grid gap-2 mx-auto set-width">
-                              <button type="submit" class="btn btn-danger">Delete Account</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Bootstrap Modal for Final Confirmation -->
-                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteLabel">Confirm Account Deletion</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            Are you absolutely sure you want to delete your account? This action cannot be undone.
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes, Delete My Account</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
               </div>

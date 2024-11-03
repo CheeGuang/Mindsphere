@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       rowContent += `
-        <div class="col-md-3 mb-3">
+        <div class="col-md-5 mb-3">
           <div class="card coach-card d-flex align-items-center p-3 ${
             index === 0 ? "selected" : ""
           }" data-coach="${coach.firstName.toLowerCase()}" data-adminId="${

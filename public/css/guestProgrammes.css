@@ -93,3 +93,8 @@ ul {
   transform: translateY(1px); /* Button presses down slightly on click */
   text-decoration: none; /* Ensure underline is removed on click */
 }
+
+.modal-content {
+  background-color: transparent !important;
+  border: none !important;
+}
