@@ -61,6 +61,10 @@ memberRoutes.get(
   "/member-details/:memberID",
   MemberController.getMemberDetailsById
 );
+// Route to Update member info
+memberRoutes.put("/upadte-member/:memberID", MemberController.updateMember);
+
+memberRoutes.delete("/delete-member/:memberID",MemberController.deleteMember)
 
 // ========== Export ==========
 module.exports = memberRoutes;
