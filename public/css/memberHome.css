@@ -1,9 +1,10 @@
 /* Styling for the carousel cards */
+/* Updated styling for the carousel cards to have a fixed width */
 .carousel-card {
   background-color: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: 15px;
-  max-width: 600px;
+  width: 420px; /* Fixed width for consistent sizing */
   padding: 20px;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
@@ -117,4 +118,8 @@
 
 .scrollable-container::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.scrollable-container .col-md-4 {
+  width: 420px !important;
 }

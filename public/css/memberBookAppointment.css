@@ -136,10 +136,14 @@
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid transparent; /* Default border is transparent */
-  width: 300px;
+  width: 100%;
+  max-width: 300px !important;
   border: 2px solid #ececec !important;
 }
 
+#coaches-section .col-md-5 {
+  max-width: 300px !important;
+}
 .coach-card:hover {
   transform: translateY(-5px); /* Lift effect on hover */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
