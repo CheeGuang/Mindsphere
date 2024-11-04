@@ -35,6 +35,13 @@
       rel="stylesheet"
     />
 
+    <!-- Include flatpickr CSS and JavaScript for date picker -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <!-- Page Name -->
     <title>Mindsphere</title>
 
@@ -75,88 +82,183 @@
     <div class="row" style="height: 50px; background-color: transparent"></div>
 
     <!-- Main Content Container -->
-    <div class="container text-center">
+    <div class="container text-start">
       <div class="row justify-content-center">
         <div class="col-12">
           <!-- Load customAlert.html dynamically -->
           <div id="customAlertContainer"></div>
 
-          <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <h2 class="text-start">
-            <a href="adminManageEvents.html" style="text-decoration: none; color: black;">
-              <i class="fas fa-arrow-left"></i> Back
-            </a>
-          </h2>
+          <div class="container mt-3">
+            <div class="row align-items-center">
+              <!-- Back Button -->
+              <div class="col-auto">
+                <h2 class="text-start m-0">
+                  <a
+                    href="adminManageEvents.html"
+                    style="text-decoration: none; color: black"
+                  >
+                    <i class="fas fa-arrow-left"></i> Back
+                  </a>
+                </h2>
+              </div>
+            </div>
+            <!-- Create Events Title -->
+            <div class="col text-center">
+              <h1 class="m-0">Create Events</h1>
+            </div>
+          </div>
 
-          <h1 class="mt-3">Create Events</h1>
+          <div class="container mt-4">
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <form>
+                  <!-- Image Placeholder -->
+                  <div class="mb-3 text-center">
+                    <img
+                      id="imagePlaceholder"
+                      src="./img/misc/image-placeholder.jpg"
+                      alt="Event Image"
+                      style="width: 400px; height: auto"
+                    />
+                    <div class="file-upload-container">
+                      <!-- Custom Label acting as Choose File Button -->
+                      <label for="eventPicture" class="custom-file-upload"
+                        >Choose File</label
+                      >
+                      <input type="file" id="eventPicture" accept="image/*" />
+                      <button type="button" id="clearImageButton">Clear</button>
+                    </div>
+                  </div>
 
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <form>
-        <!-- Upload Image Button -->
-        <div class="mb-3 text-center">
-          <input type="file" id="eventPicture">Upload Image</button>
-        </div>
+                  <!-- Event Title -->
+                  <div class="mb-3">
+                    <label for="eventTitle" class="form-label"
+                      >Event Title</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="eventTitle"
+                      placeholder="Enter the event title"
+                    />
+                  </div>
 
-        <!-- Event Type -->
-        <div class="mb-3">
-          <label for="eventType" class="form-label">Event Type</label>
-          <input type="text" class="form-control" id="eventType" placeholder="Enter the event type">
-        </div>
+                  <!-- Event Type Dropdown with Arrow -->
+                  <div class="mb-3">
+                    <label for="eventType" class="form-label">Event Type</label>
+                    <div class="input-group">
+                      <select class="form-control" id="eventType">
+                        <option value="Public Speaking Workshops">
+                          Public Speaking Workshops
+                        </option>
+                        <option value="PSLE Power Up Camp">
+                          PSLE Power Up Camp
+                        </option>
+                        <option value="Professionals">Professionals</option>
+                        <option value="Labs">Labs</option>
+                      </select>
+                      <span class="input-group-text">
+                        <i class="fas fa-caret-down"></i>
+                      </span>
+                    </div>
+                  </div>
 
-        <!-- Event Title -->
-        <div class="mb-3">
-          <label for="eventTitle" class="form-label">Event Title</label>
-          <input type="text" class="form-control" id="eventTitle" placeholder="Enter the event title">
-        </div>
+                  <!-- Sign Up Price of Event with Integer Validation -->
+                  <div class="mb-3">
+                    <label for="eventPrice" class="form-label"
+                      >Sign Up Price of Event</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="eventPrice"
+                      placeholder="e.g. 100"
+                    />
+                  </div>
 
-        <!-- Sign Up Price of Event -->
-        <div class="mb-3">
-          <label for="eventPrice" class="form-label">Sign Up Price of Event</label>
-          <input type="text" class="form-control" id="eventPrice" placeholder="Enter the event price">
-        </div>
+                  <!-- Event Class Size with Integer Validation -->
+                  <div class="mb-3">
+                    <label for="classSize" class="form-label"
+                      >Event Class Size</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="classSize"
+                      placeholder="e.g. 30"
+                    />
+                  </div>
 
-        <!-- Event Class Size -->
-        <div class="mb-3">
-          <label for="classSize" class="form-label">Event Class Size</label>
-          <input type="text" class="form-control" id="classSize" placeholder="Enter the event class size">
-        </div>
+                  <!-- Event Duration with Text Validation -->
+                  <div class="mb-3">
+                    <label for="duration" class="form-label"
+                      >Event Duration (in days)</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="duration"
+                      placeholder="e.g. 1"
+                    />
+                  </div>
 
-        <!-- Event Duration -->
-        <div class="mb-3">
-          <label for="duration" class="form-label">Event Duration</label>
-          <input type="text" class="form-control" id="duration" placeholder="Enter the event duration">
-        </div>
+                  <!-- Event Dates with Calendar Icon and Multiple Date Selection -->
+                  <div class="mb-3">
+                    <label for="eventDates" class="form-label"
+                      >Event Dates</label
+                    >
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="eventDates"
+                        placeholder="Select multiple dates"
+                      />
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                  </div>
 
-        <!-- Event Dates -->
-        <div class="mb-3">
-          <label for="eventDates" class="form-label">Event Dates</label>
-          <input type="text" class="form-control" id="eventDates" placeholder="Enter the event dates in yyyy-mm-dd format">
-        </div>
+                  <!-- Event Time with Time Validation -->
+                  <div class="mb-3">
+                    <label for="eventTime" class="form-label">Event Time</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="eventTime"
+                      placeholder="e.g. 10am-6pm"
+                    />
+                  </div>
 
-        <!-- Event Time -->
-        <div class="mb-3">
-          <label for="eventTime" class="form-label">Event Time</label>
-          <input type="text" class="form-control" id="eventTime" placeholder="Enter the event time">
-        </div>
+                  <!-- Event Venue -->
+                  <div class="mb-3">
+                    <label for="eventVenue" class="form-label"
+                      >Event Venue</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="eventVenue"
+                      placeholder="Enter the event venue"
+                    />
+                  </div>
 
-        <!-- Event Venue -->
-        <div class="mb-3">
-          <label for="eventVenue" class="form-label">Event Venue</label>
-          <input type="text" class="form-control" id="eventVenue" placeholder="Enter the event venue">
-        </div>
-
-        <!-- Confirm Button -->
-        <div class="d-grid">
-          <button type="button" id="confirmCreateEvent" class="btn btn-warning">Confirm</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
-
+                  <!-- Confirm Button -->
+                  <div class="d-grid">
+                    <button
+                      type="button"
+                      id="confirmCreateEvent"
+                      class="btn btn-warning"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- End of Page Content -->
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ const EventEmitter = require("events");
 const pdfkit = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
+const sharp = require("sharp"); // Import sharp for image processing
 
 // Create an instance of EventEmitter for SSE
 const qrScanEmitter = new EventEmitter();
@@ -78,42 +79,45 @@ class EventController {
     const updatedData = req.body; // Get the updated data from the request body
 
     try {
-        // Call the update function in the Event model
-        const result = await Event.updateEvent(eventId, updatedData);
-        res.status(200).send("Event updated successfully");
+      // Call the update function in the Event model
+      const result = await Event.updateEvent(eventId, updatedData);
+      res.status(200).send("Event updated successfully");
     } catch (error) {
-        console.error("Error updating event:", error.message); // Log the error message
-        res.status(500).send("Failed to save changes"); // Send a user-friendly error message
+      console.error("Error updating event:", error.message); // Log the error message
+      res.status(500).send("Failed to save changes"); // Send a user-friendly error message
     }
-};
+  };
 
-// Event function handler to delete an event by ID
-static deleteEventById = async (req, res) => {
-  const eventID = req.params.eventId;
+  // Event function handler to delete an event by ID
+  static deleteEventById = async (req, res) => {
+    const eventID = req.params.eventId;
 
-  try {
-    await Event.deleteEventById(eventID);
-    res.status(200).json({ message: `Event with ID ${eventID} has been deleted successfully.` });
-  } catch (error) {
-    console.error("Error deleting event:", error.message);
-    res.status(500).send(`Failed to delete event with ID ${eventID}.`);
-  }
-};
+    try {
+      await Event.deleteEventById(eventID);
+      res.status(200).json({
+        message: `Event with ID ${eventID} has been deleted successfully.`,
+      });
+    } catch (error) {
+      console.error("Error deleting event:", error.message);
+      res.status(500).send(`Failed to delete event with ID ${eventID}.`);
+    }
+  };
 
-// Event function handler to create an event
-static createEvent = async (req, res) => {
-  const newEventData = req.body; // Get the new event data from the request body
+  // Event function handler to create an event
+  static createEvent = async (req, res) => {
+    const newEventData = req.body; // Get the new event data from the request body
 
-  try {
+    try {
       // Call the create function in the Event model
       const newEventId = await Event.createEvent(newEventData);
-      res.status(201).json({ message: "Event created successfully", eventId: newEventId });
-  } catch (error) {
+      res
+        .status(201)
+        .json({ message: "Event created successfully", eventId: newEventId });
+    } catch (error) {
       console.error("Error creating event:", error.message); // Log the error message
       res.status(500).send("Failed to create event"); // Send a user-friendly error message
-  }
-};
-
+    }
+  };
 
   // Event function handler to enroll a member to an event using GET parameters
   static enrollMemberToEvent = async (req, res) => {
@@ -575,6 +579,48 @@ static createEvent = async (req, res) => {
     } catch (error) {
       console.error("[DEBUG] Error sending invoice email:", error);
       res.status(500).send("Error sending invoice email");
+    }
+  };
+
+  static uploadImage = async (req, res) => {
+    const { base64Image, fileName } = req.body;
+
+    if (!base64Image || !fileName) {
+      return res
+        .status(400)
+        .json({ error: "Image data or file name is missing" });
+    }
+
+    try {
+      // Decode base64 image data
+      const base64Data = Buffer.from(
+        base64Image.replace(/^data:image\/\w+;base64,/, ""),
+        "base64"
+      );
+
+      // Convert the image to JPG format using sharp
+      const convertedImageBuffer = await sharp(base64Data)
+        .jpeg() // Convert to JPG format
+        .toBuffer();
+
+      // Set up S3 upload parameters
+      const s3FileName = `images/event/${Date.now()}_${fileName}.jpg`; // Ensure filename ends with .jpg
+      const uploadParams = {
+        Bucket: "mindsphere-s3",
+        Key: s3FileName,
+        Body: convertedImageBuffer, // Use the converted buffer
+        ContentType: "image/jpeg", // Set content type to JPG
+      };
+
+      // Upload the image to S3
+      const command = new PutObjectCommand(uploadParams);
+      await S3Client.send(command);
+
+      const imageUrl = `https://${uploadParams.Bucket}.s3.amazonaws.com/${s3FileName}`;
+      res.json({ imageUrl }); // Respond with the S3 URL of the uploaded image
+    } catch (error) {
+      console.error("Error uploading to S3:", error);
+      res.status(500).send("Failed to upload image");
     }
   };
 }

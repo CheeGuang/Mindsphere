@@ -147,15 +147,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       button.textContent = buttonText;
       button.addEventListener("click", async () => {
         console.log(
-          "Join Call button clicked. Opening URL:",
-          appointment.HostRoomURL
+          "Join Call button clicked. Redirecting to adminVisitAppointment"
         );
-        window.open(appointment.HostRoomURL, "_blank");
-        // Send HostRoomURL to the server
-        await sendHostRoomURL(
-          appointment.HostRoomURL,
-          appointment.appointmentID
-        );
+        // Store the HostRoomURL in localStorage to access it on the adminVisitAppointment page
+        localStorage.setItem("HostRoomURL", appointment.HostRoomURL);
+
+        // Redirect to adminVisitAppointment page
+        window.location.href = "/adminVisitAppointment.html";
       });
       card.appendChild(button);
     }

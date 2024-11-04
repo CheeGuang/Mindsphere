@@ -166,30 +166,34 @@ class event {
 
   static async updateEvent(eventID, updatedData) {
     try {
-        const connection = await sql.connect(dbConfig);
-        const request = connection.request();
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
 
-        request.input("eventID", sql.Int, eventID);
-        request.input("title", sql.NVarChar(255), updatedData.title);
-        request.input("price", sql.Float, updatedData.price);
-        request.input("availableDates", sql.NVarChar(255), updatedData.availableDates);
-        request.input("venue", sql.NVarChar(255), updatedData.venue);
-        request.input("duration", sql.NVarChar(255), updatedData.duration);
-        request.input("picture", sql.NVarChar(255), updatedData.picture);
+      request.input("eventID", sql.Int, eventID);
+      request.input("title", sql.NVarChar(255), updatedData.title);
+      request.input("price", sql.Float, updatedData.price);
+      request.input(
+        "availableDates",
+        sql.NVarChar(255),
+        updatedData.availableDates
+      );
+      request.input("venue", sql.NVarChar(255), updatedData.venue);
+      request.input("duration", sql.NVarChar(255), updatedData.duration);
+      request.input("picture", sql.NVarChar(255), updatedData.picture);
 
-        const result = await request.execute("usp_update_event"); // Ensure stored procedure exists
-        connection.close();
+      const result = await request.execute("usp_update_event"); // Ensure stored procedure exists
+      connection.close();
 
-        return result.recordset; // Return the updated event if needed
+      return result.recordset; // Return the updated event if needed
     } catch (error) {
-        console.error("Database error:", error); // Log the error
-        throw error; // Rethrow to handle in the controller
+      console.error("Database error:", error); // Log the error
+      throw error; // Rethrow to handle in the controller
     }
   }
 
   // Function to delete an event by eventID
-static async deleteEventById(eventID) {
-  try {
+  static async deleteEventById(eventID) {
+    try {
       const connection = await sql.connect(dbConfig); // Connect to the database
       const request = connection.request(); // Create a new request
 
@@ -198,18 +202,23 @@ static async deleteEventById(eventID) {
 
       connection.close(); // Close the connection
       return { message: "Event deleted successfully" }; // Return success message
-  } catch (error) {
+    } catch (error) {
       console.error("Error deleting event:", error); // Log the error
       throw error; // Rethrow to handle in the controller
+    }
   }
-}
 
-static async sendTelegramMessage(eventData, eventId) {
-  const botToken = process.env.TelegramBotAPIToken; // Replace with your bot token
-  const channelID = "@Mindsphere_FSDP_Cooking"; // Replace with your channel username or chat ID
+  static async sendTelegramMessage(eventData, eventId) {
+    const botToken = process.env.TelegramBotAPIToken; // Replace with your bot token
+    const channelID = "@Mindsphere_FSDP_Cooking"; // Replace with your channel username or chat ID
 
-  const message = 
-  `📣 New Event Alert! 🎉 We're excited to announce a new event! 
+    console.log("Debug: Preparing to send Telegram message.");
+    console.log(`Debug: botToken = ${botToken}`);
+    console.log(`Debug: channelID = ${channelID}`);
+    console.log("Debug: eventData =", eventData);
+
+    // Prepare the caption with event details
+    const caption = `📣 New Event Alert! 🎉 We're excited to announce a new event! 
   Here are the details: 
   🌟 Title: ${eventData.title}
   📅 Type: ${eventData.type}
@@ -217,31 +226,50 @@ static async sendTelegramMessage(eventData, eventId) {
   👥 Class Size: ${eventData.classSize}
   ⏳ Duration: ${eventData.duration}
   🍽️ Lunch Provided: ${eventData.lunchProvided ? "Yes" : "No"}
-  📚 Lesson Materials Provided: ${eventData.lessonMaterialsProvided ? "Yes" : "No"}
+  📚 Lesson Materials Provided: ${
+    eventData.lessonMaterialsProvided ? "Yes" : "No"
+  }
   🗓️ Available Dates: ${eventData.availableDates}
   🕒 Time: ${eventData.time}
   📍 Venue: ${eventData.venue}
+  
   Don't miss out on this fantastic opportunity! 
   Join us for an enriching experience. 
   If you have any questions, feel free to ask!
   Sign up now at https://mindsphere.onrender.com/`;
 
+    console.log("Debug: caption prepared =", caption);
 
-  try {
-    const response = await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      chat_id: channelID,
-      text: message,
-    });
-    console.log("Telegram message sent successfully:", response.data);
-  } catch (error) {
-    console.error("Error sending Telegram message:", error.response ? error.response.data : error.message);
-    throw error; // Rethrow the error for handling in the caller
+    try {
+      // Send the image with the event details as caption
+      console.log("Debug: Sending photo to Telegram.");
+      const photoResponse = await axios.post(
+        `https://api.telegram.org/bot${botToken}/sendPhoto`,
+        {
+          chat_id: channelID,
+          photo: eventData.picture, // URL of the image
+          caption: caption,
+          parse_mode: "Markdown", // Allows bold and italic text
+        }
+      );
+
+      console.log(
+        "Telegram photo message sent successfully:",
+        photoResponse.data
+      );
+    } catch (error) {
+      console.error(
+        "Error sending Telegram photo message:",
+        error.response ? error.response.data : error.message
+      );
+      console.log("Debug: Failed to send photo. Error details =", error);
+      throw error;
+    }
   }
-}
 
-// Function to create an event
-static async createEvent(newData) {
-  try {
+  // Function to create an event
+  static async createEvent(newData) {
+    try {
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
 
@@ -251,12 +279,36 @@ static async createEvent(newData) {
       request.input("oldPrice", sql.Decimal(10, 2), newData.oldPrice || null); // Allow null
       request.input("classSize", sql.NVarChar(50), newData.classSize);
       request.input("duration", sql.NVarChar(50), newData.duration);
-      request.input("lunchProvided", sql.Bit, newData.lunchProvided !== undefined ? newData.lunchProvided : 1); // Default to 1
-      request.input("lessonMaterialsProvided", sql.Bit, newData.lessonMaterialsProvided !== undefined ? newData.lessonMaterialsProvided : 1); // Default to 1
-      request.input("accessToMembership", sql.Bit, newData.accessToMembership !== undefined ? newData.accessToMembership : 1); // Default to 1
-      request.input("availableDates", sql.NVarChar(sql.MAX), newData.availableDates); // Handle as NVARCHAR(MAX)
+      request.input(
+        "lunchProvided",
+        sql.Bit,
+        newData.lunchProvided !== undefined ? newData.lunchProvided : 1
+      ); // Default to 1
+      request.input(
+        "lessonMaterialsProvided",
+        sql.Bit,
+        newData.lessonMaterialsProvided !== undefined
+          ? newData.lessonMaterialsProvided
+          : 1
+      ); // Default to 1
+      request.input(
+        "accessToMembership",
+        sql.Bit,
+        newData.accessToMembership !== undefined
+          ? newData.accessToMembership
+          : 1
+      ); // Default to 1
+      request.input(
+        "availableDates",
+        sql.NVarChar(sql.MAX),
+        newData.availableDates
+      ); // Handle as NVARCHAR(MAX)
       request.input("time", sql.NVarChar(50), newData.time);
-      request.input("totalParticipants", sql.Int, newData.totalParticipants || 0); // Default to 0
+      request.input(
+        "totalParticipants",
+        sql.Int,
+        newData.totalParticipants || 0
+      ); // Default to 0
       request.input("venue", sql.NVarChar(500), newData.venue);
       request.input("picture", sql.NVarChar(500), newData.picture);
 
@@ -270,11 +322,11 @@ static async createEvent(newData) {
       await event.sendTelegramMessage(newData, newEventID);
 
       return newEventID;
-  } catch (error) {
+    } catch (error) {
       console.error("Error creating event:", error);
       throw error;
+    }
   }
-}
 
   // Enroll a member to an event and return the memberEventID
   static async enrollMemberToEvent(

@@ -32,7 +32,9 @@ $(document).ready(function () {
                 <h5>${eventData.title}</h5>
                 <p>${eventData.description || "Description not available."}</p>
                 <div class="d-flex justify-content-center mt-auto">
-                  <a href="javascript:void(0);" class="${buttonClass} mt-3 mb-4" onclick="handleGetStartedClick('${eventData.eventID}')">Get started</a>
+                  <a href="guestWorkshopInformation.html?eventID=${
+                    eventData.eventID
+                  }" class="${buttonClass} mt-3 mb-4">Get started</a>
                 </div>
                 <ul class="list-unstyled">
                   <li><i class="fas fa-check-circle me-2"></i>Class size: ${
@@ -58,12 +60,6 @@ $(document).ready(function () {
           </div>
         `;
   }
-
-  // Store the selected event ID in localStorage and redirect to the workshop details page
-  window.handleGetStartedClick = function (eventID) {
-    localStorage.setItem("selectedEventID", eventID);
-    window.location.href = "./guestWorkshopInformation.html";
-  };
 
   // Event listener for modals (sample for Public Speaking Workshops)
   $("#publicSpeakingCard").click(function () {

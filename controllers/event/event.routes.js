@@ -37,23 +37,13 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, "../../public/img/workshop"));
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
+  },
 });
-
-const upload = multer({ storage: storage });
 
 // Define the image upload route
-eventRoutes.post("/uploadImage", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
-
-  const filePath = `/img/workshop/${req.file.filename}`;
-  res.json({ filePath: filePath });
-});
-
+eventRoutes.post("/uploadImage", EventController.uploadImage);
 
 // Route to get unique event types
 eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);
