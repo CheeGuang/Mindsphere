@@ -51,9 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showCustomAlert("Successfully Signed out.");
 
-    // Wait for 3 seconds (3000 milliseconds) before redirecting
+    // Wait for 3 seconds (1000 milliseconds) before redirecting
     setTimeout(function () {
       window.location.href = "../index.html";
-    }, 3000);
+    }, 1000);
   });
 });

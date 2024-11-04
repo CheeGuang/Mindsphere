@@ -20,7 +20,8 @@ class event {
     time,
     totalParticipants,
     venue,
-    picture
+    picture,
+    memberEventID
   ) {
     this.eventID = eventID;
     this.type = type;
@@ -37,6 +38,7 @@ class event {
     this.totalParticipants = totalParticipants;
     this.venue = venue;
     this.picture = picture;
+    this.memberEventID = memberEventID;
   }
 
   // Fetch all events
@@ -137,10 +139,12 @@ class event {
             row.time,
             row.totalParticipants,
             row.venue,
-            row.picture
+            row.picture,
+            row.memberEventID // Add memberEventID
           )
       );
 
+      console.log(memberEvent);
       connection.close();
 
       return [...memberEvent];
@@ -328,7 +332,7 @@ class event {
     }
   }
 
-  // Enroll a member to an event and return the memberEventID
+  // Enroll a member to an event and return the memberEventID and membershipUpdated status
   static async enrollMemberToEvent(
     memberID,
     eventID,
@@ -341,10 +345,13 @@ class event {
     specifyOther
   ) {
     try {
+      console.log("[DEBUG] Connecting to database...");
+
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
 
       // Set up input parameters
+      console.log("[DEBUG] Setting input parameters for stored procedure...");
       request.input("memberID", sql.Int, memberID);
       request.input("eventID", sql.Int, eventID);
       request.input("fullName", sql.NVarChar(100), fullName);
@@ -355,23 +362,35 @@ class event {
       request.input("lunchOption", sql.NVarChar(100), lunchOption);
       request.input("specifyOther", sql.NVarChar(200), specifyOther);
 
-      // Output parameter to capture the new memberEventID
+      // Output parameters to capture the new memberEventID and membershipUpdated status
       request.output("memberEventID", sql.Int);
+      request.output("membershipUpdated", sql.Bit);
+
+      console.log(
+        "[DEBUG] Executing stored procedure usp_enrollMemberToEvent..."
+      );
 
       // Execute the stored procedure and capture the result
       const result = await request.execute("usp_enrollMemberToEvent");
 
-      // Retrieve the memberEventID from the output parameter
+      // Retrieve the memberEventID and membershipUpdated status from the output parameters
       const memberEventID = result.output.memberEventID;
+      const membershipUpdated = result.output.membershipUpdated;
+
+      console.log("[DEBUG] Stored procedure executed successfully. Results:", {
+        memberEventID,
+        membershipUpdated,
+      });
 
       // Close the connection
       connection.close();
 
-      // Return success response with memberEventID
+      // Return success response with memberEventID and membershipUpdated status
       return {
         success: true,
         message: "Enrollment successful.",
         memberEventID: memberEventID,
+        membershipUpdated: Boolean(membershipUpdated), // Convert Bit to Boolean for easier handling in the frontend
       };
     } catch (error) {
       console.error("Database error:", error);

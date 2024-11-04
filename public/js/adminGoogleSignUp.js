@@ -34,7 +34,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
       // Redirect to adminHome.html after 3 seconds
       setTimeout(() => {
         window.location.href = "adminHome.html";
-      }, 3000);
+      }, 1000);
     } else {
       showCustomAlert(result.error || "Failed to update contact number.");
     }

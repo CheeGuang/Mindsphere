@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Redirect to memberAppointments.html after 3 seconds
             setTimeout(() => {
               window.location.href = "memberAppointments.html";
-            }, 3000);
+            }, 1000);
           } else {
             console.error("Failed to create appointment:", response.statusText);
             button.disabled = false; // Re-enable the button if there was an error

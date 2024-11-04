@@ -104,25 +104,21 @@
 
           <!-- Main Content for Payment Details -->
           <div class="row justify-content-center">
-            <div class="col-md-10 text-left">
+            <div class="col-md-7 text-left">
               <h1 class="payment-title">Payment details</h1>
 
               <!-- Workshop Information Row -->
               <div class="row justify-content-between d-flex flex-wrap">
                 <div class="col-md-6 col-8">
-                  <!-- Placeholder for Workshop Title and Price -->
                   <p class="workshop-info text-start fw-bold"></p>
                 </div>
                 <div class="col-md-6 col-4 text-end">
-                  <!-- Placeholder for Total Price -->
                   <p class="total-price"></p>
                 </div>
               </div>
 
-              <!-- Horizontal Line -->
               <hr class="payment-line" />
 
-              <!-- QR Code Section -->
               <p class="qr-code-text fw-bold"></p>
               <div
                 id="qrCodeContainer"
@@ -134,7 +130,6 @@
               </p>
             </div>
           </div>
-
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
@@ -148,23 +143,43 @@
       ></div>
     </footer>
 
-    <!-- Custom JS to Load customAlert.html -->
+    <!-- Custom JS to Load customAlert.html and Confirm Button for Scanning Device -->
     <script>
       $(document).ready(function () {
-        // Load the customAlert.html into the container
-        $("#customAlertContainer").load("./customAlert.html");
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("data")) {
+          const enrollmentData = JSON.parse(
+            decodeURIComponent(urlParams.get("data"))
+          );
 
-        // Define the showCustomAlert function globally
-        window.showCustomAlert = function (message) {
-          var $alert = $("#customAlert");
-          $alert.text(message); // Update alert message
-          $alert.fadeIn(); // Show the alert
+          // Display the confirm payment button on scanned device
+          $("#qrCodeContainer").html(`
+            <button id="confirm-payment-btn" class="btn btn-success">Confirm Payment</button>
+          `);
 
-          // Automatically hide after 5 seconds (5000ms)
-          setTimeout(function () {
-            $alert.fadeOut();
-          }, 5000);
-        };
+          // Trigger SSE update when confirm payment button is clicked
+          $("#confirm-payment-btn").click(function () {
+            $.ajax({
+              url: `${window.location.origin}/api/event/trigger-qr-scan`,
+              method: "POST",
+              contentType: "application/json",
+              data: JSON.stringify({
+                memberID: enrollmentData.memberID,
+                eventID: enrollmentData.eventID,
+              }),
+              success: function () {
+                window.location.href = `${
+                  window.location.origin
+                }/memberPaymentConfirmation.html?data=${encodeURIComponent(
+                  JSON.stringify(enrollmentData)
+                )}`;
+              },
+              error: function (error) {
+                console.error("Error triggering payment confirmation:", error);
+              },
+            });
+          });
+        }
       });
     </script>
   </body>

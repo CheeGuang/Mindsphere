@@ -119,9 +119,9 @@ class EventController {
     }
   };
 
-  // Event function handler to enroll a member to an event using GET parameters
+  // Event function handler to enroll a member to an event using POST parameters
   static enrollMemberToEvent = async (req, res) => {
-    // Use req.query instead of req.body for GET request parameters
+    // Use req.body to extract data from POST request
     const {
       memberID,
       eventID,
@@ -132,7 +132,19 @@ class EventController {
       medicalConditions,
       lunchOption,
       specifyOther,
-    } = req.query;
+    } = req.body;
+
+    console.log("[DEBUG] Received enrollment data:", {
+      memberID,
+      eventID,
+      fullName,
+      age,
+      schoolName,
+      interests,
+      medicalConditions,
+      lunchOption,
+      specifyOther,
+    });
 
     try {
       const response = await Event.enrollMemberToEvent(
@@ -147,8 +159,15 @@ class EventController {
         specifyOther
       );
 
-      // If enrollment is successful, respond with success and memberEventID
-      res.status(200).json(response);
+      // If enrollment is successful, respond with success, memberEventID, and membershipUpdated status
+      console.log("[DEBUG] Enrollment response from model:", response);
+
+      res.status(200).json({
+        success: response.success,
+        message: response.message,
+        memberEventID: response.memberEventID,
+        membershipUpdated: response.membershipUpdated, // Include membershipUpdated in the response
+      });
     } catch (error) {
       console.error("Error enrolling member to event:", error);
       res.status(500).send("Error enrolling member to event");
@@ -250,17 +269,15 @@ class EventController {
     });
   };
 
-  // Endpoint to trigger the QR scan event
+  // Endpoint to trigger the QR scan event without memberEventID
   static triggerQRScan = (req, res) => {
-    const { memberID, eventID, memberEventID } = req.body;
+    const { memberID, eventID } = req.query; // Extract memberID and eventID from query parameters
 
-    if (!memberID || !eventID || !memberEventID) {
-      console.error(
-        "[DEBUG] Missing memberID, eventID, or memberEventID in triggerQRScan."
-      );
+    if (!memberID || !eventID) {
+      console.error("[DEBUG] Missing memberID or eventID in triggerQRScan.");
       return res
         .status(400)
-        .json({ error: "memberID, eventID, and memberEventID are required." });
+        .json({ error: "memberID and eventID are required." });
     }
 
     console.log(
@@ -271,17 +288,14 @@ class EventController {
       "), eventID:",
       eventID,
       "(type:",
-      typeof eventID,
-      "), and memberEventID:",
-      memberEventID
+      typeof eventID
     );
 
-    // Emit the qrScan event with memberID, eventID, and memberEventID
+    // Emit the qrScan event with only memberID and eventID
     qrScanEmitter.emit("qrScan", {
       success: true,
       memberID,
       eventID,
-      memberEventID,
     });
 
     console.log(
