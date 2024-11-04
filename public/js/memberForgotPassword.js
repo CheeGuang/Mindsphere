@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Optionally, redirect to login page after a few seconds
         setTimeout(() => {
           window.location.href = "memberLogIn.html";
-        }, 3000); // 3-second delay
+        }, 1000); // 3-second delay
       } else {
         showCustomAlert(result.message || "Error resetting password.");
       }

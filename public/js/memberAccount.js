@@ -19,25 +19,33 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add event listeners to edit buttons
-  ["profilePicture", "contactNo", "firstName", "lastName", "email"].forEach((field) => {
-    document.getElementById("edit" + capitalize(field)).addEventListener("click", function () {
-      toggleEditMode(field);
-    });
+  ["profilePicture", "contactNo", "firstName", "lastName", "email"].forEach(
+    (field) => {
+      document
+        .getElementById("edit" + capitalize(field))
+        .addEventListener("click", function () {
+          toggleEditMode(field);
+        });
 
-    // Save button handler
-    document.getElementById("save" + capitalize(field)).addEventListener("click", function () {
-      console.log(field + " saved");
-      toggleEditMode(field);
-      saveMemberChanges();
-    });
+      // Save button handler
+      document
+        .getElementById("save" + capitalize(field))
+        .addEventListener("click", function () {
+          console.log(field + " saved");
+          toggleEditMode(field);
+          saveMemberChanges();
+        });
 
-    // Cancel button handler
-    document.getElementById("cancel" + capitalize(field)).addEventListener("click", function () {
-      console.log(field + " edit cancelled");
-      toggleEditMode(field);
-      displayMemberInfo(); // Reload from localStorage to reset changes
-    });
-  });
+      // Cancel button handler
+      document
+        .getElementById("cancel" + capitalize(field))
+        .addEventListener("click", function () {
+          console.log(field + " edit cancelled");
+          toggleEditMode(field);
+          displayMemberInfo(); // Reload from localStorage to reset changes
+        });
+    }
+  );
 
   document.getElementById("signOutBtn").addEventListener("click", function () {
     localStorage.removeItem("memberDetails");
@@ -45,10 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showCustomAlert("Successfully Signed out.");
 
-    // Wait for 3 seconds (3000 milliseconds) before redirecting
+    // Wait for 1 second (1000 milliseconds) before redirecting
     setTimeout(function () {
       window.location.href = "../index.html";
-    }, 3000);
+    }, 1000);
   });
 
   // Display member information from localStorage
@@ -61,8 +69,26 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("firstName").value = userData.firstName;
       document.getElementById("lastName").value = userData.lastName;
       document.getElementById("email").value = userData.email;
-      document.getElementById("contactNo").value = userData.contactNo; // Assuming memberID as the username
-      document.getElementById("currentProfilePicture").src = userData.profilePicture;
+      document.getElementById("contactNo").value = userData.contactNo;
+      document.getElementById("currentProfilePicture").src =
+        userData.profilePicture;
+
+      // Check and display membership badge with formatted date
+      const membershipBadge = document.getElementById("membershipBadge");
+      if (userData.membershipEndDate) {
+        membershipBadge.classList.remove("d-none");
+
+        // Convert the date to a readable format
+        const expiryDate = new Date(userData.membershipEndDate);
+        const options = { day: "numeric", month: "long", year: "numeric" };
+        const formattedDate = expiryDate.toLocaleDateString("en-GB", options);
+
+        membershipBadge.querySelector(
+          ".membership-text"
+        ).textContent = `Expires: ${formattedDate}`;
+      } else {
+        membershipBadge.classList.add("d-none");
+      }
     }
   }
 
@@ -76,15 +102,18 @@ document.addEventListener("DOMContentLoaded", function () {
       firstName: document.getElementById("firstName").value,
       lastName: document.getElementById("lastName").value,
       email: document.getElementById("email").value,
-      contactNo:document.getElementById("contactNo").value,
-      profilePicture: userData.profilePicture
+      contactNo: document.getElementById("contactNo").value,
+      profilePicture: userData.profilePicture,
     };
 
     try {
       const result = await updateMember(memberID, updatedData);
       if (result) {
         // Update localStorage with new data
-        localStorage.setItem("memberDetails", JSON.stringify({ ...userData, ...updatedData }));
+        localStorage.setItem(
+          "memberDetails",
+          JSON.stringify({ ...userData, ...updatedData })
+        );
         console.log("Local storage updated with new member details.");
       }
     } catch (error) {
@@ -97,9 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(`/api/member/upadte-member/${memberID}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
@@ -108,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const result = await response.json();
       console.log("Member updated successfully:", result);
-      return result; // Return result if needed for further processing
+      return result;
     } catch (error) {
       console.error("Error updating member:", error);
     }

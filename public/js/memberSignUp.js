@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Redirect to member login page after 3 seconds
         setTimeout(() => {
           window.location.href = "memberLogIn.html";
-        }, 3000); // 3-second delay
+        }, 1000); // 3-second delay
       } else {
         showCustomAlert(result.message || "Error creating member.");
       }

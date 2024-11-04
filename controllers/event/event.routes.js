@@ -49,7 +49,10 @@ eventRoutes.post("/uploadImage", EventController.uploadImage);
 eventRoutes.get("/get-unique-event-types", EventController.getUniqueEventTypes);
 
 // Route to enroll a member to an event
-eventRoutes.get("/enroll-member-to-event", EventController.enrollMemberToEvent);
+eventRoutes.post(
+  "/enroll-member-to-event",
+  EventController.enrollMemberToEvent
+);
 
 // Route for SSE endpoint to listen for QR code scans
 eventRoutes.get("/qr-scan-sse", EventController.qrScanSSE);

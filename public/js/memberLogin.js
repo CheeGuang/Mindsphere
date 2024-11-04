@@ -81,6 +81,7 @@ function fetchMemberDetails(memberID, redirectUrl) {
         email: memberDetails.data.email,
         contactNo: memberDetails.data.contactNo,
         profilePicture: memberDetails.data.profilePicture,
+        membershipEndDate: memberDetails.data.membershipEndDate,
       };
       localStorage.setItem("memberDetails", JSON.stringify(memberDetailsJson));
 

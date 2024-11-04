@@ -14,7 +14,8 @@ BEGIN
         contactNo,
         contactNoVC,
         contactNoVCTimestamp,
-        profilePicture
+        profilePicture,
+        membershipEndDate 
     FROM 
         [member]
     WHERE 

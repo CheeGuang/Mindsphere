@@ -2,7 +2,6 @@ CREATE PROCEDURE usp_get_event_by_member_id
     @memberID INT
 AS
 BEGIN
-
     SELECT 
         e.eventID,
         e.type,
@@ -18,12 +17,12 @@ BEGIN
         e.time,
         e.totalParticipants,
         e.venue,
-        e.picture
+        e.picture,
+        me.memberEventID 
     FROM 
         Event e
-    JOIN 
+    INNER JOIN 
         memberEvent me ON e.eventID = me.eventID
     WHERE 
         me.memberID = @memberID;
-
 END;

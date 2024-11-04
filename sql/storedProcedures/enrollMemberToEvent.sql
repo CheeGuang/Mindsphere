@@ -1,4 +1,3 @@
--- Example adjustment to usp_enrollMemberToEvent
 CREATE PROCEDURE usp_enrollMemberToEvent
     @memberID INT,
     @eventID INT,
@@ -9,10 +8,13 @@ CREATE PROCEDURE usp_enrollMemberToEvent
     @medicalConditions NVARCHAR(500),
     @lunchOption NVARCHAR(100),
     @specifyOther NVARCHAR(200),
-    @memberEventID INT OUTPUT -- Add this OUTPUT parameter
+    @memberEventID INT OUTPUT,
+    @membershipUpdated BIT OUTPUT -- New output parameter to indicate if membershipEndDate was updated
 AS
 BEGIN
-    -- Your INSERT logic here
+    SET @membershipUpdated = 0; -- Default to no update
+
+    -- Insert into memberEvent table
     INSERT INTO memberEvent (
         memberID,
         eventID,
@@ -39,6 +41,22 @@ BEGIN
     -- Get the newly inserted memberEventID
     SET @memberEventID = SCOPE_IDENTITY();
 
-    -- Return success with the memberEventID
+    -- Check if the membershipEndDate in the member table is NULL
+    IF EXISTS (
+        SELECT 1 
+        FROM member 
+        WHERE memberID = @memberID AND membershipEndDate IS NULL
+    )
+    BEGIN
+        -- Update membershipEndDate to 1 year from the current date
+        UPDATE member
+        SET membershipEndDate = DATEADD(YEAR, 1, GETDATE())
+        WHERE memberID = @memberID;
+
+        -- Indicate that the membershipEndDate was updated
+        SET @membershipUpdated = 1;
+    END
+
+    -- Return success
     RETURN 0;
 END;

@@ -466,7 +466,7 @@ function fetchAdminDetails(adminID, redirectUrl) {
       setTimeout(() => {
         // Redirect to the appropriate page
         window.location.href = redirectUrl;
-      }, 3000); // 3000 milliseconds = 3 seconds
+      }, 1000); // 1000 milliseconds = 3 seconds
     })
     .catch((error) => {
       console.error("Error fetching admin details:", error);

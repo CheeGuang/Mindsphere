@@ -4,13 +4,32 @@ const EmailService = require("./emailService"); // Import EmailService
 const bcrypt = require("bcrypt"); // Import bcrypt
 
 class Member {
-  constructor(memberID, firstName, lastName, email, profilePicture, contactNo) {
+  constructor(
+    memberID,
+    firstName,
+    lastName,
+    email,
+    emailVC,
+    emailVCTimestamp,
+    contactNo,
+    contactNoVC,
+    contactNoVCTimestamp,
+    password,
+    profilePicture,
+    membershipEndDate
+  ) {
     this.memberID = memberID;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.profilePicture = profilePicture;
+    this.emailVC = emailVC;
+    this.emailVCTimestamp = emailVCTimestamp;
     this.contactNo = contactNo;
+    this.contactNoVC = contactNoVC;
+    this.contactNoVCTimestamp = contactNoVCTimestamp;
+    this.password = password;
+    this.profilePicture = profilePicture;
+    this.membershipEndDate = membershipEndDate;
   }
 
   // Function to create a Google member using stored procedure
@@ -409,45 +428,43 @@ class Member {
     }
   }
   static async updateMemberinfo(memberID, newMemberData) {
-  let connection;
-  try {
-    connection = await sql.connect(dbConfig);
+    let connection;
+    try {
+      connection = await sql.connect(dbConfig);
 
-    const request = connection.request();
-    request.input("memberID", sql.Int, memberID);
-    request.input("firstName", sql.NVarChar, newMemberData.firstName || null);
-    request.input("lastName", sql.NVarChar, newMemberData.lastName || null);
-    request.input("email", sql.NVarChar, newMemberData.email || null);
-    request.input("contactNo", sql.NVarChar, newMemberData.contactNo || null);
-    
-    
+      const request = connection.request();
+      request.input("memberID", sql.Int, memberID);
+      request.input("firstName", sql.NVarChar, newMemberData.firstName || null);
+      request.input("lastName", sql.NVarChar, newMemberData.lastName || null);
+      request.input("email", sql.NVarChar, newMemberData.email || null);
+      request.input("contactNo", sql.NVarChar, newMemberData.contactNo || null);
 
-    const result = await request.execute("usp_update_member");
+      const result = await request.execute("usp_update_member");
 
-    // Check the result to see if the member was updated or not
-    if (result.recordset[0].ErrorMessage) {
-      console.error("Error:", result.recordset[0].ErrorMessage);
-      throw new Error(result.recordset[0].ErrorMessage);
-    }
+      // Check the result to see if the member was updated or not
+      if (result.recordset[0].ErrorMessage) {
+        console.error("Error:", result.recordset[0].ErrorMessage);
+        throw new Error(result.recordset[0].ErrorMessage);
+      }
 
-    return result.recordset[0].updatedMemberID;
-  } catch (error) {
-    console.error("Error updating member:", error);
-    throw error;
-  } finally {
-    if (connection) {
-      connection.close();
+      return result.recordset[0].updatedMemberID;
+    } catch (error) {
+      console.error("Error updating member:", error);
+      throw error;
+    } finally {
+      if (connection) {
+        connection.close();
+      }
     }
   }
-  }
-  
-static async deleteMember(id) {
+
+  static async deleteMember(id) {
     try {
       const connection = await sql.connect(dbConfig);
-      
+
       const request = connection.request();
       request.input("memberID", id);
-      const result = await request.execute('usp_delete_member');
+      const result = await request.execute("usp_delete_member");
       connection.close();
 
       return result.rowsAffected[0] > 0;
@@ -456,8 +473,6 @@ static async deleteMember(id) {
       throw error;
     }
   }
-
-
 }
 
 module.exports = Member;
