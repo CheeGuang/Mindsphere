@@ -204,6 +204,8 @@ async function updateEvaluationResults(evaluation) {
 }
 
 function insertWorkshopDetails(workshop) {
+  console.log(workshop);
+
   const evaluationContainer = $("#evaluationResultsContainer");
   evaluationContainer.append(`
     <div class="card my-3">
@@ -212,13 +214,14 @@ function insertWorkshopDetails(workshop) {
       }" class="card-img-top" alt="Workshop Image"/>
       <div class="card-body">
         <h5 class="card-title">Recommended Workshop</h5>
+        <p><strong>Title:</strong> ${workshop.title}</p>
         <p><strong>Date:</strong> ${formatAvailableDates(
           workshop.availableDates
         )}</p>
         <p><strong>Time:</strong> ${workshop.time}</p>
         <p><strong>Address:</strong> ${workshop.venue}</p>
         <a href="/guestWorkshopInformation.html?eventID=${
-          workshop.eventId
+          workshop.eventID
         }" class="btn btn-primary w-100">Learn More</a>
       </div>
     </div>
