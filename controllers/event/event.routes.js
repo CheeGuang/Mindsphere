@@ -61,7 +61,7 @@ eventRoutes.get("/qr-scan-sse", EventController.qrScanSSE);
 eventRoutes.post("/trigger-qr-scan", EventController.triggerQRScan);
 
 // Add this route inside eventRoutes
-eventRoutes.get("/get-event-by-id/:eventId", EventController.getEventById);
+eventRoutes.get("/get-event-by-id/:eventId", EventController.getEventByEventId);
 
 // New route to generate PDF and send payment confirmation email
 eventRoutes.post("/send-invoice-email", EventController.sendInvoiceEmail);

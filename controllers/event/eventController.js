@@ -309,11 +309,11 @@ class EventController {
   };
 
   // Add this method inside the EventController class
-  static getEventById = async (req, res) => {
+  static getEventByEventId = async (req, res) => {
     const eventID = req.params.eventId; // Retrieve eventID from URL parameter
 
     try {
-      const event = await Event.getEventById(eventID);
+      const event = await Event.getEventByEventId(eventID);
 
       if (event) {
         res.json(event); // Return the event details if found

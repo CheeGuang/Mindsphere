@@ -57,6 +57,9 @@ async function fetchAndDisplayEvents() {
                 <h5 class="card-title">${event.title}</h5>
               </div>
             </div>
+            <div class="participant-details mt-3">
+              <p class="name"><strong>Name: </strong>${event.fullName}
+            </div>
             <div class="time-details mt-3">
               <p class="date-time"><strong>Date: </strong>${formatDateRange(
                 event.availableDates
@@ -182,6 +185,21 @@ async function fetchAppointments() {
               }">Join Call</button>
             </div>
           </div>`;
+
+        // Add event listener for "Join Call" button
+        const joinButton = appointmentCard.querySelector("button");
+        joinButton.addEventListener("click", () => {
+          console.log(
+            "Join Call button clicked. Redirecting to memberVisitAppointment"
+          );
+
+          // Store the ParticipantURL in localStorage to access it on the memberVisitAppointment page
+          localStorage.setItem("ParticipantURL", appointment.ParticipantURL);
+
+          // Redirect to memberVisitAppointment page
+          window.location.href = "/memberVisitAppointment.html";
+        });
+
         appointmentContainer.appendChild(appointmentCard);
       });
     } else {

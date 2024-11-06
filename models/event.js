@@ -21,7 +21,8 @@ class event {
     totalParticipants,
     venue,
     picture,
-    memberEventID
+    memberEventID,
+    fullName
   ) {
     this.eventID = eventID;
     this.type = type;
@@ -39,6 +40,7 @@ class event {
     this.venue = venue;
     this.picture = picture;
     this.memberEventID = memberEventID;
+    this.fullName = fullName;
   }
 
   // Fetch all events
@@ -140,7 +142,8 @@ class event {
             row.totalParticipants,
             row.venue,
             row.picture,
-            row.memberEventID // Add memberEventID
+            row.memberEventID,
+            row.fullName
           )
       );
 
@@ -399,7 +402,7 @@ class event {
   }
 
   // Add this function inside the event class
-  static async getEventById(eventID) {
+  static async getEventByEventId(eventID) {
     try {
       const connection = await sql.connect(dbConfig);
       const request = connection.request();

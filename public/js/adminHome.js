@@ -174,6 +174,21 @@ async function fetchAppointments() {
                     }">Join Call</button>
                   </div>
                 </div>`;
+
+        // Add the event listener here
+        const joinButton = appointmentCard.querySelector("button");
+        joinButton.addEventListener("click", () => {
+          console.log(
+            "Join Call button clicked. Redirecting to adminVisitAppointment"
+          );
+
+          // Store the HostRoomURL in localStorage to access it on the adminVisitAppointment page
+          localStorage.setItem("HostRoomURL", appointment.ParticipantURL);
+
+          // Redirect to adminVisitAppointment page
+          window.location.href = "/adminVisitAppointment.html";
+        });
+
         appointmentContainer.appendChild(appointmentCard);
       });
     } else {

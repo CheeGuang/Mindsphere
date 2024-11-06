@@ -18,7 +18,8 @@ BEGIN
         e.totalParticipants,
         e.venue,
         e.picture,
-        me.memberEventID 
+        me.memberEventID,
+        me.fullName 
     FROM 
         Event e
     INNER JOIN 
