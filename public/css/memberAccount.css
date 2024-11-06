@@ -71,8 +71,6 @@ p {
   /* Blue glow */
 }
 
-
-
 /* Sign Out Button Center Alignment */
 .mt-3.text-center {
   margin-top: 30px;
@@ -104,21 +102,6 @@ button[type="submit"] {
   margin-left: 5px;
 }
 
-.sign-out-btn {
-  color: white;
-  background-color: #FFD700;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-weight: 600;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.sign-out-btn:hover {
-  background-color: #fff09c;
-
-}
-
 .btn-wide {
   width: 120px;
   /* Adjust the width to your preference */
@@ -129,16 +112,16 @@ button[type="submit"] {
 }
 
 .eye-icon {
-  color: #FFD700;
+  color: #ffd700;
   /* Replace with your preferred color */
 }
 
 #newPassword:focus,
 #confirmPassword:focus {
   outline: none;
-  border-color: #FFD700;
+  border-color: #ffd700;
   /* Choose your preferred color */
-  box-shadow: 0 0 5px #FFD700;
+  box-shadow: 0 0 5px #ffd700;
 }
 
 #confirmText {
@@ -148,6 +131,6 @@ button[type="submit"] {
 .custom-badge {
   font-size: 1.2rem;
   padding: 8px 16px;
-  background-color: #FFD700;
+  background-color: #ffd700;
   border-radius: 10px;
 }
