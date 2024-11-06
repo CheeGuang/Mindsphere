@@ -240,9 +240,7 @@ class event {
   Don't miss out on this fantastic opportunity! 
   Join us for an enriching experience. 
   If you have any questions, feel free to ask!
-  Sign up now at https://mindsphere.onrender.com/guestWorkshopInformation.html?${
-    eventData.eventID
-  }`;
+  Sign up now at https://mindsphere.onrender.com/guestWorkshopInformation.html?${eventId}`;
 
     console.log("Debug: caption prepared =", caption);
 
