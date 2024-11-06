@@ -71,34 +71,41 @@ a {
   color: white;
 }
 
+/* Enhanced enabled state for btn-primary */
+.btn-primary {
+  background-color: #f0b429; /* Lighter mustard yellow */
+  border-color: #f0b429;
+  color: white;
+}
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary:focus-visible {
-  background-color: #e4c04b;
-  border-color: #e4c04b;
+  background-color: #d99a1f; /* Slightly darker shade for hover/focus */
+  border-color: #d99a1f;
   color: white;
 }
 
-/* Box-shadow for focus to match the mustard yellow */
+/* Box-shadow for focus to match the lighter yellow */
 .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(228, 192, 75, 0.5); /* Mustard yellow box-shadow */
+  box-shadow: 0 0 0 0.2rem rgba(240, 180, 41, 0.5); /* Lighter yellow box-shadow */
 }
 
 /* To prevent default blue color on active */
 .btn-primary:active {
-  background-color: #e4c04b !important; /* Keep mustard yellow on click */
-  border-color: #e4c04b !important;
+  background-color: #d99a1f !important; /* Keep slightly darker yellow on click */
+  border-color: #d99a1f !important;
   box-shadow: none !important;
 }
 
-/* Disabled state for btn-primary */
+/* Subdued disabled state for btn-primary */
 .btn-primary:disabled,
 .btn-primary.disabled {
-  background-color: #e4c04b !important;
-  border-color: #e4c04b !important;
+  background-color: #e4c04b; /* Less vibrant yellow for disabled state */
+  border-color: #e4c04b;
   color: white !important;
-  opacity: 0.65; /* Slightly reduce opacity to indicate disabled state */
+  opacity: 0.45; /* Lower opacity to indicate disabled state */
   cursor: not-allowed; /* Change cursor to indicate disabled state */
   box-shadow: none; /* Remove box-shadow */
 }
