@@ -1,0 +1,25 @@
+/* Custom Style for Progress Bar Thickness */
+.progress {
+  height: 30px; /* Adjust this value for thickness */
+}
+
+.progress-bar {
+  background-color: #e4c04b;
+}
+
+#scores {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#audioContainer {
+  position: relative; /* Relative positioning for the container */
+}
+
+#recordingIndicator {
+  position: absolute; /* Absolute positioning for the indicator */
+  top: -30px; /* Adjust position as needed */
+  left: 0; /* Align to the left */
+  width: 100%; /* Take full width */
+  text-align: center; /* Center text */
+}

@@ -15,6 +15,8 @@ const eventRoutes = require("./controllers/event/event.routes");
 const adminRoutes = require("./controllers/admin/admin.routes");
 // Initialising appointment Routes
 const appointmentRoutes = require("./controllers/appointment/appointment.routes");
+// Initialising intelliSphere Routes
+const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -24,8 +26,11 @@ const port = 8000;
 // Using Static Public
 app.use(express.static(path.join(__dirname, "public")));
 
-// Using JSON
-app.use(express.json());
+// Using JSON with increased limit
+app.use(express.json({ limit: "100mb" })); // Increase the limit as needed
+
+// Using URL-encoded with increased limit
+app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 // Return index.html at default endpoint
 app.get("/", (req, res) => {
@@ -47,6 +52,10 @@ app.use("/api/admin", adminRoutes);
 
 // Appointment Route
 app.use("/api/appointment", appointmentRoutes);
+
+// IntelliSphere Route
+app.use("/api/intelliSphere", intelliSphereRoutes);
+
 // ========== Initialise Server ==========
 // Server Listening at port 8000
 app.listen(port, async () => {

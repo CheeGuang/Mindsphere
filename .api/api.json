@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "language-confidence",
+      "source": "@language-confidence/v1.13#1jcoo61rlsdwpq09",
+      "integrity": "sha512-JJSHnE6ia7FQyV4LxdvdWUyCCPTar1ft4tTPvXjw7luV8XSLsnylVh9JmEuMsuRceAip5XIlPqK/6pRkG7+unQ==",
+      "installerVersion": "6.1.2"
+    }
+  ]
+}

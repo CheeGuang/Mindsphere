@@ -1,0 +1,47 @@
+.testimonials h3,
+.testimonials p {
+  color: #2e4457;
+}
+/* Position the testimonial image at the bottom right */
+.testimonial-image {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px; /* Adjust size if needed */
+  height: 50px;
+  object-fit: cover;
+}
+
+.fas {
+  padding: 1rem;
+}
+
+/* Name styling */
+.card-name {
+  position: absolute;
+  bottom: 30px;
+  right: 80px; /* Adjust based on image position */
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.card-text {
+  padding-bottom: 40px !important;
+}
+
+/* Consistent cardbox styling */
+.cardbox {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
+  transition: transform 0.2s;
+  padding: 20px 20px 80px 20px; /* Ensure enough space for the image */
+  border-radius: 15px; /* Consistent rounded corners */
+  background-color: white; /* Ensure background color is the same */
+  border: 1px solid #f1f1f1; /* Consistent border */
+}
+
+/* Ensure text alignment is consistent */
+.cardbox p,
+.cardbox ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #2e4457;
+}

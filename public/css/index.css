@@ -10,6 +10,7 @@
   height: 80vh;
   filter: brightness(0.7);
   border-radius: 20px;
+  object-fit: cover; /* Prevents stretching by covering the container proportionally */
 }
 
 .hero-content {
@@ -26,9 +27,7 @@
 .text-center {
   margin-top: 50px;
 }
-.clogo {
-  gap: 10vw !important;
-}
+
 .clogo img {
   max-height: 60px; /* Set the maximum height */
   width: auto; /* Adjust the width automatically to maintain aspect ratio */
@@ -232,4 +231,27 @@ html {
 
 section {
   margin-bottom: 120px !important;
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 768px) {
+  .text-focus-in {
+    font-size: 2rem;
+  }
+  .text-focus-in-2 {
+    font-size: 1rem;
+  }
+  .clogo img {
+    max-height: 40px; /* Set the maximum height */
+    margin: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .text-focus-in {
+    font-size: 1.7rem;
+  }
+  .text-focus-in-2 {
+    font-size: 0.9rem;
+  }
 }
