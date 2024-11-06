@@ -88,6 +88,8 @@ $(document).ready(async function () {
       console.log(participantsData);
 
       try {
+        var orderNumber;
+
         for (let participant of participantsData) {
           const fullName =
             participant.fullName ||
@@ -135,7 +137,10 @@ $(document).ready(async function () {
               `[DEBUG] ${fullName} enrolled successfully. MemberEventID: ${response.memberEventID}`
             );
             sessionStorage.setItem("memberEventID", response.memberEventID);
-            $("#order-number").text(response.memberEventID);
+
+            if (!orderNumber) {
+              orderNumber = response.memberEventID;
+            }
 
             // Check if membership was updated
             if (response.membershipUpdated) {
@@ -193,6 +198,14 @@ $(document).ready(async function () {
             console.error(`[DEBUG] Error enrolling ${fullName}.`);
           }
         }
+
+        $("#order-number").text(orderNumber);
+        $("#total-amount").text(
+          `$${(
+            JSON.parse(sessionStorage.getItem("selectedEventDetails")).price *
+            length(JSON.parse(sessionStorage.getItem("participantData")))
+          ).toFixed(2)}`
+        );
       } catch (error) {
         console.error("[DEBUG] Error during enrollment:", error);
       }
@@ -244,6 +257,10 @@ $(document).ready(async function () {
     // Retrieve `memberID` from `sessionStorage`
     const memberID = sessionStorage.getItem("memberID");
 
+    // Extract `participantNo` from the query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const participantNo = parseInt(urlParams.get("participantNo"));
+
     if (!memberID) {
       console.error("[DEBUG] Member ID or email not found in sessionStorage.");
       return;
@@ -269,7 +286,9 @@ $(document).ready(async function () {
             console.log(maxEvent);
 
             $("#order-number").text(maxEvent.memberEventID);
-            $("#total-amount").text(`$${maxEvent.price.toFixed(2)}`);
+            $("#total-amount").text(
+              `$${maxEvent.price.toFixed(2) * participantNo}`
+            );
           } else {
             console.error("[DEBUG] No events found for this member.");
           }

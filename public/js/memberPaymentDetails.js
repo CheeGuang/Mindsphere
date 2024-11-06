@@ -21,7 +21,7 @@ $(document).ready(function () {
   if (qrData) {
     // If qrData is present, this is the scanning device
     const parsedData = JSON.parse(decodeURIComponent(qrData));
-    const { memberID, eventID } = parsedData;
+    const { memberID, eventID, participantNo } = parsedData;
 
     // Store memberID and eventID in sessionStorage for later use
     sessionStorage.setItem("memberID", memberID);
@@ -50,7 +50,7 @@ $(document).ready(function () {
             window.location.origin
           }/memberPaymentConfirmation.html?data=${encodeURIComponent(
             JSON.stringify(enrollmentData)
-          )}`;
+          )}&participantNo=${participantNo}`;
           window.location.href = paymentConfirmationURL;
         },
         error: function (error) {
@@ -85,6 +85,7 @@ $(document).ready(function () {
       const qrData = {
         memberID: memberID,
         eventID: String(eventDetails.eventID), // Convert to string
+        participantNo: participantsData.length,
       };
 
       const qrCodeURL = `${
