@@ -539,6 +539,42 @@ class Admin {
       throw error;
     }
   }
+
+
+ static async updateAdminInfo(adminID, newAdminData) {
+    let connection;
+    try {
+        connection = await sql.connect(dbConfig);
+
+        const request = connection.request();
+        request.input("adminID", sql.Int, adminID);
+        request.input("firstName", sql.NVarChar, newAdminData.firstName || null);
+        request.input("lastName", sql.NVarChar, newAdminData.lastName || null);
+        request.input("email", sql.NVarChar, newAdminData.email || null);
+        request.input("contactNo", sql.NVarChar, newAdminData.contactNo || null);
+        request.input("bio", sql.NVarChar, newAdminData.bio || null);
+
+        const result = await request.execute("usp_update_admin");
+
+        // Check if the stored procedure returned an error
+        if (result.recordset[0].ErrorMessage) {
+            console.error("Error:", result.recordset[0].ErrorMessage);
+            throw new Error(result.recordset[0].ErrorMessage);
+        }
+
+        return result.recordset[0].updatedAdminID;
+    } catch (error) {
+        console.error("Error updating admin:", error);
+        throw error;
+    } finally {
+        if (connection) {
+            connection.close();
+        }
+    }
+}
+
+
+
 }
 
 // ========== Export ==========

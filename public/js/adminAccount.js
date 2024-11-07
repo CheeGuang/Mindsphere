@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add event listeners to edit buttons
-  ["profilePicture", "username", "firstName", "lastName", "email"].forEach(
+  ["profilePicture", "contactNo", "firstName", "lastName", "email","bio"].forEach(
     (field) => {
       document
         .getElementById("edit" + capitalize(field))
@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function () {
           console.log(field + " saved");
           toggleEditMode(field);
+          saveMemberChanges();
         });
 
       // Cancel button handler
@@ -56,4 +57,81 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "../index.html";
     }, 1000);
   });
+  displayAdminInfo()
+
+  function displayAdminInfo() {
+    const admindata=JSON.parse( localStorage.getItem("adminDetails"))
+    console.log(admindata)
+    if (admindata) {
+      document.getElementById("bio").value = admindata.bio;
+      document.getElementById("firstName").value = admindata.firstName;
+      document.getElementById("lastName").value = admindata.lastName;
+      document.getElementById("email").value = admindata.email;
+      document.getElementById("contactNo").value = admindata.contactNo;
+      document.getElementById("currentProfilePicture").src =
+        admindata.profilePicture;
+      
+    }
+  }
+  const btn = document.getElementById("q");
+  btn.addEventListener("click", function () {
+    setTimeout(function () {
+      window.location.href = "../adminScheduleAvailability.html";
+    }, 1000);
+  })
+  async function saveMemberChanges() {
+  const adminData = JSON.parse(localStorage.getItem("adminDetails"));
+  if (!adminData) return;
+
+  const adminID = adminData.adminID;
+  const updatedData = {
+    firstName: document.getElementById("firstName").value,
+    lastName: document.getElementById("lastName").value,
+    email: document.getElementById("email").value,
+    contactNo: document.getElementById("contactNo").value,
+    profilePicture: adminData.profilePicture, 
+    bio: document.getElementById("bio").value
+  };
+
+  try {
+    const result = await updateAdmin(adminID, updatedData);
+    if (result && !result.error) {
+      // Update localStorage with new data
+      localStorage.setItem(
+        "adminDetails",
+        JSON.stringify({ ...adminData, ...updatedData })
+      );
+      console.log("Local storage updated with new admin details.");
+      showCustomAlert("Admin details updated successfully.");
+    } else {
+      console.error("Failed to update admin:", result.error);
+    }
+  } catch (error) {
+    console.error("Failed to save admin changes:", error);
+  }
+}
+
+  async function updateAdmin(adminID, updatedData) {
+  try {
+    const response = await fetch(`/api/admin/update-admin/${adminID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData), 
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log(result.message);
+    return result; 
+  } catch (error) {
+    console.error("Failed to update admin:", error);
+    return { error: error.message };
+  }
+}
+
 });
