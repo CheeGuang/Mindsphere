@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="col-md-6 mb-3">
           <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
           <textarea class="form-control" rows="4" name="medicalConditions${index}"
-            placeholder="Please enter any medical conditions or notes. If none, type 'None'."></textarea>
+            placeholder="Please enter any medical conditions or notes. If none, type 'None'."required></textarea>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label text-start w-100">Lunch option:</label>
@@ -81,9 +81,11 @@ document.addEventListener("DOMContentLoaded", function () {
       option.addEventListener("change", function () {
         if (otherOption.checked) {
           otherInput.disabled = false;
+          otherInput.required = true;
         } else {
           otherInput.disabled = true;
           otherInput.value = ""; // Clear input if it's disabled
+          otherInput.required = false;
         }
       });
     });
@@ -91,6 +93,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return participantForm;
   }
 
+  // Add event listener for lunch options toggle
+    const otherOption = participantForm.querySelector(`#other1`);
+    const otherInput = participantForm.querySelector(`#otherInput1`);
+    participantForm.querySelectorAll(`input[name="lunchOption1"]`).forEach((option) => {
+      option.addEventListener("change", function () {
+        if (otherOption.checked) {
+          otherInput.disabled = false;
+          otherInput.required = true;
+        } else {
+          otherInput.disabled = true;
+          otherInput.value = ""; // Clear input if it's disabled
+          otherInput.required = false;
+        }
+      });
+    });
   // Update participant count display
   function updateParticipantCountDisplay() {
     participantCountDisplay.textContent = participantCount;
@@ -114,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Only add the initial participant form when the page loads
   updateParticipantCountDisplay();
-   if (participantCount > 1) {
+  if (participantCount > 1) {
     participantFormContainer.appendChild(createParticipantForm(participantCount));
   }
 
@@ -150,24 +167,5 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Please fill out all required fields correctly before proceeding.");
     }
   });
-
- const otherLunchOption = document.getElementById("other1");
-  const otherInput = document.getElementById("otherInput1");
-
-  // Get all lunch option radio buttons
-  const lunchOptions = document.querySelectorAll("input[name='lunchOption1']");
-
-  // Toggle the 'Other' input field based on radio button selection
-  lunchOptions.forEach((option) => {
-    option.addEventListener("change", function () {
-      if (otherLunchOption.checked) {
-        otherInput.disabled = false;
-      } else {
-        otherInput.disabled = true;
-        otherInput.value = ""; // Clear input if it's disabled
-      }
-    });
-  });
-
 
 });
