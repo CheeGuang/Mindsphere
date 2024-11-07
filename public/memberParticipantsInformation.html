@@ -55,7 +55,8 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <script src="./js/memberParticipantsInformation.js" defer></script>
+    <!--<script src="./js/memberParticipantsInformation.js" defer></script>-->
+    <script src="./js/memberParticipantsInformationValidation.js"></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -130,141 +131,83 @@
                   </div>
 
                   <!-- Form to hold participants' information -->
-                  <form id="participantForm">
-                    <!-- Container to hold dynamic participant forms -->
-                    <div id="participantFormsContainer">
-                      <!-- Initial Participant 1 Form (template) -->
-                      <div
-                        class="card p-4 mb-4 shadow-sm participant-card border-light"
-                        data-participant="1"
-                      >
-                        <h5 class="mb-4 text-start">Participant 1</h5>
-
-                        <!-- Full Name and Age in same row -->
-                        <div class="row">
-                          <div class="col-md-6 mb-3">
-                            <label class="form-label text-start w-100"
-                              >Full Name</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              name="fullName1"
-                              required
-                            />
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label class="form-label text-start w-100"
-                              >Age</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              name="age1"
-                              required
-                            />
-                          </div>
+                <form id="participantForm">
+                  <div id="participantFormsContainer">
+                    <div class="card p-4 mb-4 shadow-sm participant-card border-light" data-participant="1">
+                      <h5 class="mb-4 text-start">Participant 1</h5>
+                
+                      <!-- Full Name and Age in same row -->
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label text-start w-100">Full Name</label>
+                          <input type="text" class="form-control" name="fullName1" placeholder="Enter full name" required
+                            pattern="[A-Za-z\s]{2,50}" title="Name should be 2-50 alphabetic characters" />
                         </div>
-
-                        <!-- School Name -->
-                        <div class="row mb-3">
-                          <div class="col-12">
-                            <label class="form-label text-start w-100"
-                              >School Name</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              name="schoolName1"
-                              required
-                            />
-                          </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label text-start w-100">Age</label>
+                          <input type="number" class="form-control" name="age1" placeholder="Enter age" required min="1" max="100"
+                            title="Age must be between 1 and 100" />
                         </div>
-
-                        <!-- Interests -->
-                        <div class="row mb-3">
-                          <div class="col-12">
-                            <label class="form-label text-start w-100"
-                              >Interests</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              name="interests1"
-                            />
-                          </div>
+                      </div>
+                
+                      <!-- School Name -->
+                      <div class="row mb-3">
+                        <div class="col-12">
+                          <label class="form-label text-start w-100">School Name</label>
+                          <input type="text" class="form-control" name="schoolName1" placeholder="Enter school name" required
+                            pattern="[A-Za-z\s]{2,100}" title="School name should be 2-100 alphabetic characters" />
                         </div>
-
-                        <!-- Medical Conditions and Lunch Options in same row -->
-                        <div class="row">
-                          <div class="col-md-6 mb-3">
-                            <label class="form-label text-start w-100"
-                              >Any existing medical conditions / things to
-                              note:</label
-                            >
-                            <textarea
-                              class="form-control"
-                              rows="4"
-                              name="medicalConditions1"
-                            ></textarea>
+                      </div>
+                
+                      <!-- Interests -->
+                      <div class="row mb-3">
+                        <div class="col-12">
+                          <label class="form-label text-start w-100">Interests</label>
+                          <select class="form-control" name="interests1" required>
+                            <option value="" disabled selected>Select an interest</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Art">Art</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Nature">Nature</option>
+                            <option value="Cooking">Cooking</option>
+                          </select>
+                        </div>
+                      </div>
+                
+                      <!-- Medical Conditions and Lunch Options in same row -->
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
+                          <textarea class="form-control" rows="4" name="medicalConditions1"
+                            placeholder="Please enter any medical conditions or notes. If none, type 'None'."></textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label text-start w-100">Lunch option:</label>
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="lunchOption1" id="nonVegan1" value="nonVegan" checked />
+                            <label class="form-check-label text-start w-100" for="nonVegan1">Non - Vegan</label>
                           </div>
-                          <div class="col-md-6 mb-3">
-                            <label class="form-label text-start w-100"
-                              >Lunch option:</label
-                            >
-                            <div class="form-check mb-2">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="lunchOption1"
-                                id="nonVegan1"
-                                value="nonVegan"
-                              />
-                              <label
-                                class="form-check-label text-start w-100"
-                                for="nonVegan1"
-                                >Non - Vegan</label
-                              >
-                            </div>
-                            <div class="form-check mb-2">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="lunchOption1"
-                                id="vegan1"
-                                value="vegan"
-                              />
-                              <label
-                                class="form-check-label text-start w-100"
-                                for="vegan1"
-                                >Vegan</label
-                              >
-                            </div>
-                            <div class="form-check mb-2">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="lunchOption1"
-                                id="other1"
-                                value="other"
-                              />
-                              <input
-                                type="text"
-                                class="form-control form-control-sm mt-2"
-                                id="otherInput1"
-                                placeholder="Others"
-                                disabled
-                              />
-                            </div>
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="lunchOption1" id="vegan1" value="vegan" />
+                            <label class="form-check-label text-start w-100" for="vegan1">Vegan</label>
+                          </div>
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="lunchOption1" id="other1" value="other" />
+                            <label class="form-check-label text-start w-100" for="other1">Other</label>
+                            <input type="text" class="form-control form-control-sm mt-2" id="otherInput1"
+                              placeholder="Specify other option" disabled name="otherLunchOption1" />
                           </div>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
+                </form>
+
 
                   <!-- Next Button -->
                   <div class="text-center">
-                    <a href="./memberPaymentDetails.html">
+                    <a href="#">
                       <button id="nextButton" class="btn btn-primary next-btn">
                         Next
                       </button>
