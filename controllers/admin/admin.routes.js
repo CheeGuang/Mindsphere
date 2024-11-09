@@ -74,5 +74,7 @@ adminRoutes.put(
   AdminController.updateCalendlyAccessToken
 );
 
+// Route to update Admin
+adminRoutes.put("/update-admin/:adminID",AdminController.updateAdmin)
 // ========== Export ==========
 module.exports = adminRoutes;

@@ -451,6 +451,39 @@ class AdminController {
       });
     }
   }
+
+
+
+//  update Admin info 
+ static async updateAdmin(req, res) {
+    const { adminID } = req.params;  
+    const { firstName, lastName, email, contactNo, bio } = req.body;  
+
+    try {
+        const updatedAdminID = await Admin.updateAdminInfo(adminID, {
+            firstName,
+            lastName,
+            email,
+            contactNo,
+            bio
+        });
+
+        // Check if the update was successful
+        if (updatedAdminID) {
+            return res.status(200).json({
+                message: "Admin updated successfully",
+                adminID: updatedAdminID
+            });
+        } else {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+    } catch (error) {
+        console.error("Error in updateAdmin controller:", error);
+        return res.status(500).json({ error: "An error occurred while updating the admin" });
+    }
+  }
+  
+
 }
 
 // ========== Export ==========
