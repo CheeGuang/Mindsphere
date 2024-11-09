@@ -196,7 +196,10 @@ async function updateEvaluationResults(evaluation) {
       const response = await fetch(`/api/event/get-event/${eventId}`);
       if (!response.ok) throw new Error("Network response was not ok");
       const workshopDetails = await response.json();
-      insertWorkshopDetails(workshopDetails);
+
+      console.log(workshopDetails);
+
+      insertWorkshopDetails(workshopDetails[0]);
     } catch (error) {
       console.error("Error fetching workshop details:", error);
     }
@@ -204,34 +207,55 @@ async function updateEvaluationResults(evaluation) {
 }
 
 function insertWorkshopDetails(workshop) {
-  console.log(workshop);
+  console.log("[DEBUG] insertWorkshopDetails called with:", workshop);
 
   const evaluationContainer = $("#evaluationResultsContainer");
-  evaluationContainer.append(`
+  if (!evaluationContainer.length) {
+    console.error("[ERROR] #evaluationResultsContainer not found in DOM.");
+    return;
+  }
+  console.log("[DEBUG] #evaluationResultsContainer found.");
+
+  const workshopImage = workshop.picture || "./img/misc/image-placeholder.jpg";
+  console.log("[DEBUG] Workshop image URL:", workshopImage);
+
+  const formattedDates = formatAvailableDates(workshop.availableDates);
+  console.log("[DEBUG] Formatted available dates:", formattedDates);
+
+  const workshopDetailsHTML = `
     <div class="card my-3">
-      <img src="${
-        workshop.picture || "./img/misc/image-placeholder.jpg"
-      }" class="card-img-top" alt="Workshop Image"/>
+      <img src="${workshopImage}" class="card-img-top" alt="Workshop Image"/>
       <div class="card-body">
         <h5 class="card-title">Recommended Workshop</h5>
         <p><strong>Title:</strong> ${workshop.title}</p>
-        <p><strong>Date:</strong> ${formatAvailableDates(
-          workshop.availableDates
-        )}</p>
+        <p><strong>Date:</strong> ${formattedDates}</p>
         <p><strong>Time:</strong> ${workshop.time}</p>
         <p><strong>Address:</strong> ${workshop.venue}</p>
-        <a href="/guestWorkshopInformation.html?eventID=${
-          workshop.eventID
-        }" class="btn btn-primary w-100">Learn More</a>
+        <a href="/guestWorkshopInformation.html?eventID=${workshop.eventID}" class="btn btn-primary w-100">Learn More</a>
       </div>
     </div>
-  `);
+  `;
+
+  console.log("[DEBUG] Generated workshop details HTML:", workshopDetailsHTML);
+
+  evaluationContainer.append(workshopDetailsHTML);
+  console.log(
+    "[DEBUG] Workshop details appended to #evaluationResultsContainer."
+  );
 }
 
 function formatAvailableDates(dateString) {
   if (!dateString) return "Dates not available";
+
   const dates = dateString.split(",").map((date) => new Date(date.trim()));
   const options = { day: "numeric", month: "long", year: "numeric" };
+
+  if (dates.length === 1) {
+    // If there is only one date
+    return dates[0].toLocaleDateString("en-GB", options);
+  }
+
+  // If there are two or more dates
   return `${dates[0].toLocaleDateString(
     "en-GB",
     options
