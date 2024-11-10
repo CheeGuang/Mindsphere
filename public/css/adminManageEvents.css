@@ -1,25 +1,23 @@
-.mt-4{
-    background-color: antiquewhite;
-    border-radius: 15px;
-    padding: 10px;
-    margin-top: 20px;
+.mt-4 {
+  border-radius: 15px;
+  padding: 10px;
+  margin-top: 20px;
 }
-.card-title{
-    text-align: justify;
+.card-title {
+  text-align: justify;
 }
 
 .back-button {
-    background-color: transparent;
-    border: none;
-    margin-top: 20px;
-  }
-  
-  .fa-arrow-left {
-    color: #1a252f;
-  }
-  
-  .fa-arrow-left {
-    margin-bottom: 20px;
-    color: var(--font-color);
-  }
-  
+  background-color: transparent;
+  border: none;
+  margin-top: 20px;
+}
+
+.fa-arrow-left {
+  color: #1a252f;
+}
+
+.fa-arrow-left {
+  margin-bottom: 20px;
+  color: var(--font-color);
+}

@@ -83,109 +83,209 @@
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
           <h2 class="text-start">
-            <a href="adminHome.html" style="text-decoration: none; color: black;">
+            <a
+              href="adminHome.html"
+              style="text-decoration: none; color: black"
+            >
               <i class="fas fa-arrow-left"></i> Back
             </a>
           </h2>
           <!-- H1 Title -->
           <h1 class="mt-3">Manage Events</h1>
-          
+
           <!-- Main Content Section -->
           <div class="container mt-4">
             <div class="eventList">
               <!-- Event List Section -->
             </div>
-          
+
             <!-- Create New Event Button -->
             <div class="text-center mt-4">
-              <button class="btn btn-warning btn-lg"><a href="adminCreateEvent.html" style="text-decoration: none; color: black;">Create New Event</a></button>
+              <button class="btn btn-primary btn-lg p-3">
+                <a
+                  href="adminCreateEvent.html"
+                  style="text-decoration: none; color: #fff; font-weight: 700"
+                  >Create New Event</a
+                >
+              </button>
             </div>
           </div>
-          
+
           <!-- Modal Structure for Editing Event -->
-          <div class="modal fade" id="editEventModal" data-event-id="" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+          <div
+            class="modal fade"
+            id="editEventModal"
+            data-event-id=""
+            tabindex="-1"
+            aria-labelledby="editEventModalLabel"
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h5 class="modal-title" id="editEventModalLabel">
+                    Edit Event
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
                 <div class="modal-body">
                   <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6">
                       <div class="card shadow-sm p-4 mb-4">
                         <!-- Event Image -->
-                        <div class="d-flex justify-content-center align-items-center mb-3">
-                          <img id="eventImage" src="img/workshop/professionals.jpg" class="img-fluid" alt="Event Image">
+                        <div
+                          class="d-flex justify-content-center align-items-center mb-3"
+                        >
+                          <img
+                            id="eventImage"
+                            src="img/workshop/professionals.jpg"
+                            class="img-fluid"
+                            alt="Event Image"
+                          />
                           <button class="btn btn-outline-secondary">
                             <i class="fas fa-edit" aria-hidden="true"></i>
                           </button>
                         </div>
-          
+
                         <!-- Event Title -->
                         <div class="mb-3">
-                          <label for="eventTitle" class="form-label">Event Title</label>
+                          <label for="eventTitle" class="form-label"
+                            >Event Title</label
+                          >
                           <div class="input-group">
-                            <input type="text" class="form-control" id="eventTitle" value="Public Speaking Workshop" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventTitle')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventTitle"
+                              value="Public Speaking Workshop"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventTitle')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
-          
+
                         <!-- Event Price -->
                         <div class="mb-3">
-                          <label for="eventPrice" class="form-label">Sign Up Price of Event</label>
+                          <label for="eventPrice" class="form-label"
+                            >Sign Up Price of Event</label
+                          >
                           <div class="input-group">
-                            <input type="text" class="form-control" id="eventPrice" value="$788" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventPrice')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventPrice"
+                              value="$788"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventPrice')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
-          
+
                         <!-- Length and Dates of Event -->
                         <div class="mb-3">
-                          <label for="eventDateStart" class="form-label">Event Dates</label>
+                          <label for="eventDateStart" class="form-label"
+                            >Event Dates</label
+                          >
                           <div class="input-group mt-2">
-                            <input type="text" class="form-control" id="eventDateStart" placeholder="Start Date" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventDateStart')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventDateStart"
+                              placeholder="Start Date"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventDateStart')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                           <div class="input-group mt-2">
-                            <input type="text" class="form-control" id="eventDateEnd" placeholder="End Date (if available)" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventDateEnd')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventDateEnd"
+                              placeholder="End Date (if available)"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventDateEnd')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
-          
+
                         <!-- Venue of Event -->
                         <div class="mb-3">
-                          <label for="eventVenue" class="form-label">Venue of Event</label>
+                          <label for="eventVenue" class="form-label"
+                            >Venue of Event</label
+                          >
                           <div class="input-group">
-                            <input type="text" class="form-control" id="eventVenue" value="NTUC Life Long Learning Centre" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventVenue')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventVenue"
+                              value="NTUC Life Long Learning Centre"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventVenue')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
-          
+
                         <!-- Duration of Event -->
                         <div class="mb-3">
-                          <label for="eventDuration" class="form-label">Duration of Event</label>
+                          <label for="eventDuration" class="form-label"
+                            >Duration of Event</label
+                          >
                           <div class="input-group">
-                            <input type="text" class="form-control" id="eventDuration" value="1pm - 4pm daily" disabled />
-                            <button class="btn btn-outline-secondary" onclick="enableEditing('eventDuration')">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="eventDuration"
+                              value="1pm - 4pm daily"
+                              disabled
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              onclick="enableEditing('eventDuration')"
+                            >
                               <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
-          
+
                         <!-- Action Buttons -->
                         <div class="d-flex justify-content-center mt-4">
-                          <button id="saveChanges" class="btn btn-warning btn-lg" onclick="saveChanges()">Confirm</button>
+                          <button
+                            id="saveChanges"
+                            class="btn btn-warning btn-lg"
+                            onclick="saveChanges()"
+                          >
+                            Confirm
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -194,7 +294,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
