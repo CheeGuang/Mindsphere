@@ -17,6 +17,8 @@ const adminRoutes = require("./controllers/admin/admin.routes");
 const appointmentRoutes = require("./controllers/appointment/appointment.routes");
 // Initialising intelliSphere Routes
 const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.routes");
+// Initialising dashboard Routes
+const dashboardRoutes = require("./controllers/dashboard/dashboard.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -55,6 +57,9 @@ app.use("/api/appointment", appointmentRoutes);
 
 // IntelliSphere Route
 app.use("/api/intelliSphere", intelliSphereRoutes);
+
+// Dashboard Route
+app.use("/api/dashboard", dashboardRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000
