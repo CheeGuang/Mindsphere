@@ -1,0 +1,22 @@
+/* Ensure the canvas is positioned over the video */
+.video-container {
+  position: relative;
+  width: 720px; /* Match the video width */
+  height: 560px; /* Match the video height */
+}
+
+#video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Ensure the video is below the canvas */
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2; /* Ensure the canvas is above the video */
+  width: 100%; /* Match the container's width */
+  height: 100%; /* Match the container's height */
+}

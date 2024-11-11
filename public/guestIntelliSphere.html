@@ -48,12 +48,15 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/navbar.css" />
     <link rel="stylesheet" href="./css/guestIntelliSphere.css" />
+    <link rel="stylesheet" href="./css/guestIntelliSphere-faceExpression.css" />
     <link rel="stylesheet" href="./css/footer.css" defer />
 
     <!-- Linking JS -->
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
     <script src="./js/guestIntelliSphere.js" defer></script>
+    <script src="./js/face-api.min.js" defer></script>
+    <script src="./js/guestintellisphere-faceExpression.js" defer></script>
 
     <!-- Add a favicon to the tab bar -->
     <link
@@ -80,6 +83,10 @@
           <div class="container text-start">
             <h1 class="mt-3 text-center">IntelliSphere</h1>
             <p class="mb-3 text-center">Your Personalised AI Powered Coach</p>
+
+            <div class="video-container">
+              <video id="video" width="720" height="560" autoplay muted></video>
+            </div>
 
             <!-- Audio Playback Section -->
             <div class="my-4" id="audioContainer" style="height: 80px">
