@@ -1,25 +1,44 @@
-/* Custom Style for Progress Bar Thickness */
+/* Audio Container */
+#audioContainer {
+  position: relative; /* Ensures positioning for indicator */
+  padding: 1rem;
+}
+
+#audioPlayback {
+  border-radius: 1000px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Default shadow */
+}
+
+#recordingIndicator {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Buttons */
+button {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+/* Progress Bar */
 .progress {
-  height: 30px; /* Adjust this value for thickness */
+  height: 1.5rem; /* Thicker bar */
 }
 
 .progress-bar {
   background-color: #e4c04b;
 }
 
-#scores {
-  padding-left: 1rem;
-  padding-right: 1rem;
+/* Cards */
+.card {
+  padding: 15px;
+  border-radius: 0.5rem;
 }
 
-#audioContainer {
-  position: relative; /* Relative positioning for the container */
-}
-
-#recordingIndicator {
-  position: absolute; /* Absolute positioning for the indicator */
-  top: -30px; /* Adjust position as needed */
-  left: 0; /* Align to the left */
-  width: 100%; /* Take full width */
-  text-align: center; /* Center text */
+.btn {
+  max-width: 300px;
 }

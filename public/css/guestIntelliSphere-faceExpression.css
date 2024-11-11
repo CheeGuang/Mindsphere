@@ -1,18 +1,35 @@
-/* Ensure the canvas is positioned over the video */
-.video-container {
-  position: relative;
-  width: 720px; /* Match the video width */
-  height: 560px; /* Match the video height */
+/* Ensure the video is centred */
+#videoContainer {
+  display: flex;
+  justify-content: center; /* Horizontally centre the content */
+  align-items: center; /* Vertically centre the content */
+  position: relative; /* Establish a parent positioning context */
 }
 
+/* Style for the video container */
+.video-container {
+  position: relative;
+  width: 520px; /* Fixed width for the video */
+  height: 360px; /* Fixed height for the video */
+  display: flex;
+  justify-content: center; /* Centre child elements horizontally */
+  align-items: center; /* Centre child elements vertically */
+}
+
+/* Ensure the video fills the container and maintains aspect ratio */
 #video {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1; /* Ensure the video is below the canvas */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Default shadow */
 }
 
-canvas {
+/* Ensure the canvas matches the video size */
+#videoContainer canvas {
   position: absolute;
   top: 0;
   left: 0;

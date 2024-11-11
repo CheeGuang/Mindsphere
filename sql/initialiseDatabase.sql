@@ -105,7 +105,7 @@ CREATE TABLE appointment (
 -- Insert a dummy member with updated membershipEndDate
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture, membershipEndDate)
 VALUES 
-('Mindsphere', 'Services', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', './img/misc/account-icon.png', NULL),
+('Jeffrey', 'Lee', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', './img/misc/account-icon.png', NULL),
 ('Bob', 'Lee', 'bob.lee@gmail.com', '123456', GETDATE(), '91234568', '654322', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),
 ('Charlie', 'Ng', 'charlie.ng@gmail.com', '123456', GETDATE(), '91234569', '654323', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),
 ('Diana', 'Wong', 'diana.wong@gmail.com', '123456', GETDATE(), '91234570', '654324', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),

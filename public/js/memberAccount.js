@@ -19,33 +19,31 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add event listeners to edit buttons
-  ["profilePicture", "contactNo", "firstName", "lastName", "email"].forEach(
-    (field) => {
-      document
-        .getElementById("edit" + capitalize(field))
-        .addEventListener("click", function () {
-          toggleEditMode(field);
-        });
+  ["contactNo", "firstName", "lastName", "email"].forEach((field) => {
+    document
+      .getElementById("edit" + capitalize(field))
+      .addEventListener("click", function () {
+        toggleEditMode(field);
+      });
 
-      // Save button handler
-      document
-        .getElementById("save" + capitalize(field))
-        .addEventListener("click", function () {
-          console.log(field + " saved");
-          toggleEditMode(field);
-          saveMemberChanges();
-        });
+    // Save button handler
+    document
+      .getElementById("save" + capitalize(field))
+      .addEventListener("click", function () {
+        console.log(field + " saved");
+        toggleEditMode(field);
+        saveMemberChanges();
+      });
 
-      // Cancel button handler
-      document
-        .getElementById("cancel" + capitalize(field))
-        .addEventListener("click", function () {
-          console.log(field + " edit cancelled");
-          toggleEditMode(field);
-          displayMemberInfo(); // Reload from localStorage to reset changes
-        });
-    }
-  );
+    // Cancel button handler
+    document
+      .getElementById("cancel" + capitalize(field))
+      .addEventListener("click", function () {
+        console.log(field + " edit cancelled");
+        toggleEditMode(field);
+        displayMemberInfo(); // Reload from localStorage to reset changes
+      });
+  });
 
   document.getElementById("signOutBtn").addEventListener("click", function () {
     localStorage.removeItem("memberDetails");
@@ -70,8 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("lastName").value = userData.lastName;
       document.getElementById("email").value = userData.email;
       document.getElementById("contactNo").value = userData.contactNo;
-      document.getElementById("currentProfilePicture").src =
-        userData.profilePicture;
 
       // Check and display membership badge with formatted date
       const membershipBadge = document.getElementById("membershipBadge");
@@ -103,7 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
       lastName: document.getElementById("lastName").value,
       email: document.getElementById("email").value,
       contactNo: document.getElementById("contactNo").value,
-      profilePicture: userData.profilePicture,
+      profilePicture: JSON.parse(localStorage.getItem("memberDetails"))
+        .profilePicture,
     };
 
     try {
@@ -136,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const result = await response.json();
-      console.log("Member updated successfully:", result);
+      showCustomAlert("Member updated successfully");
       return result;
     } catch (error) {
       console.error("Error updating member:", error);

@@ -84,51 +84,48 @@
             <h1 class="mt-3 text-center">IntelliSphere</h1>
             <p class="mb-3 text-center">Your Personalised AI Powered Coach</p>
 
-            <div class="video-container">
-              <video id="video" width="720" height="560" autoplay muted></video>
+            <div class="col-12 text-center mt-4 mb-4">
+              <p>
+                <b>Speak freely!</b> You can say anything you like. Here are
+                some ideas to get started:
+              </p>
+              <ol class="text-start d-inline-block">
+                <li>What is your favourite hobby and why?</li>
+                <li>Describe a memorable trip you’ve been on.</li>
+                <li>What is one thing you would change about the world?</li>
+              </ol>
+            </div>
+
+            <div id="videoContainer">
+              <div class="video-container">
+                <video id="video" autoplay muted></video>
+              </div>
             </div>
 
             <!-- Audio Playback Section -->
-            <div class="my-4" id="audioContainer" style="height: 80px">
-              <div
-                class="row d-flex justify-content-center align-items-center"
-                style="padding: 10px"
-              >
-                <div
-                  class="col-4"
-                  style="
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <div
-                    id="recordingIndicator"
-                    class="text-success"
-                    style="
-                      display: none;
-                      position: absolute;
-                      top: -15px;
-                      left: 0;
-                      width: 100%;
-                      text-align: center;
-                    "
-                  >
-                    Recording...
+            <div class="my-3" id="audioContainer">
+              <div class="row g-3 justify-content-center align-items-center">
+                <div class="col-lg-4 col-md-6 col-12">
+                  <div class="position-relative">
+                    <div
+                      id="recordingIndicator"
+                      class="text-danger"
+                      style="display: none"
+                    >
+                      Recording...
+                    </div>
+                    <audio id="audioPlayback" controls class="w-100">
+                      <source id="audioSource" src="" type="audio/wav" />
+                      Your browser does not support the audio tag.
+                    </audio>
                   </div>
-                  <audio id="audioPlayback" controls style="width: 100%">
-                    <source id="audioSource" src="" type="audio/wav" />
-                    Your browser does not support the audio tag.
-                  </audio>
                 </div>
-                <div class="col-1 d-flex justify-content-center">
+                <div class="col-lg-2 col-md-3 col-6 text-center">
                   <button
                     id="confirmButton"
-                    class="btn btn-success p-2"
+                    class="btn btn-success w-100"
                     disabled
-                    style="width: 100%; border-radius: 100px"
+                    style="border-radius: 50px"
                   >
                     Confirm
                   </button>
@@ -138,22 +135,23 @@
 
             <!-- Recording Controls -->
             <div class="my-4 text-center">
-              <button
-                id="startRecording"
-                class="btn btn-primary me-2 p-2 enabled"
-              >
-                <i class="fas fa-microphone" style="padding-right: 5px"></i>
-                Start Recording
-              </button>
-              <button
-                id="stopRecording"
-                class="btn btn-danger p-2"
-                style="border-radius: 100px"
-                disabled
-              >
-                <i class="fas fa-stop" style="padding-right: 5px"></i> Stop
-                Recording
-              </button>
+              <div class="row justify-content-center g-3">
+                <div class="col-md-2 col-6">
+                  <button id="startRecording" class="btn btn-primary w-100 p-3">
+                    <i class="fas fa-microphone me-2"></i> Start Recording
+                  </button>
+                </div>
+                <div class="col-md-2 col-6">
+                  <button
+                    id="stopRecording"
+                    class="btn btn-danger w-100 p-3"
+                    style="border-radius: 50px"
+                    disabled
+                  >
+                    <i class="fas fa-stop me-2"></i> Stop Recording
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- Evaluation Data Display -->
@@ -165,6 +163,73 @@
             </div>
           </div>
           <!-- END OF PAGE'S CONTENT -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="instructionModal"
+      tabindex="-1"
+      aria-labelledby="instructionModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+        style="max-width: 600px; margin: auto"
+      >
+        <div
+          class="modal-content text-center"
+          style="
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border: none;
+          "
+        >
+          <div class="modal-header" style="border-bottom: none">
+            <h5
+              class="modal-title w-100"
+              id="instructionModalLabel"
+              style="font-weight: 700; font-size: 1.5rem; color: #4a4a4a"
+            >
+              Welcome to IntelliSphere!
+            </h5>
+          </div>
+          <div
+            class="modal-body"
+            style="font-size: 1rem; color: #6c757d; line-height: 1.6"
+          >
+            <p><b>Log in to use IntelliSphere.</b></p>
+            <p>Follow these steps to get started:</p>
+            <ol
+              class="text-start"
+              style="
+                display: inline-block;
+                text-align: left;
+                padding-left: 20px;
+                font-weight: 500;
+                color: #333;
+              "
+            >
+              <li><b>Start Recording:</b> Click the blue microphone button.</li>
+              <li><b>Stop Recording:</b> Click the red stop button.</li>
+              <li>
+                <b>Play Back:</b> Listen to your recording with the playback
+                tool.
+              </li>
+              <li><b>Confirm:</b> Submit your speech for AI feedback.</li>
+            </ol>
+            <p>We’re here to help you improve—one step at a time!</p>
+            <button
+              type="button"
+              class="btn btn-primary w-75 mx-auto mt-3"
+              data-bs-dismiss="modal"
+            >
+              Continue
+            </button>
+          </div>
         </div>
       </div>
     </div>
