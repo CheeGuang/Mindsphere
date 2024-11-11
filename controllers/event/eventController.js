@@ -52,8 +52,15 @@ class EventController {
 
     try {
       const events = await Event.getEventByMemberId(memberID);
+
       if (events.length > 0) {
-        res.json(events);
+        // Include logic to check or manipulate the experience attribute if necessary
+        const eventsWithExperience = events.map((event) => ({
+          ...event,
+          experience: event.experience || null, // Fallback or default value
+        }));
+
+        res.json(eventsWithExperience);
       } else {
         res.status(404).json({ message: "No events found for this member" });
       }
@@ -555,6 +562,54 @@ class EventController {
     }
   }
 
+  static async viewInvoice(req, res) {
+    console.log("[DEBUG] Viewing PDF invoice...");
+
+    try {
+      const { eventDetails, participantsData, memberDetails, memberEventID } =
+        req.body;
+
+      if (
+        !eventDetails ||
+        !participantsData ||
+        !memberDetails ||
+        !memberEventID
+      ) {
+        return res.status(400).json({
+          message:
+            "Missing required fields: eventDetails, participantsData, memberDetails, or memberEventID.",
+        });
+      }
+
+      console.log(participantsData);
+      console.log(eventDetails);
+
+      // Call the static method using the class name
+      const s3Key = await EventController.generateInvoicePDF(
+        eventDetails,
+        participantsData,
+        memberDetails,
+        memberEventID
+      );
+
+      // Construct the S3 file URL (adjust for your S3 setup)
+      const s3Url = `https://mindsphere-s3.s3.amazonaws.com/${s3Key}`;
+
+      console.log(`[DEBUG] Invoice available at: ${s3Url}`);
+
+      // Return the URL for the client to open
+      return res.status(200).json({
+        message: "Invoice generated successfully.",
+        url: s3Url,
+      });
+    } catch (error) {
+      console.error("[DEBUG] Error in viewInvoice:", error);
+      return res
+        .status(500)
+        .json({ message: "Error generating or viewing the invoice.", error });
+    }
+  }
+
   static sendInvoiceEmail = async (req, res) => {
     const {
       eventID,
@@ -635,6 +690,60 @@ class EventController {
     } catch (error) {
       console.error("Error uploading to S3:", error);
       res.status(500).send("Failed to upload image");
+    }
+  };
+  static addFeedback = async (req, res) => {
+    const {
+      memberEventID,
+      experience,
+      pace,
+      liked,
+      disliked,
+      additionalComments,
+    } = req.body;
+
+    console.log("[DEBUG] Received feedback data:", {
+      memberEventID,
+      experience,
+      pace,
+      liked,
+      disliked,
+      additionalComments,
+    });
+
+    try {
+      // Validate required fields
+      if (!memberEventID || !experience || !pace) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Required fields (memberEventID, experience, pace) are missing.",
+        });
+      }
+
+      // Construct feedback data object
+      const feedbackData = {
+        experience,
+        pace,
+        liked,
+        disliked,
+        additionalComments,
+      };
+
+      // Call the model function to add feedback
+      const result = await Event.addFeedback(memberEventID, feedbackData);
+
+      console.log("[DEBUG] Feedback added successfully:", result);
+      res.status(200).json({
+        success: true,
+        message: "Feedback added successfully.",
+      });
+    } catch (error) {
+      console.error("[DEBUG] Error adding feedback:", error.message);
+      res.status(500).json({
+        success: false,
+        message: "Failed to add feedback. Please try again later.",
+      });
     }
   };
 }

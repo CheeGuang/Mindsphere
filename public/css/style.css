@@ -62,6 +62,51 @@ a {
   color: rgb(220 175 39 / var(--tw-text-opacity));
 }
 
+.card {
+  border-radius: 15px;
+  border: 1px solid whitesmoke;
+  box-shadow: 10px 10px 15px gainsboro;
+  height: auto;
+}
+
+.btn {
+  border-radius: 1000px;
+  font-weight: 600;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Default shadow */
+}
+
+.btn-primary {
+  box-shadow: 2px 2px 5px rgba(228, 192, 75, 0.3); /* Subtle shadow of primary colour */
+}
+
+.btn-secondary {
+  box-shadow: 2px 2px 5px rgba(108, 117, 125, 0.3); /* Subtle shadow of secondary colour */
+}
+
+.btn-success {
+  box-shadow: 2px 2px 5px rgba(25, 135, 84, 0.3); /* Subtle shadow of success colour */
+}
+
+.btn-danger {
+  box-shadow: 2px 2px 5px rgba(220, 53, 69, 0.3); /* Subtle shadow of danger colour */
+}
+
+.btn-warning {
+  box-shadow: 2px 2px 5px rgba(255, 193, 7, 0.3); /* Subtle shadow of warning colour */
+}
+
+.btn-info {
+  box-shadow: 2px 2px 5px rgba(13, 202, 240, 0.3); /* Subtle shadow of info colour */
+}
+
+.btn-light {
+  box-shadow: 2px 2px 5px rgba(248, 249, 250, 0.3); /* Subtle shadow of light colour */
+}
+
+.btn-dark {
+  box-shadow: 2px 2px 5px rgba(33, 37, 41, 0.1); /* Subtle shadow of dark colour */
+}
+
 /* Override Bootstrap btn-primary class */
 .btn-primary {
   background-color: #e4c04b;

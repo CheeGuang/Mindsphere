@@ -1,14 +1,3 @@
-/* Default blur effect on the image */
-.hover-blur {
-  filter: blur(2px); /* Slight blur by default */
-  transition: filter 0.3s ease-in-out; /* Smooth transition */
-}
-
-/* Clear the image on hover */
-.hover-clear:hover .hover-blur {
-  filter: blur(0); /* Remove blur on hover */
-}
-
 /* Public Speaking Workshop CSS */
 
 .modal-body {

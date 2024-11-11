@@ -82,18 +82,91 @@ const fetchAndDisplayEvents = async () => {
       }" />
           </div>
           <div class="col-md-8">
-            <div class="card-body text-start">
-              <h5 class="card-title">${event.title}</h5>
-              <p class="card-text">Duration: ${event.duration}</p>
-              <p class="card-text">${formatDateRange(event.availableDates)}</p>
-              <p class="card-text">${event.time}</p>
-              <p class="card-text">${event.venue}</p>
-              <button class="btn btn-dark">View Invoice</button>
+            <div class="card-body d-flex flex-column justify-content-between text-start">
+              <div>
+                <h5 class="card-title">${event.title}</h5>
+                <p class="card-text">Duration: ${event.duration}</p>
+                <p class="card-text">${formatDateRange(
+                  event.availableDates
+                )}</p>
+                <p class="card-text">${event.time}</p>
+                <p class="card-text">${event.venue}</p>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-dark btn-view-invoice" data-event-id="${
+                  event.eventID
+                }">View Invoice</button>
+                ${
+                  isUpcoming
+                    ? ""
+                    : event.experience
+                    ? `<button class="btn btn-success" disabled>Feedback Complete</button>`
+                    : `<button class="btn btn-primary btn-feedback" data-member-event-id="${event.memberEventID}">Give Feedback</button>`
+                }
+              </div>
             </div>
           </div>
         </div>
       `;
+
+      // Append card to the appropriate section
       eventSection.appendChild(card);
+
+      // Attach an event listener to the "View Invoice" button
+      const viewInvoiceButton = card.querySelector(".btn-view-invoice");
+      viewInvoiceButton.addEventListener("click", async () => {
+        try {
+          const payload = {
+            eventDetails: {
+              title: event.title,
+              price: event.price,
+            },
+            participantsData: [
+              [JSON.parse(localStorage.getItem("memberDetails"))],
+            ],
+            memberDetails: JSON.parse(localStorage.getItem("memberDetails")),
+            memberEventID: event.memberEventID,
+          };
+
+          const response = await fetch(
+            "http://localhost:8000/api/event/view-invoice",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch invoice.");
+          }
+
+          const { url } = await response.json();
+
+          // Open the invoice in a new window
+          window.open(url, "_blank");
+        } catch (error) {
+          console.error("Error viewing invoice:", error);
+        }
+      });
+
+      // Attach an event listener to the "Give Feedback" button if it exists
+      if (!isUpcoming && !event.experience) {
+        const feedbackButton = card.querySelector(".btn-feedback");
+        feedbackButton.addEventListener("click", () => {
+          // Store memberEventID in session storage
+          const memberEventID = feedbackButton.getAttribute(
+            "data-member-event-id"
+          );
+          sessionStorage.setItem("memberEventID", memberEventID);
+
+          // Redirect to the feedback page with event.eventID in the query parameter
+          const eventID = event.eventID;
+          window.location.href = `../memberEventFeedback.html?eventID=${eventID}`;
+        });
+      }
     };
 
     // Display upcoming events

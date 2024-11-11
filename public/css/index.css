@@ -63,12 +63,6 @@
 .oal p {
   color: #2e4457;
 }
-.card {
-  border-radius: 15px;
-  border: 1px solid whitesmoke;
-  box-shadow: 10px 10px 15px gainsboro;
-  height: auto;
-}
 
 .card-body p {
   font-size: 1rem;

@@ -66,6 +66,12 @@ eventRoutes.get("/get-event-by-id/:eventId", EventController.getEventByEventId);
 // New route to generate PDF and send payment confirmation email
 eventRoutes.post("/send-invoice-email", EventController.sendInvoiceEmail);
 
+// Route to add feedback for a memberEvent
+eventRoutes.post("/add-feedback", EventController.addFeedback);
+
+// Route to generate and upload PDF invoice
+eventRoutes.post("/view-invoice", EventController.viewInvoice);
+
 // ========== Export ==========
 // Exporting eventRoutes
 module.exports = eventRoutes;

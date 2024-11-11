@@ -19,7 +19,8 @@ BEGIN
         e.venue,
         e.picture,
         me.memberEventID,
-        me.fullName 
+        me.fullName,
+        me.experience
     FROM 
         Event e
     INNER JOIN 

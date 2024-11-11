@@ -22,7 +22,8 @@ class event {
     venue,
     picture,
     memberEventID,
-    fullName
+    fullName,
+    experience
   ) {
     this.eventID = eventID;
     this.type = type;
@@ -41,6 +42,7 @@ class event {
     this.picture = picture;
     this.memberEventID = memberEventID;
     this.fullName = fullName;
+    this.experience = experience;
   }
 
   // Fetch all events
@@ -143,7 +145,8 @@ class event {
             row.venue,
             row.picture,
             row.memberEventID,
-            row.fullName
+            row.fullName,
+            row.experience // Include the new attribute
           )
       );
 
@@ -483,6 +486,45 @@ class event {
     } catch (error) {
       console.error("[DEBUG] Database error:", error);
       throw error;
+    }
+  }
+  static async addFeedback(memberEventID, feedbackData) {
+    try {
+      console.log("[DEBUG] Connecting to database...");
+
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
+
+      // Set input parameters for the stored procedure
+      console.log("[DEBUG] Setting input parameters...");
+      request.input("MemberEventID", sql.Int, memberEventID);
+      request.input("Experience", sql.TinyInt, feedbackData.experience);
+      request.input("Pace", sql.TinyInt, feedbackData.pace);
+      request.input("Liked", sql.NVarChar(500), feedbackData.liked);
+      request.input("Disliked", sql.NVarChar(500), feedbackData.disliked);
+      request.input(
+        "AdditionalComments",
+        sql.NVarChar(1000),
+        feedbackData.additionalComments
+      );
+
+      console.log(
+        "[DEBUG] Executing stored procedure usp_AddMemberEventFeedback..."
+      );
+      // Execute the stored procedure
+      const result = await request.execute("usp_AddMemberEventFeedback");
+
+      // Close the connection
+      connection.close();
+
+      console.log("[DEBUG] Feedback added successfully.");
+      return {
+        success: true,
+        message: result.recordset[0]?.Message || "Feedback added successfully.",
+      };
+    } catch (error) {
+      console.error("[DEBUG] Database error:", error);
+      throw error; // Rethrow error to handle in the controller
     }
   }
 }
