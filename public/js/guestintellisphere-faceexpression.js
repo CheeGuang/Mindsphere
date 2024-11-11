@@ -16,7 +16,7 @@ function startVideo() {
 }
 
 video.addEventListener("play", () => {
-  // Create canvas and append it to the video container
+  // Create canvas and appended it to the video container
   const container = document.querySelector(".video-container");
   const canvas = faceapi.createCanvasFromMedia(video);
   container.appendChild(canvas);
