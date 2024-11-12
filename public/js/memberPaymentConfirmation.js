@@ -71,7 +71,6 @@ $(document).ready(async function () {
       const eventDetails = JSON.parse(selectedEventDetails);
       const totalPrice =
         eventDetails.price * JSON.parse(participantsData).length;
-
       $("#order-number").text(memberEventID);
       $("#total-amount").text(`$${totalPrice.toFixed(2)}`);
     } else {
@@ -203,7 +202,7 @@ $(document).ready(async function () {
         $("#total-amount").text(
           `$${(
             JSON.parse(sessionStorage.getItem("selectedEventDetails")).price *
-            length(JSON.parse(sessionStorage.getItem("participantData")))
+            participantsData.length
           ).toFixed(2)}`
         );
       } catch (error) {
