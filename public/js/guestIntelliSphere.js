@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
   // Show the modal when the page loads
   const instructionModal = new bootstrap.Modal(
     document.getElementById("instructionModal"),
@@ -7,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   );
   instructionModal.show();
+  
+  showLoading(false);
 });
 
 // Attach the event listener to the modal
@@ -53,6 +56,7 @@ audioPlayback.attr("src", "");
 document.getElementById("startRecording").disabled = false;
 
 $("#startRecording").click(async function () {
+  showLoading(true);
   audioChunks = [];
   resetEmotionDurations();
   emotionDataPoints = []; // Clear previous emotion data points
@@ -68,6 +72,9 @@ $("#startRecording").click(async function () {
     $("#stopRecording").prop("disabled", false);
 
     startEmotionTracking();
+     $("#evaluationResultsContainer").empty();
+    
+    showLoading(false);
   };
 
   mediaRecorder.ondataavailable = function (event) {
@@ -95,6 +102,8 @@ $("#stopRecording").click(function () {
   // Change the startRecording button to a restart button
   const startButton = $("#startRecording");
   startButton.html('<i class="fas fa-redo me-2"></i> Restart');
+  
+
 });
 
 async function sendAudioToController(base64Audio) {
@@ -120,12 +129,14 @@ async function sendAudioToController(base64Audio) {
 }
 
 confirmButton.click(async function () {
+  showLoading(true);
   const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
   const reader = new FileReader();
   reader.readAsDataURL(audioBlob);
   reader.onloadend = async () => {
     const base64Audio = reader.result.split(",")[1];
     await sendAudioToController(base64Audio);
+    showLoading(false);
   };
 });
 
@@ -442,3 +453,9 @@ function formatAvailableDates(dateString) {
     options
   )} - ${dates[1].toLocaleDateString("en-GB", options)}`;
 }
+function showLoading(show) {
+  const loadingPage = document.getElementById('loading-page');
+      loadingPage.style.display = show ? 'flex' : 'none';
+  }; 
+
+
