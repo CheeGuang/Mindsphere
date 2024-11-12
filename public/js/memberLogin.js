@@ -82,6 +82,7 @@ function fetchMemberDetails(memberID, redirectUrl) {
         contactNo: memberDetails.data.contactNo,
         profilePicture: memberDetails.data.profilePicture,
         membershipEndDate: memberDetails.data.membershipEndDate,
+        referralCode: memberDetails.data.referralCode,
       };
       localStorage.setItem("memberDetails", JSON.stringify(memberDetailsJson));
 

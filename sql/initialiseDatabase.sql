@@ -138,6 +138,8 @@ CREATE TABLE referral (
     referrerID INT NOT NULL,
     refereeID INT NOT NULL,
     referralDate DATETIME DEFAULT GETDATE(),
+    referrerRedeemed BIT DEFAULT 0, -- New column with default value 0
+    referreeRedeemed BIT DEFAULT 0, -- New column with default value 0
     FOREIGN KEY (referrerID) REFERENCES [member](memberID),
     FOREIGN KEY (refereeID) REFERENCES [member](memberID),
     CONSTRAINT UQ_referrer_referee UNIQUE (referrerID, refereeID) -- Ensure 1-to-1 relationship
@@ -332,6 +334,12 @@ VALUES
 (1, 2, 'Guardian'),
 (1, 3, 'Parent');
 
+-- Example insert statement for the updated referral table
+INSERT INTO referral (referrerID, refereeID)
+VALUES 
+(1, 2), 
+(3, 4);
+
 -- 4) Select all tables
 SELECT * FROM [member];
 SELECT * FROM [event];
@@ -340,3 +348,4 @@ SELECT * FROM admin;
 SELECT * FROM appointment;
 SELECT * FROM child;
 SELECT * FROM memberChild;
+SELECT * FROM referral;

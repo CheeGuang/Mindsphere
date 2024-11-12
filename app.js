@@ -21,6 +21,8 @@ const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.r
 const dashboardRoutes = require("./controllers/dashboard/dashboard.routes");
 // Initialising child Routes
 const childRoutes = require("./controllers/child/child.routes");
+// Initialising referral Routes
+const referralRoutes = require("./controllers/referral/referral.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -65,6 +67,9 @@ app.use("/api/dashboard", dashboardRoutes);
 
 // Child Route
 app.use("/api/child", childRoutes);
+
+// Referral Route
+app.use("/api/referral", referralRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000
