@@ -1,0 +1,32 @@
+ .role-option {
+     display: flex;
+     align-items: center;
+     cursor: pointer;
+     padding: 10px;
+     border-radius: 5px;
+     border: 2px solid transparent;
+ }
+
+ .role-option.active {
+     border-color: #6c757d;
+     background-color: #f0f0f0;
+ }
+
+ .role-icon {
+     width: 40px;
+     height: 40px;
+     margin-right: 10px;
+ }
+
+ .post-button {
+     background-color: #f4d06f;
+     color: #fff;
+     font-weight: bold;
+ }
+
+ .post-button:hover {
+     background-color: #e8c35e;
+ }
+ .gap-3{
+    justify-content: center;
+ }
