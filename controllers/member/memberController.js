@@ -125,7 +125,7 @@ class MemberController {
         req.body;
 
       // Call the model function to create a member
-      const memberID = await Member.createMember(
+      const newMemberID = await Member.createMember(
         firstName,
         lastName,
         email,
@@ -134,11 +134,20 @@ class MemberController {
         referralCode // Pass referral code to the model function
       );
 
-      res.status(201).json({
-        success: true,
-        message: "Member created successfully",
-        memberID: memberID,
-      });
+      if (newMemberID) {
+        // If a new member was created
+        res.status(201).json({
+          success: true,
+          message: "Member created successfully.",
+          newMemberID: newMemberID, // Return the newly created member ID
+        });
+      } else {
+        // If the member was updated
+        res.status(200).json({
+          success: true,
+          message: "Member updated successfully.",
+        });
+      }
     } catch (error) {
       if (error.message === "Invalid referral code. Member creation aborted.") {
         // Handle invalid referral code error specifically

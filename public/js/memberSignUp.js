@@ -124,11 +124,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await response.json();
 
       if (response.ok) {
-        // Store the newly created member ID in session storage
-        sessionStorage.setItem("memberId", result.memberId);
+        if (result.newMemberID) {
+          console.log(result);
+          // Store the newly created member ID in session storage
+          sessionStorage.setItem("newMemberID", result.newMemberID);
 
-        // Show success alert
-        showCustomAlert("Member created successfully");
+          // Show success alert with the new member ID
+          showCustomAlert(
+            `Member created successfully. New Member ID: ${result.newMemberID}`
+          );
+        } else {
+          // Handle the case where the member was updated
+          showCustomAlert("Member updated successfully.");
+        }
       } else {
         // Show error message
         showCustomAlert(result.message || "Error creating member.");
@@ -154,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         createMember();
         setTimeout(() => {
           window.location.href = "memberSignUpChildren.html";
-        }, 1000); // 3-second delay
+        }, 3000); // 3-second delay
       } else {
         // Handle invalid verification code (optional)
         showCustomAlert("Invalid verification code. Please try again.");

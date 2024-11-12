@@ -5,13 +5,15 @@ CREATE PROCEDURE usp_create_member
     @contactNo NVARCHAR(20),
     @password NVARCHAR(100),
     @referralCode NVARCHAR(50) NULL,
-    @referralSuccessful BIT OUTPUT
+    @referralSuccessful BIT OUTPUT,
+    @newMemberID INT OUTPUT -- Output parameter for newly created or updated member ID
 AS
 BEGIN
     SET NOCOUNT ON;
 
     -- Initialise referralSuccessful to 0 by default
     SET @referralSuccessful = 0;
+    SET @newMemberID = NULL; -- Initialise to NULL by default
 
     DECLARE @referrerID INT;
     DECLARE @memberID INT;
@@ -31,6 +33,9 @@ BEGIN
         SELECT @memberID = memberID
         FROM [member]
         WHERE email = @email;
+
+        -- Set newMemberID output to the updated member ID
+        SET @newMemberID = @memberID;
     END
     ELSE
     BEGIN
@@ -40,6 +45,9 @@ BEGIN
 
         -- Retrieve the ID of the newly created member
         SET @memberID = SCOPE_IDENTITY();
+
+        -- Set newMemberID output to the newly created member ID
+        SET @newMemberID = @memberID;
     END
 
     -- Perform referral logic after inserting or updating the member
@@ -64,7 +72,4 @@ BEGIN
             SET @referralSuccessful = 1;
         END
     END
-
-    -- Return the ID of the member (newly created or updated)
-    SELECT @memberID AS memberID;
 END;
