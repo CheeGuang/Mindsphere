@@ -1,31 +1,88 @@
 // ========== Models ==========
-const Template = require("../../models/template");
+const Child = require("../../models/child"); // Import the Child model
 
 // ========== Controller ==========
-class TemplateController {
-  // Template function handler
-  static async templateFunction(req, res) {
+class ChildController {
+  // Function to handle child registration
+  static async registerChild(req, res) {
     try {
-      // Instantiate the model
-      const templateModel = new Template();
+      const childrenData = req.body; // Expecting an array of children
+      console.log("[DEBUG] Incoming request data:", childrenData);
 
-      // Call the template function
-      const message = templateModel.templateFunction();
+      if (!Array.isArray(childrenData) || childrenData.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Request body must contain an array of child data.",
+        });
+      }
 
-      // Return the message as the response
+      const results = [];
+      for (const child of childrenData) {
+        const {
+          memberID,
+          firstName,
+          lastName,
+          age,
+          schoolName,
+          medicalConditions,
+          dietaryPreferences,
+          interests,
+          relationship,
+        } = child;
+
+        // Validate required fields for each child
+        const missingFields = [];
+        if (!memberID) missingFields.push("memberID");
+        if (!firstName) missingFields.push("firstName");
+        if (!lastName) missingFields.push("lastName");
+        if (!age) missingFields.push("age");
+        if (!relationship) missingFields.push("relationship");
+
+        if (missingFields.length > 0) {
+          console.log(
+            "[DEBUG] Missing required fields:",
+            missingFields.join(", ")
+          );
+          return res.status(400).json({
+            success: false,
+            message: `Missing required fields for child: ${missingFields.join(
+              ", "
+            )}`,
+          });
+        }
+
+        // Call the model function for each child
+        const output = await Child.registerChild({
+          memberID,
+          firstName,
+          lastName,
+          age,
+          schoolName,
+          medicalConditions,
+          dietaryPreferences,
+          interests,
+          relationship,
+        });
+
+        console.log("[DEBUG] Model output for child:", output);
+        results.push(output);
+      }
+
+      // Return success response with results
       res.status(200).json({
         success: true,
-        message: message,
+        message: "Children registered successfully.",
+        data: results,
       });
     } catch (error) {
-      console.error(`Error in templateFunction: ${error.message}`);
+      console.error(`[DEBUG] Error in registerChild: ${error.message}`);
       res.status(500).json({
         success: false,
-        message: "Failed to execute template function.",
+        message: "Failed to register children.",
       });
     }
   }
 }
 
 // ========== Export ==========
-module.exports = TemplateController;
+module.exports = ChildController;

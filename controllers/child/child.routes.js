@@ -3,17 +3,17 @@
 const express = require("express");
 
 // ========== Controllers ==========
-// Initialising TemplateController
-const TemplateController = require("./templateController");
+// Initialising ChildController
+const ChildController = require("./childController");
 
 // ========== Set-up ==========
-// Initialising templateRoutes
-const templateRoutes = express.Router();
+// Initialising childRoutes
+const childRoutes = express.Router();
 
 // ========== Routes ==========
-// Define routes for the Template model
-// Route to call the template function
-templateRoutes.get("/template-function", TemplateController.templateFunction);
+// Define routes for the Child model
+// Route to register a child
+childRoutes.post("/register-child", ChildController.registerChild);
 
 // ========== Export ==========
-module.exports = templateRoutes;
+module.exports = childRoutes;

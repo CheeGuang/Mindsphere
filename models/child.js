@@ -16,11 +16,25 @@ class Child {
   }) {
     let pool;
     try {
-      console.log("Connecting to the database...");
+      console.log("[DEBUG] Connecting to the database...");
       pool = await sql.connect(dbConfig); // Connect to the database
-      console.log("Database connected.");
+      console.log("[DEBUG] Database connected successfully.");
 
-      console.log("Executing stored procedure: usp_registerChild");
+      console.log(
+        "[DEBUG] Preparing to execute stored procedure: usp_registerChild"
+      );
+      console.log("[DEBUG] Input parameters:", {
+        memberID,
+        firstName,
+        lastName,
+        age,
+        schoolName,
+        medicalConditions,
+        dietaryPreferences,
+        interests,
+        relationship,
+      });
+
       const result = await pool
         .request()
         .input("memberID", sql.Int, memberID)
@@ -36,22 +50,24 @@ class Child {
         .output("memberChildID", sql.Int) // Output parameter for the generated memberChild ID
         .execute("usp_registerChild"); // Execute the stored procedure
 
-      console.log("Stored procedure executed successfully.");
+      console.log("[DEBUG] Stored procedure executed successfully.");
+      console.log("[DEBUG] Stored procedure result:", result);
 
-      // Return the output values
+      // Extract and log output values
       const output = {
         childID: result.output.childID,
         memberChildID: result.output.memberChildID,
       };
+      console.log("[DEBUG] Output values:", output);
 
       return output;
     } catch (error) {
-      console.error(`Error in Child.registerChild: ${error.message}`);
+      console.error(`[DEBUG] Error in Child.registerChild: ${error.message}`);
       throw error;
     } finally {
       if (pool) {
         await pool.close(); // Close the database connection if pool was defined
-        console.log("Database connection closed.");
+        console.log("[DEBUG] Database connection closed.");
       }
     }
   }
