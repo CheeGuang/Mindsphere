@@ -86,6 +86,16 @@ BEGIN
     FROM #SelectedEventData
     GROUP BY EventTitle;
 
+    -- 9. Experience, Pace, Liked, Disliked, and Additional Comments
+    SELECT 
+        me.experience,
+        me.pace,
+        me.liked,
+        me.disliked,
+        me.additionalComments
+    FROM memberEvent me
+    INNER JOIN #SelectedEventData ed ON me.eventID = ed.eventID;
+
     -- Clean up temporary table
     DROP TABLE #SelectedEventData;
 END;

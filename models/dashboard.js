@@ -38,7 +38,6 @@ class Dashboard {
     }
   }
 
-  // Fetch event-specific dashboard data
   static async getEventDashboardData(eventID) {
     let pool;
     try {
@@ -66,6 +65,13 @@ class Dashboard {
         averageAge: result.recordsets[5][0]?.AverageAge || 0, // Average age
         dietaryPreferences: result.recordsets[6], // Dietary preferences
         eventStatus: result.recordsets[7][0]?.EventStatus || "Unknown", // Event status
+        participantFeedback: result.recordsets[8].map((feedback) => ({
+          experience: feedback.experience,
+          pace: feedback.pace,
+          liked: feedback.liked,
+          disliked: feedback.disliked,
+          additionalComments: feedback.additionalComments,
+        })), // Participant feedback (experience, pace, liked, disliked, comments)
       };
 
       return eventData;
