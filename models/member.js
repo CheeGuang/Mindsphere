@@ -153,7 +153,14 @@ class Member {
   }
 
   // Function to create a member using stored procedure with password encryption
-  static async createMember(firstName, lastName, email, contactNo, password) {
+  static async createMember(
+    firstName,
+    lastName,
+    email,
+    contactNo,
+    password,
+    referralCode
+  ) {
     try {
       // Hash the password using bcrypt before storing it
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -166,13 +173,23 @@ class Member {
       request.input("email", sql.NVarChar(100), email);
       request.input("contactNo", sql.NVarChar(20), contactNo);
       request.input("password", sql.NVarChar(100), hashedPassword); // Store hashed password
+      request.input("referralCode", sql.NVarChar(50), referralCode || null); // Pass referral code or null
+      request.output("referralSuccessful", sql.Bit); // Output for referral validation
 
       const result = await request.execute("usp_create_member");
 
+      // Check if the referral was successful
+      const referralSuccessful = result.output.referralSuccessful;
+
+      // Log the referral success status for informational purposes
+      console.log("Referral successful:", referralSuccessful);
+
       connection.close();
 
-      // Return the newly created memberID
-      return result.recordset[0].newMemberID;
+      // Return the member ID (either new or updated)
+      return (
+        result.recordset[0]?.newMemberID || result.recordset[0]?.updatedMemberID
+      );
     } catch (error) {
       console.error("Error creating member:", error);
       throw error;

@@ -3,9 +3,19 @@ CREATE PROCEDURE usp_create_member
     @lastName NVARCHAR(100),
     @email NVARCHAR(100),
     @contactNo NVARCHAR(20),
-    @password NVARCHAR(100)
+    @password NVARCHAR(100),
+    @referralCode NVARCHAR(50) NULL,
+    @referralSuccessful BIT OUTPUT
 AS
 BEGIN
+    SET NOCOUNT ON;
+
+    -- Initialise referralSuccessful to 0 by default
+    SET @referralSuccessful = 0;
+
+    DECLARE @referrerID INT;
+    DECLARE @memberID INT;
+
     -- Check if a member with the given email already exists
     IF EXISTS (SELECT 1 FROM [member] WHERE email = @email)
     BEGIN
@@ -17,18 +27,44 @@ BEGIN
             password = @password
         WHERE email = @email;
 
-        -- Return the ID of the updated member
-        SELECT memberID AS updatedMemberID
+        -- Retrieve the ID of the updated member
+        SELECT @memberID = memberID
         FROM [member]
         WHERE email = @email;
     END
     ELSE
     BEGIN
-        -- Insert a new member if email does not exist
+        -- Insert a new member
         INSERT INTO [member] (firstName, lastName, email, contactNo, password)
         VALUES (@firstName, @lastName, @email, @contactNo, @password);
 
-        -- Return the ID of the newly created member
-        SELECT SCOPE_IDENTITY() AS newMemberID;
+        -- Retrieve the ID of the newly created member
+        SET @memberID = SCOPE_IDENTITY();
     END
+
+    -- Perform referral logic after inserting or updating the member
+    IF @referralCode IS NOT NULL AND EXISTS (SELECT 1 FROM [member] WHERE referralCode = @referralCode)
+    BEGIN
+        -- Valid referral code found, retrieve referrer's memberID
+        SELECT @referrerID = memberID
+        FROM [member]
+        WHERE referralCode = @referralCode;
+
+        -- Check if a referral already exists to avoid duplicates
+        IF NOT EXISTS (
+            SELECT 1 FROM referral
+            WHERE referrerID = @referrerID AND refereeID = @memberID
+        )
+        BEGIN
+            -- Insert the referral record
+            INSERT INTO referral (referrerID, refereeID)
+            VALUES (@referrerID, @memberID);
+
+            -- Set referralSuccessful to 1
+            SET @referralSuccessful = 1;
+        END
+    END
+
+    -- Return the ID of the member (newly created or updated)
+    SELECT @memberID AS memberID;
 END;

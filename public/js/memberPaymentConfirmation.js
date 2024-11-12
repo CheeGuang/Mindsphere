@@ -77,7 +77,7 @@ $(document).ready(async function () {
       console.error("[DEBUG] No enrollment data found in sessionStorage.");
     }
 
-    let membershipUpdated = false;
+    let newMembership = false; // Flag to determine if the membership is new
 
     // Proceed with enrollment if enrollment data is available
     if (enrollmentData && enrollmentData.participantsData) {
@@ -87,7 +87,7 @@ $(document).ready(async function () {
       console.log(participantsData);
 
       try {
-        var orderNumber;
+        let orderNumber;
 
         for (let participant of participantsData) {
           const fullName =
@@ -112,6 +112,7 @@ $(document).ready(async function () {
             lunchOption: participant.lunchOption,
             specifyOther: participant.specifyOther,
           });
+
           const response = await $.ajax({
             url: `${window.location.origin}/api/event/enroll-member-to-event`,
             method: "POST",
@@ -141,9 +142,9 @@ $(document).ready(async function () {
               orderNumber = response.memberEventID;
             }
 
-            // Check if membership was updated
-            if (response.membershipUpdated) {
-              membershipUpdated = true; // Set flag if membership was updated
+            // Check if membership was updated (new membership or extended)
+            if (response.newMembership !== undefined) {
+              newMembership = response.newMembership; // Set flag based on the response
             }
 
             await fetchAndStoreEventDetails(eventID);
@@ -210,11 +211,36 @@ $(document).ready(async function () {
       }
     }
 
-    // After the for loop, show modal if membership was updated
-    if (membershipUpdated) {
-      $("#membershipModal").modal("show"); // Show the modal
+    // After the for loop, show modal if membership status was updated
+    if (typeof newMembership !== "undefined") {
+      const membershipModalBody = $("#membershipModal .modal-body p");
+      const membershipModalTitle = $("#membershipModalLabel");
 
-      // SEND EMAIL HERE
+      if (newMembership === true) {
+        // New membership
+        membershipModalTitle.text("🎉 Welcome to Mind+!");
+        membershipModalBody.html(
+          "✨ <strong>Congratulations!</strong> ✨<br>" +
+            "Welcome to <strong>Mind+</strong>! 🌟 You’re now part of an exclusive community with access to amazing benefits and features. 💼🎓<br>" +
+            "Your membership is valid until <strong>" +
+            formattedExpiryDate +
+            "</strong>. 🗓️<br>" +
+            "We’re thrilled to have you on board! 🚀"
+        );
+      } else {
+        // Existing membership extended
+        membershipModalTitle.text("💫 Membership Extended!");
+        membershipModalBody.html(
+          "🎉 Great news! Your <strong>Mind+</strong> membership has been extended! 📅<br>" +
+            "Your new expiry date is <strong>" +
+            formattedExpiryDate +
+            "</strong>. 🗓️<br>" +
+            "Enjoy another year of exclusive perks and benefits. 🌟"
+        );
+      }
+
+      // Show the modal
+      $("#membershipModal").modal("show");
     }
 
     function fetchMemberDetails(memberID) {

@@ -9,10 +9,10 @@ CREATE PROCEDURE usp_enrollMemberToEvent
     @lunchOption NVARCHAR(100),
     @specifyOther NVARCHAR(200),
     @memberEventID INT OUTPUT,
-    @membershipUpdated BIT OUTPUT -- New output parameter to indicate if membershipEndDate was updated
+    @newMembership BIT OUTPUT -- Updated parameter to indicate if membershipEndDate was previously NULL
 AS
 BEGIN
-    SET @membershipUpdated = 0; -- Default to no update
+    SET @newMembership = 0; -- Default to no new membership
 
     -- Insert into memberEvent table
     INSERT INTO memberEvent (
@@ -48,14 +48,14 @@ BEGIN
         WHERE memberID = @memberID AND membershipEndDate IS NULL
     )
     BEGIN
-        -- Update membershipEndDate to 1 year from the current date
-        UPDATE member
-        SET membershipEndDate = DATEADD(YEAR, 1, GETDATE())
-        WHERE memberID = @memberID;
-
-        -- Indicate that the membershipEndDate was updated
-        SET @membershipUpdated = 1;
+        -- Set newMembership to TRUE because the current membershipEndDate is NULL
+        SET @newMembership = 1;
     END
+
+    -- Update membershipEndDate to 1 year from the current date
+    UPDATE member
+    SET membershipEndDate = DATEADD(YEAR, 1, GETDATE())
+    WHERE memberID = @memberID;
 
     -- Return success
     RETURN 0;

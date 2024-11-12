@@ -166,18 +166,22 @@ class EventController {
         specifyOther
       );
 
-      // If enrollment is successful, respond with success, memberEventID, and membershipUpdated status
+      // If enrollment is successful, respond with success, memberEventID, and newMembership status
       console.log("[DEBUG] Enrollment response from model:", response);
 
       res.status(200).json({
         success: response.success,
         message: response.message,
         memberEventID: response.memberEventID,
-        membershipUpdated: response.membershipUpdated, // Include membershipUpdated in the response
+        newMembership: response.newMembership, // Include newMembership in the response
       });
     } catch (error) {
       console.error("Error enrolling member to event:", error);
-      res.status(500).send("Error enrolling member to event");
+      res.status(500).json({
+        success: false,
+        message: "Error enrolling member to event",
+        error: error.message, // Include error message for better debugging
+      });
     }
   };
 

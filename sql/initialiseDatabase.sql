@@ -1,4 +1,10 @@
 -- 1) Check if tables exist and drop them
+IF OBJECT_ID('dbo.referral', 'U') IS NOT NULL
+    DROP TABLE dbo.referral;
+
+IF OBJECT_ID('dbo.memberChild', 'U') IS NOT NULL
+    DROP TABLE dbo.memberChild;
+
 IF OBJECT_ID('dbo.memberEvent', 'U') IS NOT NULL
     DROP TABLE dbo.memberEvent;
 
@@ -14,6 +20,10 @@ IF OBJECT_ID('dbo.event', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.admin', 'U') IS NOT NULL
     DROP TABLE dbo.admin;
 
+IF OBJECT_ID('dbo.child', 'U') IS NOT NULL
+    DROP TABLE dbo.child;
+
+
 -- 2) Create tables according to the ER diagram
 
 CREATE TABLE [member] (
@@ -28,7 +38,9 @@ CREATE TABLE [member] (
     contactNoVCTimestamp DATETIME,
     password NVARCHAR(100),
     profilePicture NVARCHAR(500),
-    membershipEndDate DATETIME NULL
+    membershipEndDate DATETIME NULL,
+    referralCode AS RIGHT('0000' + CONVERT(VARCHAR(6), memberID + 100000), 6) PERSISTED -- Computed column
+
 );
 
 CREATE TABLE [event] (
@@ -100,6 +112,39 @@ CREATE TABLE appointment (
     FOREIGN KEY (MemberID) REFERENCES [member](memberID),
     FOREIGN KEY (AdminID) REFERENCES admin(adminID)
 );
+
+CREATE TABLE child (
+    childID INT PRIMARY KEY IDENTITY(1,1),
+    firstName NVARCHAR(100),
+    lastName NVARCHAR(100),
+    age INT,
+    schoolName NVARCHAR(100),
+    medicalConditions NVARCHAR(500),
+    dietaryPreferences NVARCHAR(500),
+    interests NVARCHAR(500)
+);
+
+CREATE TABLE memberChild (
+    memberChildID INT PRIMARY KEY IDENTITY(1,1),
+    memberID INT,
+    childID INT,
+    relationship NVARCHAR(100), -- e.g., "Parent", "Guardian"
+    FOREIGN KEY (memberID) REFERENCES [member](memberID),
+    FOREIGN KEY (childID) REFERENCES child(childID)
+);
+
+CREATE TABLE referral (
+    referralID INT PRIMARY KEY IDENTITY(1,1),
+    referrerID INT NOT NULL,
+    refereeID INT NOT NULL,
+    referralDate DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (referrerID) REFERENCES [member](memberID),
+    FOREIGN KEY (refereeID) REFERENCES [member](memberID),
+    CONSTRAINT UQ_referrer_referee UNIQUE (referrerID, refereeID) -- Ensure 1-to-1 relationship
+);
+
+
+
 -- 3) Insert dummy data
 
 -- Insert a dummy member with updated membershipEndDate
@@ -275,9 +320,23 @@ VALUES
     'eyJraWQiOiIxY2UxZTEzNjE3ZGNmNzY2YjNjZWJjY2Y4ZGM1YmFmYThhNjVlNjg0MDIzZjdjMzJiZTgzNDliMjM4MDEzNWI0IiwidHlwIjoiUEFUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1dGguY2FsZW5kbHkuY29tIiwiaWF0IjoxNzMwMzEyNDMyLCJqdGkiOiJhNDJmMDExMC02NmM1LTQwMzgtOTU0Ny04ZDZiNTgwZmIyZjAiLCJ1c2VyX3V1aWQiOiIzMWIyYWYyZC1jZmFiLTQwNTgtYjQxNy1hYzE2NjAzY2VjNzkifQ.q1bMc94syvDmQwvApqmUUSPgVC4xR7P8XC6l8LYC8kbCYK38nbL9Do1iCuWVlZa6GvrNyD9mrGjoZOttLktytw'
 );
 
+INSERT INTO child (firstName, lastName, age, schoolName, medicalConditions, dietaryPreferences, interests)
+VALUES
+('Alex', 'Lee', 10, 'NUS Primary School', 'None', 'Vegetarian', 'Art'),
+('Bella', 'Tan', 8, 'River Valley Primary', 'Asthma', 'No Nuts', 'Nature'),
+('Charlie', 'Ng', 9, 'Bukit Timah Primary', 'Lactose Intolerant', 'No Dairy', 'Technology');
+
+INSERT INTO memberChild (memberID, childID, relationship)
+VALUES
+(1, 1, 'Parent'),
+(1, 2, 'Guardian'),
+(1, 3, 'Parent');
+
 -- 4) Select all tables
 SELECT * FROM [member];
 SELECT * FROM [event];
 SELECT * FROM memberEvent;
 SELECT * FROM admin;
 SELECT * FROM appointment;
+SELECT * FROM child;
+SELECT * FROM memberChild;

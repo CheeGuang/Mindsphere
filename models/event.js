@@ -338,7 +338,7 @@ class event {
     }
   }
 
-  // Enroll a member to an event and return the memberEventID and membershipUpdated status
+  // Enroll a member to an event and return the memberEventID and newMembership status
   static async enrollMemberToEvent(
     memberID,
     eventID,
@@ -368,9 +368,9 @@ class event {
       request.input("lunchOption", sql.NVarChar(100), lunchOption);
       request.input("specifyOther", sql.NVarChar(200), specifyOther);
 
-      // Output parameters to capture the new memberEventID and membershipUpdated status
+      // Output parameters to capture the new memberEventID and newMembership status
       request.output("memberEventID", sql.Int);
-      request.output("membershipUpdated", sql.Bit);
+      request.output("newMembership", sql.Bit); // Updated to match the new stored procedure output
 
       console.log(
         "[DEBUG] Executing stored procedure usp_enrollMemberToEvent..."
@@ -379,27 +379,27 @@ class event {
       // Execute the stored procedure and capture the result
       const result = await request.execute("usp_enrollMemberToEvent");
 
-      // Retrieve the memberEventID and membershipUpdated status from the output parameters
+      // Retrieve the memberEventID and newMembership status from the output parameters
       const memberEventID = result.output.memberEventID;
-      const membershipUpdated = result.output.membershipUpdated;
+      const newMembership = result.output.newMembership;
 
       console.log("[DEBUG] Stored procedure executed successfully. Results:", {
         memberEventID,
-        membershipUpdated,
+        newMembership,
       });
 
       // Close the connection
       connection.close();
 
-      // Return success response with memberEventID and membershipUpdated status
+      // Return success response with memberEventID and newMembership status
       return {
         success: true,
         message: "Enrollment successful.",
         memberEventID: memberEventID,
-        membershipUpdated: Boolean(membershipUpdated), // Convert Bit to Boolean for easier handling in the frontend
+        newMembership: Boolean(newMembership), // Convert Bit to Boolean for easier handling in the frontend
       };
     } catch (error) {
-      console.error("Database error:", error);
+      console.error("[DEBUG] Database error:", error);
       throw error;
     }
   }

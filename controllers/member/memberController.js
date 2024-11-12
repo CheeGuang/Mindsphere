@@ -121,7 +121,8 @@ class MemberController {
   // Create a new member
   static async createMember(req, res) {
     try {
-      const { firstName, lastName, email, contactNo, password } = req.body;
+      const { firstName, lastName, email, contactNo, password, referralCode } =
+        req.body;
 
       // Call the model function to create a member
       const memberID = await Member.createMember(
@@ -129,7 +130,8 @@ class MemberController {
         lastName,
         email,
         contactNo,
-        password
+        password,
+        referralCode // Pass referral code to the model function
       );
 
       res.status(201).json({
@@ -138,11 +140,19 @@ class MemberController {
         memberID: memberID,
       });
     } catch (error) {
-      console.error(`Error in createMember: ${error.message}`);
-      res.status(500).json({
-        success: false,
-        message: "Failed to create member.",
-      });
+      if (error.message === "Invalid referral code. Member creation aborted.") {
+        // Handle invalid referral code error specifically
+        res.status(400).json({
+          success: false,
+          message: "Invalid referral code provided.",
+        });
+      } else {
+        console.error(`Error in createMember: ${error.message}`);
+        res.status(500).json({
+          success: false,
+          message: "Failed to create member.",
+        });
+      }
     }
   }
 
@@ -329,8 +339,8 @@ class MemberController {
     }
   }
 
-  //  update member info 
- static async updateMember(req, res) {
+  //  update member info
+  static async updateMember(req, res) {
     const { memberID } = req.params;
     const { firstName, lastName, email, contactNo } = req.body;
 
@@ -340,44 +350,45 @@ class MemberController {
         lastName,
         email,
         contactNo,
-        
       });
 
       if (updatedMemberID) {
         return res.status(200).json({
           message: "Member updated successfully",
-          memberID: updatedMemberID
+          memberID: updatedMemberID,
         });
       } else {
         return res.status(404).json({ error: "Member not found" });
       }
     } catch (error) {
       console.error("Error in updateMember controller:", error);
-      return res.status(500).json({ error: "An error occurred while updating the member" });
+      return res
+        .status(500)
+        .json({ error: "An error occurred while updating the member" });
     }
   }
 
+  static async deleteMember(req, res) {
+    try {
+      // Extract memberID from the request params
+      const { memberID } = req.params;
 
-   static async deleteMember(req, res) {
-        try {
-            // Extract memberID from the request params
-            const { memberID } = req.params;
-            
-            // Call the deleteMember method from the model
-            const isDeleted = await Member.deleteMember(memberID);
+      // Call the deleteMember method from the model
+      const isDeleted = await Member.deleteMember(memberID);
 
-            // Check the result and respond accordingly
-            if (isDeleted) {
-                res.status(200).json({ message: "Member deleted successfully." });
-            } else {
-                res.status(404).json({ message: "Member not found." });
-            }
-        } catch (error) {
-            console.error("Error in deleteMember controller:", error);
-            res.status(500).json({ message: "An error occurred while deleting the member." });
-        }
+      // Check the result and respond accordingly
+      if (isDeleted) {
+        res.status(200).json({ message: "Member deleted successfully." });
+      } else {
+        res.status(404).json({ message: "Member not found." });
+      }
+    } catch (error) {
+      console.error("Error in deleteMember controller:", error);
+      res
+        .status(500)
+        .json({ message: "An error occurred while deleting the member." });
     }
-  
+  }
 }
 
 // ========== Export ==========
