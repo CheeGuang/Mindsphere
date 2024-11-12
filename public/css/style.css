@@ -202,3 +202,13 @@ a {
     opacity: 1;
   }
 }
+
+/* Hide buttons in mobile view */
+@media (max-width: 768px) {
+  #telegram-button-container,
+  #whatsapp-button-container,
+  #linkedin-button-container,
+  #email-button-container {
+    display: none;
+  }
+}

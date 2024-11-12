@@ -58,8 +58,10 @@
     <script src="./js/face-api.min.js" defer></script>
     <script src="./js/guestIntellisphere-faceExpression.js" defer></script>
     <!--<script src="./js/guestIntelliSphereanimation.js"></script>-->
-  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-
+    <script
+      src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+      type="module"
+    ></script>
 
     <!-- Add a favicon to the tab bar -->
     <link
@@ -235,9 +237,27 @@
         </div>
       </div>
     </div>
-    <div id="loading-page"style="display: none; bottom: 20px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; z-index: 9999;">
-      <dotlottie-player src="https://lottie.host/d967e1c6-f52a-4083-88ec-f198b9da5448/5ngVQykPet.json"
-        background="transparent" speed="0.5" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+    <div
+      id="loading-page"
+      style="
+        display: none;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      "
+    >
+      <dotlottie-player
+        src="https://lottie.host/d967e1c6-f52a-4083-88ec-f198b9da5448/5ngVQykPet.json"
+        background="transparent"
+        speed="0.5"
+        style="width: 300px; height: 300px"
+        loop
+        autoplay
+      ></dotlottie-player>
     </div>
 
     <!-- Footer -->
@@ -247,6 +267,9 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Contact Buttons -->
+    <div id="contactUsButton"></div>
 
     <!-- Custom JS to Load customAlert.html -->
     <script>
