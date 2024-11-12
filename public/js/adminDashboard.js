@@ -372,6 +372,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       createExperienceChart(data.participantFeedback);
       createPaceChart(data.participantFeedback);
 
+      displayFeedbackCards(data.participantFeedback);
+
       // Display Event Timing and Venue
       document.getElementById(
         "eventTimingVenue"
@@ -588,5 +590,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
       },
     });
+  }
+
+  function displayFeedbackCards(feedbackData) {
+    const likedFeedbacks = feedbackData.map((item) => item.liked).join("<br>");
+    const dislikedFeedbacks = feedbackData
+      .map((item) => item.disliked)
+      .join("<br>");
+    const additionalComments = feedbackData
+      .map((item) => item.additionalComments)
+      .join("<br>");
+
+    const feedbackContainer = document.getElementById("feedbackContainer");
+    feedbackContainer.innerHTML = `
+      <div class="row my-3">
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Liked Feedbacks</h5>
+            <p class="fw-normal">${likedFeedbacks}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Disliked Feedbacks</h5>
+            <p class="fw-normal">${dislikedFeedbacks}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Additional Comments</h5>
+            <p class="fw-normal">${additionalComments}</p>
+          </div>
+        </div>
+      </div>
+    `;
   }
 });
