@@ -10,7 +10,7 @@ const fetchAndDisplayEvents = async () => {
     }
 
     const response = await fetch(
-      `http://localhost:8000/api/event/get-event-by-member-id/${memberId}`
+      `${window.location.origin}/api/event/get-event-by-member-id/${memberId}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
