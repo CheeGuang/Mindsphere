@@ -111,6 +111,8 @@ async function sendAudioToController(base64Audio) {
     if (result.success) {
       updateEvaluationResults(result.evaluation.evaluation.evaluation);
       addEmotionLineChart();
+
+      // SEND EMAIL HERE
     } else {
       console.error("Error assessing audio:", result.message);
     }

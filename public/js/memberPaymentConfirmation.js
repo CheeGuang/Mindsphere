@@ -214,6 +214,8 @@ $(document).ready(async function () {
     // After the for loop, show modal if membership was updated
     if (membershipUpdated) {
       $("#membershipModal").modal("show"); // Show the modal
+
+      // SEND EMAIL HERE
     }
 
     function fetchMemberDetails(memberID) {
