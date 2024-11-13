@@ -72,6 +72,8 @@ eventRoutes.post("/add-feedback", EventController.addFeedback);
 // Route to generate and upload PDF invoice
 eventRoutes.post("/view-invoice", EventController.viewInvoice);
 
+eventRoutes.get("/getevent/by-available-dates", EventController.getEventsByAvailableDates);
+
 // ========== Export ==========
 // Exporting eventRoutes
 module.exports = eventRoutes;

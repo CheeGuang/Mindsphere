@@ -527,6 +527,54 @@ class event {
       throw error; // Rethrow error to handle in the controller
     }
   }
+
+
+
+
+
+  // Fetch events by availableDates
+static async getEventByAvailableDates(availableDates) {
+  try {
+    const connection = await sql.connect(dbConfig);
+    const request = connection.request();
+
+    request.input("availableDates", sql.NVarChar(100), availableDates); 
+    const result = await request.execute("usp_get_event_by_available_dates");
+
+    const eventList = result.recordset.map(
+      (row) =>
+        new event(
+          row.eventID,
+          row.type,
+          row.title,
+          row.price,
+          row.oldPrice,
+          row.classSize,
+          row.duration,
+          row.lunchProvided,
+          row.lessonMaterialsProvided,
+          row.accessToMembership,
+          row.availableDates,
+          row.time,
+          row.totalParticipants,
+          row.venue,
+          row.picture,
+          row.memberEventID,
+          row.fullName,
+          row.experience
+        )
+    );
+
+    console.log(eventList);
+    connection.close();
+
+    return [...eventList];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error; // Rethrow to handle in the controller
+  }
+  }
+  
 }
 
 module.exports = event;
