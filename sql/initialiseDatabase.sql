@@ -188,13 +188,13 @@ VALUES
 INSERT INTO [event] (type, title, price, oldPrice, classSize, duration, lunchProvided, lessonMaterialsProvided, accessToMembership, availableDates, time, totalParticipants, venue, picture)
 VALUES 
 -- Public Speaking Workshops (After 20 Nov to Before 30 Nov)
-('Public Speaking Workshops', 'Beginner', 788.00, 988.00, '15-20', '3.5 days', 1, 1, 1, '2024-11-21,2024-11-22', '9am-5pm', 20, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
-('Public Speaking Workshops', 'Intermediate', 988.00, 1188.00, '12-15', '3 days', 1, 1, 1, '2024-11-23,2024-11-25', '9am-5pm', 10, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
-('Public Speaking Workshops', 'Advanced', 1388.00, 1388.00, '10', '3 days', 1, 1, 1, '2024-11-26,2024-11-28', '9am-5pm', 15, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
+('Public Speaking Workshops', 'Beginner Public Speaking Workshops', 788.00, 988.00, '15-20', '3.5 days', 1, 1, 1, '2024-11-21,2024-11-22', '9am-5pm', 20, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
+('Public Speaking Workshops', 'Intermediate Public Speaking Workshops', 988.00, 1188.00, '12-15', '3 days', 1, 1, 1, '2024-11-23,2024-11-25', '9am-5pm', 10, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
+('Public Speaking Workshops', 'Advanced Public Speaking Workshops', 1388.00, 1388.00, '10', '3 days', 1, 1, 1, '2024-11-26,2024-11-28', '9am-5pm', 15, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/public-speaking-workshop.jpg'),
 
 -- PSLE Power Up Camp (1 Dec to 31 Dec)
-('PSLE Power Up Camp', 'PSLE Power Up', 200.00, 250.00, '50', '5 days', 1, 1, 1, '2024-11-01,2024-11-05', '10am-6pm', 12, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/psle-powerup-camp.jpg'),
-('PSLE Power Up Camp', 'PSLE Chinese Oral Booster', 180.00, 220.00, '50', '3 days', 1, 1, 1, '2024-11-15,2024-11-18', '10am-6pm', 27, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/psle-powerup-camp.jpg'),
+('PSLE Power Up Camp', 'PSLE Power Up', 200.00, 250.00, '50', '5 days', 1, 1, 1, '2024-11-01,2024-11-06', '10am-6pm', 12, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/psle-powerup-camp.jpg'),
+('PSLE Power Up Camp', 'PSLE Chinese Oral Booster', 180.00, 220.00, '50', '3 days', 1, 1, 1, '2024-11-05,2024-11-08', '10am-6pm', 27, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/psle-powerup-camp.jpg'),
 
 -- Professionals Workshops (Spread from Aug to Oct)
 ('Professionals', 'Train-The-Trainer Programme', 700.00, 350.00, '40', '2 days', 1, 1, 1, '2024-08-10,2024-08-12', '9am-5pm', 43, '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409501', './img/workshop/professionals.jpg'),
