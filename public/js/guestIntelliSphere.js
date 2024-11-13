@@ -121,13 +121,71 @@ async function sendAudioToController(base64Audio) {
       updateEvaluationResults(result.evaluation.evaluation.evaluation);
       addEmotionLineChart();
 
-      // SEND EMAIL HERE
+      const recipientEmail = JSON.parse(
+        localStorage.getItem("memberDetails")
+      ).email;
+
+      // Invoke the function to create and handle the Send Results button
+      addSendEmailButton(recipientEmail, result.evaluation.evaluation.evaluation);
     } else {
       console.error("Error assessing audio:", result.message);
     }
   } catch (error) {
     console.error("Error sending audio to controller:", error);
   }
+}
+
+function addSendEmailButton(recipientEmail, evaluationResults) {
+  const evaluationContainer = $("#evaluationResultsContainer");
+
+  // Remove any existing button to avoid duplicates
+  $("#sendEmailButton").remove();
+
+  // Add the button dynamically
+  evaluationContainer.append(`
+    <div class="d-flex justify-content-center">
+    <button id="sendEmailButton" class="btn btn-primary mt-3">Send Results to Email</button>
+    </div>
+  `);
+
+
+
+  console.log("Evaluation Results to be sent:", evaluationResults);
+
+  // Attach click event to send the results by email
+  $("#sendEmailButton").on("click", async function () {
+    try {
+      console.log("[DEBUG] Sending evaluation results email...");
+      const response = await fetch("/api/emailService/send-result-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recipientEmail: recipientEmail,
+          evaluationResults: evaluationResults,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok. Status: ${response.status}`);
+      }
+
+      const emailResult = await response.json().catch(() => {
+        throw new Error("Response is not in JSON format.");
+      });
+
+      if (emailResult.success) {
+        showCustomAlert("Email sent successfully!");
+      } else {
+        console.error("Error sending email:", emailResult.message);
+        showCustomAlert("Failed to send email.");
+      }
+    } catch (error) {
+      console.error("Error during email sending:", error);
+      showCustomAlert("An error occurred while sending the email.");
+    }
+  });
 }
 
 confirmButton.click(async function () {

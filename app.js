@@ -19,6 +19,8 @@ const appointmentRoutes = require("./controllers/appointment/appointment.routes"
 const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.routes");
 // Initialising dashboard Routes
 const dashboardRoutes = require("./controllers/dashboard/dashboard.routes");
+// Initialising email Routes
+const emailServiceRoutes = require("./controllers/emailService/emailService.routes")
 // Initialising child Routes
 const childRoutes = require("./controllers/child/child.routes");
 // Initialising referral Routes
@@ -67,6 +69,8 @@ app.use("/api/intelliSphere", intelliSphereRoutes);
 // Dashboard Route
 app.use("/api/dashboard", dashboardRoutes);
 
+// Email Route
+app.use("/api/emailService", emailServiceRoutes);
 // Child Route
 app.use("/api/child", childRoutes);
 

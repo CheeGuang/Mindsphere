@@ -295,6 +295,27 @@ $(document).ready(async function () {
           );
         }
 
+      const recipientEmail = JSON.parse(
+        localStorage.getItem("memberDetails")
+      ).email;
+      // Send email with membership info
+  try {
+    const response = await fetch('api/emailService/send-membership-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ recipientEmail: recipientEmail }) // send user email
+    });
+    
+    if (response.ok) {
+      console.log('Welcome email sent successfully!');
+    } else {
+      console.log('Failed to send welcome email.');
+    }
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
         // Show the modal
         $("#membershipModal").modal("show");
       } else {
