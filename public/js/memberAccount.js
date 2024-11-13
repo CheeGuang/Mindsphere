@@ -177,4 +177,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Call displayReferralDetails when DOM is fully loaded
   displayReferralDetails();
+
+  // Get the referral code from localStorage
+  const memberDetails = JSON.parse(localStorage.getItem("memberDetails"));
+  const referralCode = memberDetails?.referralCode || "783291";
+
+  // Generate the referral message
+  const referralMessage = `Join Mindsphere using my referral code '${referralCode}' and get a $100 gift card! Use this link: https://mindsphere.onrender.com`;
+
+  // Update the value of the input field
+  document.getElementById("referralMessage").value = referralMessage;
+
+  document.getElementById("shareButton").addEventListener("click", () => {
+    // Show the modal
+    const shareModal = new bootstrap.Modal(
+      document.getElementById("shareModal")
+    );
+    shareModal.show();
+  });
+
+  document.getElementById("copyButton").addEventListener("click", () => {
+    const messageInput = document.getElementById("referralMessage");
+    navigator.clipboard.writeText(messageInput.value).then(() => {
+      showCustomAlert("Referral message copied to clipboard!");
+    });
+  });
+
+  document.getElementById("telegramShare").addEventListener("click", () => {
+    const referralMessage = document.getElementById("referralMessage").value;
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
+      referralMessage
+    )}`;
+    window.open(telegramUrl, "_blank");
+  });
+
+  document.getElementById("whatsappShare").addEventListener("click", () => {
+    const referralMessage = document.getElementById("referralMessage").value;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+      referralMessage
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  });
 });

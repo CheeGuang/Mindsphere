@@ -1,7 +1,7 @@
 -- 1) Check if tables exist and drop them
 IF OBJECT_ID('dbo.voucher', 'U') IS NOT NULL
     DROP TABLE dbo.voucher;
-    
+
 IF OBJECT_ID('dbo.referral', 'U') IS NOT NULL
     DROP TABLE dbo.referral;
 
@@ -42,7 +42,7 @@ CREATE TABLE [member] (
     password NVARCHAR(100),
     profilePicture NVARCHAR(500),
     membershipEndDate DATETIME NULL,
-    referralCode AS RIGHT('0000' + CONVERT(VARCHAR(6), memberID + 100000), 6) PERSISTED -- Computed column
+    referralCode AS RIGHT('0000' + CONVERT(VARCHAR(6), memberID + 966200), 6) PERSISTED -- Computed column
 
 );
 

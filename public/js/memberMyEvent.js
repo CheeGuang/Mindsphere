@@ -75,7 +75,7 @@ const fetchAndDisplayEvents = async () => {
         : "https://via.placeholder.com/150"; // Fallback placeholder image
 
       card.innerHTML = `
-        <div class="row g-0">
+        <div class="row g-0 p-2">
           <div class="col-md-4">
             <img src="${eventImageSrc}" class="img-fluid event-image rounded-start" alt="${
         event.title
@@ -84,7 +84,8 @@ const fetchAndDisplayEvents = async () => {
           <div class="col-md-8">
             <div class="card-body d-flex flex-column justify-content-between text-start">
               <div>
-                <h5 class="card-title">${event.title}</h5>
+                <h5 class="card-title mb-3">${event.title}</h5>
+                <p class="card-text">Name: ${event.fullName}</p>
                 <p class="card-text">Duration: ${event.duration}</p>
                 <p class="card-text">${formatDateRange(
                   event.availableDates

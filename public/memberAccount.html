@@ -525,12 +525,118 @@
                         <label for="referralCode" class="form-label"
                           ><strong>Your Referral Code</strong></label
                         >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="referralCode"
-                          readonly
-                        />
+                        <div class="d-flex align-items-center">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="referralCode"
+                            value="MINDSHARE123"
+                            readonly
+                          />
+                          <!-- Share Button -->
+                          <button
+                            class="btn btn-primary ms-3"
+                            id="shareButton"
+                            aria-label="Share"
+                          >
+                            Share
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal -->
+                  <div
+                    class="modal fade"
+                    id="shareModal"
+                    tabindex="-1"
+                    aria-labelledby="shareModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="shareModalLabel">
+                            Share Your Referral Code
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Share this message with your friends:</p>
+                          <div class="input-group mb-3">
+                            <input
+                              type="text"
+                              id="referralMessage"
+                              class="form-control"
+                              readonly
+                            />
+                            <button
+                              class="btn btn-outline-secondary"
+                              id="copyButton"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                          <div class="d-flex justify-content-center gap-3">
+                            <!-- Telegram Button -->
+                            <button
+                              class="btn btn-light rounded-circle p-3"
+                              id="telegramShare"
+                              aria-label="Share via Telegram"
+                              style="
+                                width: 60px;
+                                height: 60px;
+                                background-color: #0088cc;
+                                border-radius: 50%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                cursor: pointer;
+                                transition: background-color 0.3s ease;
+                              "
+                              onmouseover="this.style.backgroundColor = '#005f99';"
+                              onmouseout="this.style.backgroundColor = '#0088cc';"
+                            >
+                              <i
+                                class="fab fa-telegram-plane"
+                                style="color: white; font-size: 24px"
+                              ></i>
+                            </button>
+
+                            <!-- WhatsApp Button -->
+                            <button
+                              class="btn btn-light rounded-circle p-3"
+                              id="whatsappShare"
+                              aria-label="Share via WhatsApp"
+                              style="
+                                width: 60px;
+                                height: 60px;
+                                background-color: #25d366;
+                                border-radius: 50%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                cursor: pointer;
+                                transition: background-color 0.3s ease;
+                              "
+                              onmouseover="this.style.backgroundColor = '#1caa4d';"
+                              onmouseout="this.style.backgroundColor = '#25d366';"
+                            >
+                              <i
+                                class="fab fa-whatsapp"
+                                style="color: white; font-size: 24px"
+                              ></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -1,16 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Selecting elements
-  const participantFormContainer = document.getElementById("participantFormsContainer");
+  const participantFormContainer = document.getElementById(
+    "participantFormsContainer"
+  );
   const participantCountDisplay = document.getElementById("participantCount");
-  const increaseParticipantButton = document.getElementById("increaseParticipant");
-  const decreaseParticipantButton = document.getElementById("decreaseParticipant");
+  const increaseParticipantButton = document.getElementById(
+    "increaseParticipant"
+  );
+  const decreaseParticipantButton = document.getElementById(
+    "decreaseParticipant"
+  );
   const nextButton = document.getElementById("nextButton");
   let participantCount = 1;
 
   // Function to create a new participant form
   function createParticipantForm(index) {
     const participantForm = document.createElement("div");
-    participantForm.classList.add("card", "p-4", "mb-4", "shadow-sm", "participant-card", "border-light");
+    participantForm.classList.add(
+      "card",
+      "p-4",
+      "mb-4",
+      "shadow-sm",
+      "participant-card",
+      "border-light"
+    );
     participantForm.dataset.participant = index;
 
     participantForm.innerHTML = `
@@ -73,30 +86,34 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>
     `;
-    
+
     // Add event listener for lunch options toggle
     const otherOption = participantForm.querySelector(`#other${index}`);
     const otherInput = participantForm.querySelector(`#otherInput${index}`);
-    participantForm.querySelectorAll(`input[name="lunchOption${index}"]`).forEach((option) => {
-      option.addEventListener("change", function () {
-        if (otherOption.checked) {
-          otherInput.disabled = false;
-          otherInput.required = true;
-        } else {
-          otherInput.disabled = true;
-          otherInput.value = ""; // Clear input if it's disabled
-          otherInput.required = false;
-        }
+    participantForm
+      .querySelectorAll(`input[name="lunchOption${index}"]`)
+      .forEach((option) => {
+        option.addEventListener("change", function () {
+          if (otherOption.checked) {
+            otherInput.disabled = false;
+            otherInput.required = true;
+          } else {
+            otherInput.disabled = true;
+            otherInput.value = ""; // Clear input if it's disabled
+            otherInput.required = false;
+          }
+        });
       });
-    });
 
     return participantForm;
   }
 
   // Add event listener for lunch options toggle
-    const otherOption = participantForm.querySelector(`#other1`);
-    const otherInput = participantForm.querySelector(`#otherInput1`);
-    participantForm.querySelectorAll(`input[name="lunchOption1"]`).forEach((option) => {
+  const otherOption = participantForm.querySelector(`#other1`);
+  const otherInput = participantForm.querySelector(`#otherInput1`);
+  participantForm
+    .querySelectorAll(`input[name="lunchOption1"]`)
+    .forEach((option) => {
       option.addEventListener("change", function () {
         if (otherOption.checked) {
           otherInput.disabled = false;
@@ -117,7 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
   increaseParticipantButton.addEventListener("click", function () {
     participantCount++;
     updateParticipantCountDisplay();
-    participantFormContainer.appendChild(createParticipantForm(participantCount));
+    participantFormContainer.appendChild(
+      createParticipantForm(participantCount)
+    );
   });
 
   // Decrease participants
@@ -132,7 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Only add the initial participant form when the page loads
   updateParticipantCountDisplay();
   if (participantCount > 1) {
-    participantFormContainer.appendChild(createParticipantForm(participantCount));
+    participantFormContainer.appendChild(
+      createParticipantForm(participantCount)
+    );
   }
 
   // Validate all participant forms before proceeding to the next page
@@ -140,16 +161,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let formIsValid = true;
 
     // Loop through all participant forms and validate each
-    document.querySelectorAll('.participant-card').forEach((participantForm) => {
-      participantForm.querySelectorAll("input, select, textarea").forEach((input) => {
-        if (!input.checkValidity()) {
-          formIsValid = false;
-          input.classList.add("is-invalid");
-        } else {
-          input.classList.remove("is-invalid");
-        }
+    document
+      .querySelectorAll(".participant-card")
+      .forEach((participantForm) => {
+        participantForm
+          .querySelectorAll("input, select, textarea")
+          .forEach((input) => {
+            if (!input.checkValidity()) {
+              formIsValid = false;
+              input.classList.add("is-invalid");
+            } else {
+              input.classList.remove("is-invalid");
+            }
+          });
       });
-    });
 
     return formIsValid;
   }
@@ -160,12 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Run validation
     if (validateForms()) {
-      alert("Form is valid. Proceeding to the next page.");
+      showCustomAlert("Form is valid. Proceeding to the next page.");
       // Navigate to the next page if the form is valid
       window.location.href = "./memberPaymentDetails.html";
     } else {
-      alert("Please fill out all required fields correctly before proceeding.");
+      showCustomAlert(
+        "Please fill out all required fields correctly before proceeding."
+      );
     }
   });
-
 });

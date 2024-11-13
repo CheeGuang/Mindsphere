@@ -293,10 +293,10 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     if (validateForms()) {
-      alert("Form is valid. Proceeding to the next page.");
+      showCustomAlert("Form is valid. Proceeding to the next page.");
       window.location.href = "./nextPage.html"; // Replace with the actual next page URL
     } else {
-      alert("Please complete all fields correctly.");
+      showCustomAlert("Please complete all fields correctly.");
     }
   });
 
