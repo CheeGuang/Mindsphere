@@ -19,7 +19,8 @@ const appointmentRoutes = require("./controllers/appointment/appointment.routes"
 const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.routes");
 // Initialising dashboard Routes
 const dashboardRoutes = require("./controllers/dashboard/dashboard.routes");
-
+// Initialising email Routes
+const emailServiceRoutes = require("./controllers/emailService/emailService.routes")
 // ========== Set-Up ==========
 // Initiating app
 const app = express();
@@ -60,6 +61,9 @@ app.use("/api/intelliSphere", intelliSphereRoutes);
 
 // Dashboard Route
 app.use("/api/dashboard", dashboardRoutes);
+
+// Email Route
+app.use("/api/emailService", emailServiceRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000

@@ -14,6 +14,11 @@ const emailRoutes = express.Router(); // Routes for email functionalities
 // Define route for sending verification email
 // emailRoutes.post("/send-verification-email", EmailServiceController.sendVerificationEmail); // POST route for email
 
+// Define route for sending intellisphere result email
+emailRoutes.post("/send-result-email", EmailServiceController.sendIntelliSphereResultEmail); // POST route for email
+
+// Route to send the welcome email when membership is updated
+emailRoutes.post('/send-membership-email', EmailServiceController.sendMembershipEmail);
 // ========== Export ==========
 // Export the email routes
 module.exports = emailRoutes;
