@@ -79,7 +79,6 @@ $(document).ready(async function () {
 
     let newMembership = false; // Flag to determine if the membership is new
 
-    // Function to redeem a voucher by redeemedVoucherID
     async function redeemVoucher(redeemedVoucherID) {
       try {
         console.log(
@@ -98,31 +97,39 @@ $(document).ready(async function () {
             console.log(
               `[DEBUG] Voucher redeemed successfully: ${result.message}`
             );
-            return true; // Voucher redeemed successfully
+            return result.voucherValue; // Return the voucher value if redemption is successful
           } else {
             console.error(
               `[DEBUG] Failed to redeem voucher: ${result.message}`
             );
-            return false; // Voucher redemption failed
+            return 0; // Return 0 if voucher redemption failed
           }
         } else {
           console.error("[DEBUG] Redeem voucher request failed.");
-          return false;
+          return 0; // Return 0 if request failed
         }
       } catch (error) {
         console.error("[DEBUG] Error redeeming voucher:", error);
-        return false;
+        return 0; // Return 0 in case of an error
       }
     }
 
-    // Modified enrollment logic to redeem voucher if applicable
-    if (enrollmentData && enrollmentData.participantsData) {
+    async function enrollParticipants(enrollmentData) {
       const { memberID, eventID, participantsData, redeemedVoucherID } =
         enrollmentData;
 
-      console.log(memberID);
-      console.log(eventID);
-      console.log(participantsData);
+      const redeemedVoucherDetails = sessionStorage.getItem(
+        "redeemedVoucherDetails"
+      );
+      const redeemedVoucherValue = redeemedVoucherDetails
+        ? JSON.parse(redeemedVoucherDetails).redeemedVoucherValue
+        : 0;
+
+      if (redeemedVoucherDetails) {
+        sessionStorage.removeItem("redeemedVoucherDetails");
+      }
+
+      console.log(memberID, eventID, participantsData, redeemedVoucherValue);
 
       try {
         let orderNumber;
@@ -138,18 +145,6 @@ $(document).ready(async function () {
             );
             continue;
           }
-
-          console.log({
-            memberID: memberID,
-            eventID: eventID,
-            fullName: fullName,
-            age: participant.age,
-            schoolName: participant.schoolName,
-            interests: participant.interests,
-            medicalConditions: participant.medicalConditions,
-            lunchOption: participant.lunchOption,
-            specifyOther: participant.specifyOther,
-          });
 
           const response = await $.ajax({
             url: `${window.location.origin}/api/event/enroll-member-to-event`,
@@ -180,12 +175,16 @@ $(document).ready(async function () {
               orderNumber = response.memberEventID;
             }
 
-            // Redeem the voucher if redeemedVoucherID is provided
-            if (redeemedVoucherID) {
+            // Redeem the voucher only if redeemedVoucherDetails exist
+            if (redeemedVoucherDetails && redeemedVoucherID) {
               const formattedVoucherID = JSON.parse(redeemedVoucherID);
-              const voucherRedeemed = await redeemVoucher(formattedVoucherID);
-              if (voucherRedeemed) {
-                console.log("[DEBUG] Voucher redeemed successfully.");
+              const voucherValue = await redeemVoucher(formattedVoucherID);
+              if (voucherValue > 0) {
+                console.log(
+                  `[DEBUG] Voucher redeemed successfully. Value: $${voucherValue.toFixed(
+                    2
+                  )}`
+                );
               } else {
                 console.error("[DEBUG] Voucher redemption failed.");
               }
@@ -200,56 +199,14 @@ $(document).ready(async function () {
               sessionStorage.getItem("participantsData")
             );
 
-            const recipientEmail = JSON.parse(
-              localStorage.getItem("memberDetails")
-            ).email;
-            if (
-              response.memberEventID &&
-              participantsData &&
-              eventDetails &&
-              recipientEmail &&
-              !sessionStorage.getItem("invoiceSent")
-            ) {
-              try {
-                console.log("[DEBUG] Sending invoice email...");
-                await $.ajax({
-                  url: `${window.location.origin}/api/event/send-invoice-email`,
-                  method: "POST",
-                  contentType: "application/json",
-                  data: JSON.stringify({
-                    eventID: eventDetails.eventID,
-                    participantsData: participantsData,
-                    memberEventID: response.memberEventID,
-                    recipientEmail: recipientEmail,
-                    memberDetails: { memberID, email: recipientEmail },
-                  }),
-                  success: function () {
-                    console.log("[DEBUG] Invoice sent successfully!");
-                    sessionStorage.setItem("invoiceSent", "true");
-                  },
-                  error: function (error) {
-                    console.error("[DEBUG] Error sending invoice:", error);
-                  },
-                });
-              } catch (error) {
-                console.error(
-                  "[DEBUG] Error triggering invoice generation:",
-                  error
-                );
-              }
-            }
+            const eventPrice = eventDetails.price * participantsData.length;
+            const finalPrice = eventPrice - redeemedVoucherValue; // Deduct total voucher value
+            $("#order-number").text(orderNumber);
+            $("#total-amount").text(`$${finalPrice.toFixed(2)}`); // Update total amount
           } else {
             console.error(`[DEBUG] Error enrolling ${fullName}.`);
           }
         }
-
-        $("#order-number").text(orderNumber);
-        $("#total-amount").text(
-          `$${(
-            JSON.parse(sessionStorage.getItem("selectedEventDetails")).price *
-            participantsData.length
-          ).toFixed(2)}`
-        );
       } catch (error) {
         console.error("[DEBUG] Error during enrollment:", error);
       }
@@ -295,27 +252,30 @@ $(document).ready(async function () {
           );
         }
 
-      const recipientEmail = JSON.parse(
-        localStorage.getItem("memberDetails")
-      ).email;
-      // Send email with membership info
-  try {
-    const response = await fetch('api/emailService/send-membership-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ recipientEmail: recipientEmail }) // send user email
-    });
-    
-    if (response.ok) {
-      console.log('Welcome email sent successfully!');
-    } else {
-      console.log('Failed to send welcome email.');
-    }
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
+        const recipientEmail = JSON.parse(
+          localStorage.getItem("memberDetails")
+        ).email;
+        // Send email with membership info
+        try {
+          const response = await fetch(
+            "api/emailService/send-membership-email",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ recipientEmail: recipientEmail }), // send user email
+            }
+          );
+
+          if (response.ok) {
+            console.log("Welcome email sent successfully!");
+          } else {
+            console.log("Failed to send welcome email.");
+          }
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
         // Show the modal
         $("#membershipModal").modal("show");
       } else {
@@ -367,6 +327,12 @@ $(document).ready(async function () {
     // Extract `participantNo` from the query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const participantNo = parseInt(urlParams.get("participantNo"));
+    let totalVoucherValue = 0;
+    const voucherValue = parseInt(urlParams.get("voucherValue"));
+
+    if (voucherValue > 0) {
+      totalVoucherValue += voucherValue;
+    }
 
     if (!memberID) {
       console.error("[DEBUG] Member ID or email not found in sessionStorage.");
@@ -394,7 +360,9 @@ $(document).ready(async function () {
 
             $("#order-number").text(maxEvent.memberEventID);
             $("#total-amount").text(
-              `$${maxEvent.price.toFixed(2) * participantNo}`
+              `$${
+                maxEvent.price.toFixed(2) * participantNo - totalVoucherValue
+              }`
             );
           } else {
             console.error("[DEBUG] No events found for this member.");

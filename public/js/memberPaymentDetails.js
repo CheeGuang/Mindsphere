@@ -21,45 +21,64 @@ $(document).ready(function () {
   if (qrData) {
     // If qrData is present, this is the scanning device
     const parsedData = JSON.parse(decodeURIComponent(qrData));
-    const { memberID, eventID, participantNo } = parsedData;
+    const { memberID, eventID, participantNo, voucherValue } = parsedData;
 
     // Store memberID and eventID in sessionStorage for later use
     sessionStorage.setItem("memberID", memberID);
     sessionStorage.setItem("eventID", eventID);
 
-    // Display the "Confirm Payment" button for scanning devices
-    const confirmButtonHTML = `
-      <button id="confirm-payment-btn" class="btn btn-success mt-4">Confirm Payment</button>
-    `;
-    $("#qrCodeContainer").html(confirmButtonHTML);
+    // Fetch the event price and calculate the amount to pay
+    $.ajax({
+      url: `${window.location.origin}/api/event/get-event/${eventID}`, // Fetch event details
+      method: "GET",
+      success: function (response) {
+        const pricePerParticipant = response[0].price; // Assuming response contains the price
+        const totalAmount = pricePerParticipant * participantNo; // Total before voucher
+        const finalAmount = totalAmount - voucherValue; // Apply voucher value
 
-    // Event listener for confirm payment button
-    $("#confirm-payment-btn").click(function () {
-      $.ajax({
-        url: `${window.location.origin}/api/event/trigger-qr-scan?memberID=${memberID}&eventID=${eventID}`, // Send as query parameters
-        method: "POST",
-        success: function (response) {
-          console.log(
-            "[DEBUG] QR scan event triggered successfully:",
-            response
-          );
+        // Update the "Amount to Pay" display
+        $(".final-amount").text(`$${finalAmount}`);
 
-          // Redirect to the payment confirmation page
-          const enrollmentData = { memberID, eventID };
-          const paymentConfirmationURL = `${
-            window.location.origin
-          }/memberPaymentConfirmation.html?data=${encodeURIComponent(
-            JSON.stringify(enrollmentData)
-          )}&participantNo=${participantNo}`;
-          window.location.href = paymentConfirmationURL;
-        },
-        error: function (error) {
-          console.error("[DEBUG] Error triggering QR scan event:", error);
-        },
-      });
+        console.log("[DEBUG] Calculated final amount to pay:", finalAmount);
+
+        // Display the "Confirm Payment" button for scanning devices
+        const confirmButtonHTML = `
+          <button id="confirm-payment-btn" class="btn btn-success mt-4">Confirm Payment</button>
+        `;
+        $("#qrCodeContainer").html(confirmButtonHTML);
+
+        // Event listener for confirm payment button
+        $("#confirm-payment-btn").click(function () {
+          $.ajax({
+            url: `${window.location.origin}/api/event/trigger-qr-scan?memberID=${memberID}&eventID=${eventID}`, // Send as query parameters
+            method: "POST",
+            success: function (response) {
+              console.log(
+                "[DEBUG] QR scan event triggered successfully:",
+                response
+              );
+
+              // Redirect to the payment confirmation page
+              const enrollmentData = { memberID, eventID };
+              const paymentConfirmationURL = `${
+                window.location.origin
+              }/memberPaymentConfirmation.html?data=${encodeURIComponent(
+                JSON.stringify(enrollmentData)
+              )}&participantNo=${participantNo}&voucherValue=${voucherValue}`;
+              window.location.href = paymentConfirmationURL;
+            },
+            error: function (error) {
+              console.error("[DEBUG] Error triggering QR scan event:", error);
+            },
+          });
+        });
+      },
+      error: function (error) {
+        console.error("[DEBUG] Error fetching event details:", error);
+        showCustomAlert("Failed to retrieve event details. Please try again.");
+      },
     });
   } else {
-    // If qrData is not present, this is the main device
     function generateEnrollmentQRCode() {
       const memberID = JSON.parse(
         localStorage.getItem("memberDetails")
@@ -81,11 +100,22 @@ $(document).ready(function () {
         return;
       }
 
-      // Create the payload for the QR code with only memberID and eventID
+      // Retrieve voucher details if available
+      const redeemedVoucherDetails = sessionStorage.getItem(
+        "redeemedVoucherDetails"
+      );
+      let voucherValue = 0; // Default voucher value
+      if (redeemedVoucherDetails) {
+        const parsedVoucherDetails = JSON.parse(redeemedVoucherDetails);
+        voucherValue = parsedVoucherDetails.redeemedVoucherValue || 0;
+      }
+
+      // Create the payload for the QR code, including voucher details
       const qrData = {
         memberID: memberID,
         eventID: String(eventDetails.eventID), // Convert to string
         participantNo: participantsData.length,
+        voucherValue: voucherValue, // Include voucher value
       };
 
       const qrCodeURL = `${
@@ -135,20 +165,34 @@ $(document).ready(function () {
           ) {
             console.log("[DEBUG] Redirecting to payment confirmation...");
 
-            // Retrieve redeemedVoucherID from sessionStorage
-            const redeemedVoucherID =
-              sessionStorage.getItem("redeemedVoucherID");
-            if (!redeemedVoucherID) {
-              console.error(
-                "[DEBUG] No redeemedVoucherID found in sessionStorage."
+            let redeemedVoucherID;
+
+            try {
+              const redeemedVoucherDetails = sessionStorage.getItem(
+                "redeemedVoucherDetails"
               );
+
+              if (!redeemedVoucherDetails) {
+              }
+
+              redeemedVoucherID = JSON.parse(
+                redeemedVoucherDetails
+              ).redeemedVoucherID;
+
+              if (!redeemedVoucherID) {
+                throw new Error(
+                  "redeemedVoucherID is missing in the parsed data."
+                );
+              }
+            } catch (error) {
+              // Handle the error appropriately, e.g., show an alert or redirect the user
               showCustomAlert(
-                "Error: Voucher ID is missing. Please try again."
+                "Failed to retrieve voucher details. Please try again."
               );
-              return;
+              // Optionally, you can redirect the user to a safer page if needed:
+              // window.location.href = "/error-page";
             }
 
-            // Create the payload for payment confirmation
             const enrollmentData = {
               memberID: memberID,
               eventID: String(eventDetails.eventID),
@@ -156,14 +200,12 @@ $(document).ready(function () {
               redeemedVoucherID: redeemedVoucherID,
             };
 
-            // URL for payment confirmation page
             const paymentConfirmationURL = `${
               window.location.origin
             }/memberPaymentConfirmation.html?data=${encodeURIComponent(
               JSON.stringify(enrollmentData)
             )}`;
 
-            // Redirect to payment confirmation page
             window.location.href = paymentConfirmationURL;
           }
         } catch (error) {
@@ -204,18 +246,24 @@ $(document).ready(function () {
 
       // Check if voucher details are present in the query string
       let finalPrice = totalPrice; // Default final price is the total price
-      if (data.redeemedVoucherDetails) {
-        const voucherValue = data.redeemedVoucherDetails.redeemedVoucherValue;
-        const voucherID = data.redeemedVoucherDetails.redeemedVoucherID;
-        const voucherTitle =
-          data.redeemedVoucherDetails.redeemedVoucherTitle || "Gift Card";
 
-        // Store redeemedVoucherID in sessionStorage
-        sessionStorage.setItem("redeemedVoucherID", voucherID);
+      const redeemedVoucherDetails = JSON.parse(
+        sessionStorage.getItem("redeemedVoucherDetails")
+      );
+
+      console.log(redeemedVoucherDetails);
+
+      if (redeemedVoucherDetails) {
+        const voucherValue = redeemedVoucherDetails.redeemedVoucherValue;
+        const voucherID = redeemedVoucherDetails.redeemedVoucherID;
+        const voucherTitle = "Gift Card";
 
         // Update the Gift Card section dynamically
-        $("#gift-card-title").text(voucherTitle);
+        $("#gift-card-title").text(`Gift Card: ${voucherTitle}`);
         $("#gift-card-value-text").text(`-$${voucherValue}`);
+
+        // Show the Gift Card section
+        $("#gift-card-section").show();
 
         // Update the final price after applying the voucher
         finalPrice = totalPrice - voucherValue;

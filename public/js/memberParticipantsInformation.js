@@ -142,15 +142,26 @@ $(document).ready(async function () {
   await initializeParticipants();
 
   // Handle Submit Button Click
-  $("#submitButton").on("click", function () {
+  $("#submitButton").on("click", function (e) {
+    e.preventDefault(); // Prevent default anchor behavior
+
     const participantsData = [];
+    let allLunchOptionsSelected = true;
 
     // Iterate through each participant form and collect data for selected participants
     $("#participantFormsContainer .participant-card").each(function () {
       const participantIndex = $(this).data("participant");
-      const isSelected = $(`#registerChild${participantIndex}`).is(":checked");
+      const isSelected = $(`#registerChild${participantIndex}`).is(`:checked`);
 
       if (isSelected) {
+        const lunchOption = $(
+          `input[name="lunchOption${participantIndex}"]:checked`
+        ).val();
+
+        if (!lunchOption) {
+          allLunchOptionsSelected = false;
+        }
+
         const participantData = {
           fullName: $(`input[name="fullName${participantIndex}"]`).val(),
           age: $(`input[name="age${participantIndex}"]`).val(),
@@ -159,9 +170,7 @@ $(document).ready(async function () {
           medicalConditions: $(
             `textarea[name="medicalConditions${participantIndex}"]`
           ).val(),
-          lunchOption: $(
-            `input[name="lunchOption${participantIndex}"]:checked`
-          ).val(),
+          lunchOption: lunchOption,
           specifyOther: $(`#otherInput${participantIndex}`).val(),
         };
 
@@ -169,14 +178,37 @@ $(document).ready(async function () {
       }
     });
 
-    // Store the data in sessionStorage as JSON
+    // Validation: Check if participants are selected
+    if (participantsData.length === 0) {
+      showCustomAlert("Please select at least one participant.");
+      return;
+    }
+
+    // Validation: Check if all selected participants have lunch options
+    if (!allLunchOptionsSelected) {
+      showCustomAlert("Please select a lunch option for all participants.");
+      return;
+    }
+
+    // Store the participants data in sessionStorage as JSON
     sessionStorage.setItem(
       "participantsData",
       JSON.stringify(participantsData)
     );
 
-    // Show confirmation
+    // Prepare query string with encoded participants data
+    const enrollmentData = {
+      participantsData,
+    };
+    const encodedData = encodeURIComponent(JSON.stringify(enrollmentData));
+    const paymentConfirmationLink = `memberPaymentDetails.html?data=${encodedData}`;
+
+    // Optional: Show confirmation message before redirection
     showCustomAlert("Participants registered successfully!");
+
+    setTimeout(() => {
+      window.location.href = paymentConfirmationLink;
+    }, 1000); // 1-second delay for confirmation
   });
 
   // Fetch vouchers from the API
@@ -205,14 +237,17 @@ $(document).ready(async function () {
     const $vouchersContainer = $("#vouchersContainer");
     $vouchersContainer.empty();
 
-    if (vouchers.length === 0) {
+    // Filter out vouchers with `redeemed === true`
+    const availableVouchers = vouchers.filter((voucher) => !voucher.redeemed);
+
+    if (availableVouchers.length === 0) {
       $vouchersContainer.append(
-        '<p class="text-muted">No gift cards to redeem.</p>'
+        '<p class="text-muted">No gift cards available to redeem.</p>'
       );
       return;
     }
 
-    vouchers.forEach((voucher, index) => {
+    availableVouchers.forEach((voucher, index) => {
       const cardHTML = `
       <div class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center">
         <div class="card border-0" style="border-radius: 20px; overflow: hidden; width: 100%; max-width: 400px; height: 250px;">
@@ -312,7 +347,7 @@ $(document).ready(async function () {
       // Validate at least one child is selected
       if (selectedChildren.length === 0) {
         showCustomAlert("Please select at least one child to register.");
-        return;
+        return; // Stop execution if no child is selected
       }
 
       let allLunchOptionsValid = true;
@@ -375,9 +410,6 @@ $(document).ready(async function () {
           ? redeemedVoucherButton.data("value")
           : null;
 
-      console.log("Hi");
-      console.log(redeemedVoucherID);
-      console.log(redeemedVoucherValue);
       const redeemedVoucherDetails = {
         redeemedVoucherID: redeemedVoucherID,
         redeemedVoucherValue: redeemedVoucherValue,
@@ -401,11 +433,16 @@ $(document).ready(async function () {
       const paymentConfirmationLink = `memberPaymentDetails.html?data=${encodedData}`;
       $("#submitButton").attr("href", paymentConfirmationLink);
 
-      // Optional: Show confirmation
-      showCustomAlert("Participant data and voucher selection saved!");
-      setTimeout(() => {
-        window.location.href = paymentConfirmationLink;
-      }, 1000); // 1-second delay for confirmation
+      // Optional: Show confirmation and proceed only if validation is successful
+      if (participantsData.length > 0) {
+        showCustomAlert("Participant data and voucher selection saved!");
+        setTimeout(() => {
+          window.location.href = paymentConfirmationLink;
+        }, 1000); // 1-second delay for confirmation
+      } else {
+        showCustomAlert("Please select at least one participant.");
+      }
+
       console.log("Stored Data:", enrollmentData);
     });
   }
