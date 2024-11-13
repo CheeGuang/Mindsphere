@@ -540,7 +540,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     experienceChart = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: ["Beginner", "Intermediate", "Advanced"],
+        labels: ["Bad", "Normal", "Excellent"],
         datasets: [
           {
             data: [
@@ -570,7 +570,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     paceChart = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: ["Slow", "Moderate", "Fast"],
+        labels: ["Slow", "Just Right", "Fast"],
         datasets: [
           {
             data: [
