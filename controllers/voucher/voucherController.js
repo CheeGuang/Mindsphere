@@ -35,6 +35,46 @@ class VoucherController {
       });
     }
   }
+
+  // Function to redeem a voucher by voucherID
+  static async redeemVoucher(req, res) {
+    try {
+      // Extract voucherID from request parameters
+      const { voucherID } = req.params;
+
+      // Validate the input
+      if (!voucherID || isNaN(voucherID)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid or missing voucherID.",
+        });
+      }
+
+      console.log(`[DEBUG] Redeeming voucher for voucherID: ${voucherID}`);
+
+      // Call the model's function to redeem the voucher
+      const result = await Voucher.redeemVoucher(parseInt(voucherID));
+
+      // Check for success or error messages from the model
+      if (result.successMessage) {
+        res.status(200).json({
+          success: true,
+          message: result.successMessage,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: result.errorMessage || "Failed to redeem the voucher.",
+        });
+      }
+    } catch (error) {
+      console.error(`Error in redeemVoucher: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to redeem the voucher.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

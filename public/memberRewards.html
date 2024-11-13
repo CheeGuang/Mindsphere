@@ -82,16 +82,37 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <!-- Main Content Container -->
+          <!-- My Vouchers Section -->
           <div class="container text-center">
             <div class="row justify-content-center">
               <div class="col-12">
                 <h2 class="mt-5 mb-4">My Vouchers</h2>
+                <p id="noVouchersMessage" class="text-muted">
+                  No Gift Cards Available
+                </p>
                 <div
                   class="row g-4 justify-content-start"
                   id="vouchersContainer"
                 >
                   <!-- Vouchers will be dynamically inserted here -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expired Vouchers Section -->
+          <div class="container text-center mt-5">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <h2 class="mt-5 mb-4">Expired Vouchers</h2>
+                <p id="noExpiredVouchersMessage" class="text-muted">
+                  No Expired Gift Cards
+                </p>
+                <div
+                  class="row g-4 justify-content-start"
+                  id="expiredVouchersContainer"
+                >
+                  <!-- Expired vouchers will be dynamically inserted here -->
                 </div>
               </div>
             </div>

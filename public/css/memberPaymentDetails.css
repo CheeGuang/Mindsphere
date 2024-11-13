@@ -92,14 +92,34 @@
 }
 
 /* Styling for workshop information and price */
-.workshop-info {
+.workshop-info,
+.gift-card-info,
+.final-amount-info {
   font-size: 16px;
   margin-bottom: 5px;
 }
 
-.total-price {
+.total-price,
+.gift-card-value,
+.final-amount {
   font-size: 16px;
   font-weight: bold;
+  margin-bottom: 5px;
+  text-align: right;
+}
+
+/* Add spacing between sections */
+.gift-card-section {
+  margin-top: 10px;
+}
+
+.final-amount-section {
+  margin-top: 15px;
+}
+
+/* Optional: Styling for the text-danger class to highlight the voucher value */
+.text-danger {
+  color: #dc3545; /* Bootstrap's default red color */
 }
 
 /* Horizontal Line below workshop info */

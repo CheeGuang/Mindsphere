@@ -2,6 +2,45 @@ const sql = require("mssql"); // Import the mssql library for SQL Server databas
 const dbConfig = require("../dbConfig"); // Import the database configuration
 
 class Child {
+  // Function to get child details by memberID
+  static async getChildByMemberID(memberID) {
+    let pool;
+    try {
+      console.log("[DEBUG] Connecting to the database...");
+      pool = await sql.connect(dbConfig); // Connect to the database
+      console.log("[DEBUG] Database connected successfully.");
+
+      console.log(
+        "[DEBUG] Preparing to execute stored procedure: usp_get_child_by_memberID"
+      );
+      console.log("[DEBUG] Input parameter:", { memberID });
+
+      const result = await pool
+        .request()
+        .input("memberID", sql.Int, memberID) // Input parameter for the memberID
+        .execute("usp_get_child_by_memberID"); // Execute the stored procedure
+
+      console.log("[DEBUG] Stored procedure executed successfully.");
+      console.log("[DEBUG] Stored procedure result:", result);
+
+      // Extract and log the returned recordset
+      const children = result.recordset;
+      console.log("[DEBUG] Children details:", children);
+
+      return children;
+    } catch (error) {
+      console.error(
+        `[DEBUG] Error in Child.getChildByMemberID: ${error.message}`
+      );
+      throw error;
+    } finally {
+      if (pool) {
+        await pool.close(); // Close the database connection if pool was defined
+        console.log("[DEBUG] Database connection closed.");
+      }
+    }
+  }
+
   // Function to register a new child and associate them with a member
   static async registerChild({
     memberID,

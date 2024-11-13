@@ -79,9 +79,47 @@ $(document).ready(async function () {
 
     let newMembership = false; // Flag to determine if the membership is new
 
-    // Proceed with enrollment if enrollment data is available
+    // Function to redeem a voucher by redeemedVoucherID
+    async function redeemVoucher(redeemedVoucherID) {
+      try {
+        console.log(
+          `[DEBUG] Redeeming voucher with redeemedVoucherID: ${redeemedVoucherID}`
+        );
+        const response = await fetch(
+          `/api/voucher/redeem/${redeemedVoucherID}`,
+          {
+            method: "POST",
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+            console.log(
+              `[DEBUG] Voucher redeemed successfully: ${result.message}`
+            );
+            return true; // Voucher redeemed successfully
+          } else {
+            console.error(
+              `[DEBUG] Failed to redeem voucher: ${result.message}`
+            );
+            return false; // Voucher redemption failed
+          }
+        } else {
+          console.error("[DEBUG] Redeem voucher request failed.");
+          return false;
+        }
+      } catch (error) {
+        console.error("[DEBUG] Error redeeming voucher:", error);
+        return false;
+      }
+    }
+
+    // Modified enrollment logic to redeem voucher if applicable
     if (enrollmentData && enrollmentData.participantsData) {
-      const { memberID, eventID, participantsData } = enrollmentData;
+      const { memberID, eventID, participantsData, redeemedVoucherID } =
+        enrollmentData;
+
       console.log(memberID);
       console.log(eventID);
       console.log(participantsData);
@@ -142,9 +180,15 @@ $(document).ready(async function () {
               orderNumber = response.memberEventID;
             }
 
-            // Check if membership was updated (new membership or extended)
-            if (response.newMembership !== undefined) {
-              newMembership = response.newMembership; // Set flag based on the response
+            // Redeem the voucher if redeemedVoucherID is provided
+            if (redeemedVoucherID) {
+              const formattedVoucherID = JSON.parse(redeemedVoucherID);
+              const voucherRedeemed = await redeemVoucher(formattedVoucherID);
+              if (voucherRedeemed) {
+                console.log("[DEBUG] Voucher redeemed successfully.");
+              } else {
+                console.error("[DEBUG] Voucher redemption failed.");
+              }
             }
 
             await fetchAndStoreEventDetails(eventID);
@@ -211,36 +255,51 @@ $(document).ready(async function () {
       }
     }
 
-    // After the for loop, show modal if membership status was updated
+    function formatExpiryDate(dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const date = new Date(dateString);
+      return date.toLocaleDateString(undefined, options);
+    }
+
     if (typeof newMembership !== "undefined") {
       const membershipModalBody = $("#membershipModal .modal-body p");
       const membershipModalTitle = $("#membershipModalLabel");
 
-      if (newMembership === true) {
-        // New membership
-        membershipModalTitle.text("🎉 Welcome to Mind+!");
-        membershipModalBody.html(
-          "✨ <strong>Congratulations!</strong> ✨<br>" +
-            "Welcome to <strong>Mind+</strong>! 🌟 You’re now part of an exclusive community with access to amazing benefits and features. 💼🎓<br>" +
-            "Your membership is valid until <strong>" +
-            formattedExpiryDate +
-            "</strong>. 🗓️<br>" +
-            "We’re thrilled to have you on board! 🚀"
-        );
-      } else {
-        // Existing membership extended
-        membershipModalTitle.text("💫 Membership Extended!");
-        membershipModalBody.html(
-          "🎉 Great news! Your <strong>Mind+</strong> membership has been extended! 📅<br>" +
-            "Your new expiry date is <strong>" +
-            formattedExpiryDate +
-            "</strong>. 🗓️<br>" +
-            "Enjoy another year of exclusive perks and benefits. 🌟"
-        );
-      }
+      // Get the membership end date from localStorage or another source
+      const memberDetails = JSON.parse(localStorage.getItem("memberDetails"));
+      const membershipEndDate = memberDetails?.membershipEndDate;
 
-      // Show the modal
-      $("#membershipModal").modal("show");
+      if (membershipEndDate) {
+        const formattedExpiryDate = formatExpiryDate(membershipEndDate);
+
+        if (newMembership === true) {
+          // New membership
+          membershipModalTitle.text("🎉 Welcome to Mind+!");
+          membershipModalBody.html(
+            "✨ <strong>Congratulations!</strong> ✨<br>" +
+              "Welcome to <strong>Mind+</strong>! 🌟 You’re now part of an exclusive community with access to amazing benefits and features. 💼🎓<br>" +
+              "Your membership is valid until <strong>" +
+              formattedExpiryDate +
+              "</strong>. 🗓️<br>" +
+              "We’re thrilled to have you on board! 🚀"
+          );
+        } else {
+          // Existing membership extended
+          membershipModalTitle.text("💫 Membership Extended!");
+          membershipModalBody.html(
+            "🎉 Great news! Your <strong>Mind+</strong> membership has been extended! 📅<br>" +
+              "Your new expiry date is <strong>" +
+              formattedExpiryDate +
+              "</strong>. 🗓️<br>" +
+              "Enjoy another year of exclusive perks and benefits. 🌟"
+          );
+        }
+
+        // Show the modal
+        $("#membershipModal").modal("show");
+      } else {
+        console.error("[DEBUG] Membership end date is missing.");
+      }
     }
 
     function fetchMemberDetails(memberID) {

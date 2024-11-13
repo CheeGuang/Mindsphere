@@ -82,6 +82,44 @@ class ChildController {
       });
     }
   }
+
+  // Function to get child details by memberID
+  static async getChildByMemberID(req, res) {
+    try {
+      const { memberID } = req.params; // Extract memberID from request parameters
+      console.log("[DEBUG] Fetching children for memberID:", memberID);
+
+      if (!memberID) {
+        return res.status(400).json({
+          success: false,
+          message: "Member ID is required.",
+        });
+      }
+
+      // Call the model function to get child details
+      const children = await Child.getChildByMemberID(memberID);
+
+      if (children.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No children found for the given member ID.",
+        });
+      }
+
+      // Return success response with child details
+      res.status(200).json({
+        success: true,
+        message: "Children fetched successfully.",
+        data: children,
+      });
+    } catch (error) {
+      console.error(`[DEBUG] Error in getChildByMemberID: ${error.message}`);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch child details.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

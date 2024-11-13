@@ -112,3 +112,64 @@ button.btn {
     font-size: 10px !important; /* Smaller font size on smaller screens */
   }
 }
+
+body {
+  font-family: "Arial", sans-serif;
+}
+.voucher-container {
+  background-color: #003780;
+  color: #ffffff !important;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.voucher-left {
+  text-align: left;
+  padding-left: 20px;
+  flex: 2;
+}
+.voucher-left h1 {
+  color: #ececec !important;
+  font-size: 4rem;
+  font-weight: bold;
+}
+.voucher-left p {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #dadada;
+}
+.voucher-right {
+  text-align: center;
+  background-color: white;
+  border-radius: 50%;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+}
+.voucher-right h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #003780;
+  margin: 0;
+}
+.voucher-right p {
+  font-size: 1rem;
+  margin: 0;
+  color: #666;
+}
+
+#submitButton {
+  margin-top: 70px;
+  padding: 10px;
+  border-radius: 1000px;
+  width: 300px;
+}
