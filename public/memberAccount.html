@@ -116,6 +116,18 @@
                       >Change Password</a
                     >
                   </li>
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link"
+                      id="referral-tab"
+                      data-bs-toggle="tab"
+                      href="#referral"
+                      role="tab"
+                      aria-controls="referral"
+                      aria-selected="false"
+                      >Referral</a
+                    >
+                  </li>
                 </ul>
 
                 <!-- Tab Content -->
@@ -392,10 +404,10 @@
                     aria-labelledby="change-password-tab"
                   >
                     <div
-                      class="container p-4"
+                      class="container p-4 text-start"
                       style="border: 1px solid #ddd; border-radius: 10px"
                     >
-                      <h3 class="mb-3">Change Password</h3>
+                      <h4 class="mb-3">Change Password</h4>
                       <p class="mb-5 sub-text">
                         Enter a new password below to change your password
                       </p>
@@ -491,6 +503,37 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- Referral Tab Pane -->
+                  <div
+                    class="tab-pane fade"
+                    id="referral"
+                    role="tabpanel"
+                    aria-labelledby="referral-tab"
+                  >
+                    <div class="card p-4 text-start">
+                      <h4>Referral Programme</h4>
+                      <p>
+                        Invite your friends to join Mindsphere! Both of you will
+                        earn a
+                        <strong>$100 gift card</strong> with no minimum spend.
+                        Gift cards are valid for 1 month, so start inviting now!
+                      </p>
+
+                      <!-- Referral Code -->
+                      <div class="mb-3">
+                        <label for="referralCode" class="form-label"
+                          ><strong>Your Referral Code</strong></label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="referralCode"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -508,6 +551,9 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Contact Buttons -->
+    <div id="contactUsButton"></div>
 
     <!-- Custom JS to Load customAlert.html -->
     <script>

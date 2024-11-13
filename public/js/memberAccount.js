@@ -139,4 +139,42 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error updating member:", error);
     }
   }
+
+  // Display referral details
+  async function displayReferralDetails() {
+    const userData = JSON.parse(localStorage.getItem("memberDetails"));
+
+    if (userData && userData.memberID) {
+      try {
+        // Call the /referral-details/:memberID endpoint
+        const response = await fetch(
+          `api/referral/referral-details/${userData.memberID}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch referral details.");
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Extract referral details from the response
+          const { totalUnredeemedVouchers } = data.data;
+
+          // Set referral code
+          document.getElementById("referralCode").value =
+            userData.referralCode || "N/A";
+        } else {
+          console.error("Error fetching referral details:", data.message);
+        }
+      } catch (error) {
+        console.error("Error in displayReferralDetails:", error.message);
+      }
+    } else {
+      console.error("No user data or memberID found in localStorage.");
+    }
+  }
+
+  // Call displayReferralDetails when DOM is fully loaded
+  displayReferralDetails();
 });

@@ -21,6 +21,13 @@ const intelliSphereRoutes = require("./controllers/intelliSphere/intelliSphere.r
 const dashboardRoutes = require("./controllers/dashboard/dashboard.routes");
 // Initialising email Routes
 const emailServiceRoutes = require("./controllers/emailService/emailService.routes")
+// Initialising child Routes
+const childRoutes = require("./controllers/child/child.routes");
+// Initialising referral Routes
+const referralRoutes = require("./controllers/referral/referral.routes");
+// Initialising voucher Routes
+const voucherRoutes = require("./controllers/voucher/voucher.routes");
+
 // ========== Set-Up ==========
 // Initiating app
 const app = express();
@@ -64,6 +71,14 @@ app.use("/api/dashboard", dashboardRoutes);
 
 // Email Route
 app.use("/api/emailService", emailServiceRoutes);
+// Child Route
+app.use("/api/child", childRoutes);
+
+// Referral Route
+app.use("/api/referral", referralRoutes);
+
+// Voucher Route
+app.use("/api/voucher", voucherRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000

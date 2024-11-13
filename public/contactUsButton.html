@@ -1,0 +1,130 @@
+<div
+  id="contactUs"
+  style="position: fixed; bottom: 20px; right: 20px; z-index: 1000"
+  onmouseover="document.getElementById('contactContainer').style.display = 'flex';"
+  onmouseout="document.getElementById('contactContainer').style.display = 'none';"
+>
+  <!-- Main Contact Us Button -->
+  <div
+    style="
+      width: 60px;
+      height: 60px;
+      background-color: #007bff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: background-color 0.3s ease;
+    "
+    onmouseover="this.style.backgroundColor = '#0056b3';"
+    onmouseout="this.style.backgroundColor = '#007bff';"
+  >
+    <i class="fas fa-phone-alt" style="color: white; font-size: 24px"></i>
+  </div>
+
+  <!-- Backing Div to Cover Hover Area -->
+  <div
+    id="contactContainer"
+    style="
+      display: none;
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: transparent;
+      border-radius: 12px;
+      box-shadow: none;
+      height: 380px;
+      z-index: 1;
+    "
+  >
+    <!-- Contact Methods -->
+    <div
+      style="
+        width: 60px;
+        height: 60px;
+        background-color: #0088cc;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor = '#005f99';"
+      onmouseout="this.style.backgroundColor = '#0088cc';"
+      onclick="window.open('https://t.me/Mindsphere_FSDP_Cooking', '_blank');"
+    >
+      <i
+        class="fab fa-telegram-plane"
+        style="color: white; font-size: 24px"
+      ></i>
+    </div>
+
+    <div
+      style="
+        width: 60px;
+        height: 60px;
+        background-color: #0077b5;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor = '#005582';"
+      onmouseout="this.style.backgroundColor = '#0077b5';"
+      onclick="window.open('https://www.linkedin.com/company/mindsphere-singapore/', '_blank');"
+    >
+      <i class="fab fa-linkedin-in" style="color: white; font-size: 24px"></i>
+    </div>
+    <div
+      style="
+        width: 60px;
+        height: 60px;
+        background-color: #25d366;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor = '#1caa4d';"
+      onmouseout="this.style.backgroundColor = '#25d366';"
+      onclick="window.open('https://api.whatsapp.com/send/?phone=6581804413&text&type=phone_number&app_absent=0', '_blank');"
+    >
+      <i class="fab fa-whatsapp" style="color: white; font-size: 24px"></i>
+    </div>
+    <div
+      style="
+        width: 60px;
+        height: 60px;
+        background-color: #d44638;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor = '#b6352e';"
+      onmouseout="this.style.backgroundColor = '#d44638';"
+      onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=hello@mindsphere.sg', '_blank');"
+    >
+      <i class="fas fa-envelope" style="color: white; font-size: 24px"></i>
+    </div>
+  </div>
+</div>

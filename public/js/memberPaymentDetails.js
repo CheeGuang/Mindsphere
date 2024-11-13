@@ -135,11 +135,25 @@ $(document).ready(function () {
           ) {
             console.log("[DEBUG] Redirecting to payment confirmation...");
 
+            // Retrieve redeemedVoucherID from sessionStorage
+            const redeemedVoucherID =
+              sessionStorage.getItem("redeemedVoucherID");
+            if (!redeemedVoucherID) {
+              console.error(
+                "[DEBUG] No redeemedVoucherID found in sessionStorage."
+              );
+              showCustomAlert(
+                "Error: Voucher ID is missing. Please try again."
+              );
+              return;
+            }
+
             // Create the payload for payment confirmation
             const enrollmentData = {
               memberID: memberID,
               eventID: String(eventDetails.eventID),
               participantsData: participantsData,
+              redeemedVoucherID: redeemedVoucherID,
             };
 
             // URL for payment confirmation page
@@ -158,7 +172,6 @@ $(document).ready(function () {
       });
     }
 
-    // Function to dynamically update the title and price
     function updatePaymentDetails() {
       // Retrieve data from sessionStorage
       const eventDetails = JSON.parse(
@@ -167,6 +180,8 @@ $(document).ready(function () {
       const participantsData = JSON.parse(
         sessionStorage.getItem("participantsData")
       );
+      const queryString = new URLSearchParams(window.location.search);
+      const data = JSON.parse(decodeURIComponent(queryString.get("data")));
 
       if (!eventDetails || !participantsData) {
         console.error(
@@ -187,13 +202,48 @@ $(document).ready(function () {
       );
       $(".total-price").text(`$${totalPrice}`);
 
-      // Debug statement for total price calculation
-      console.log("[DEBUG] Total price calculated:", totalPrice);
+      // Check if voucher details are present in the query string
+      let finalPrice = totalPrice; // Default final price is the total price
+      if (data.redeemedVoucherDetails) {
+        const voucherValue = data.redeemedVoucherDetails.redeemedVoucherValue;
+        const voucherID = data.redeemedVoucherDetails.redeemedVoucherID;
+        const voucherTitle =
+          data.redeemedVoucherDetails.redeemedVoucherTitle || "Gift Card";
+
+        // Store redeemedVoucherID in sessionStorage
+        sessionStorage.setItem("redeemedVoucherID", voucherID);
+
+        // Update the Gift Card section dynamically
+        $("#gift-card-title").text(voucherTitle);
+        $("#gift-card-value-text").text(`-$${voucherValue}`);
+
+        // Update the final price after applying the voucher
+        finalPrice = totalPrice - voucherValue;
+      } else {
+        // Hide the Gift Card section if no voucher is applied
+        $("#gift-card-section").hide();
+      }
+
+      // Update the "Amount to Pay" display
+      $(".final-amount").text(`$${finalPrice}`);
+
+      // Debug statement for price adjustments
+      console.log("[DEBUG] Final price calculated:", finalPrice);
+
+      // Update sessionStorage with the final price for payment confirmation
+      const updatedEventDetails = {
+        ...eventDetails,
+        finalPrice, // Add the calculated final price
+      };
+      sessionStorage.setItem(
+        "selectedEventDetails",
+        JSON.stringify(updatedEventDetails)
+      );
 
       // Update the QR code amount display
       $(".qr-code-text").html(`
         Mindsphere<br />
-        Amount: $${totalPrice}
+        Amount to Pay: $${finalPrice}
       `);
     }
 

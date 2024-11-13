@@ -82,132 +82,141 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-5">
-              <h2 class="mb-4">Sign Up</h2>
-              <!-- Sign Up Form -->
-              <div class="card p-4 shadow">
-                <form id="signUpForm">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName" class="form-label"
-                        >First Name</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="firstName"
-                        required
-                      />
-                      <div class="invalid-feedback">
-                        First name is required.
+          <div class="container text-center">
+            <!-- Sign Up Card -->
+            <div id="signUpCard" class="row justify-content-center">
+              <div class="col-12 col-md-6 col-lg-5">
+                <h2 class="mb-4">Sign Up</h2>
+                <div class="card p-4 shadow">
+                  <form id="signUpForm">
+                    <!-- First and Last Name -->
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label"
+                          >First Name</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="firstName"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label"
+                          >Last Name</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lastName"
+                          required
+                        />
                       </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="lastName" class="form-label">Last Name</label>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <div class="input-group">
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          required
+                        />
+                        <button
+                          class="btn btn-secondary"
+                          type="button"
+                          id="confirmEmailBtn"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                      <label for="emailVC" class="form-label"
+                        >Verification Code</label
+                      >
                       <input
                         type="text"
                         class="form-control"
-                        id="lastName"
+                        id="emailVC"
+                        name="verification-code"
+                        autocomplete="off"
+                        inputmode="numeric"
                         required
+                        pattern="\d{6}"
+                        maxlength="6"
                       />
-                      <div class="invalid-feedback">Last name is required.</div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <div class="input-group">
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        required
-                      />
-                      <button
-                        class="btn btn-secondary"
-                        type="button"
-                        id="confirmEmailBtn"
+                      <a href="#" id="resendLink" class="text-muted resend-link"
+                        >Resend Verification Code</a
                       >
-                        Confirm
-                      </button>
-                      <div class="invalid-feedback">Email is required.</div>
+                      <div class="invalid-feedback">
+                        Email verification code must be a 6-digit number.
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="mb-3 position-relative">
-                    <label for="emailVC" class="form-label"
-                      >Verification Code</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="emailVC"
-                      name="verification-code"
-                      autocomplete="off"
-                      inputmode="numeric"
-                      required
-                      pattern="\d{6}"
-                      maxlength="6"
-                    />
-                    <a href="#" id="resendLink" class="text-muted resend-link"
-                      >Resend Verification Code</a
-                    >
-                    <div class="invalid-feedback">
-                      Email verification code must be a 6-digit number.
+                    <!-- Contact Number -->
+                    <div class="mb-3">
+                      <label for="contactNo" class="form-label"
+                        >Contact Number</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="contactNo"
+                        required
+                      />
                     </div>
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="contact" class="form-label"
-                      >Contact Number</label
-                    >
-                    <input
-                      type="tel"
-                      class="form-control"
-                      id="contactNo"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Contact number is required.
+                    <!-- Password -->
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        required
+                      />
                     </div>
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="password"
-                      required
-                    />
-                    <div class="invalid-feedback">Password is required.</div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="confirmPassword" class="form-label"
-                      >Confirm Password</label
-                    >
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="confirmPassword"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Confirm password is required.
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                      <label for="confirmPassword" class="form-label"
+                        >Confirm Password</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="confirmPassword"
+                        required
+                      />
                     </div>
-                  </div>
 
-                  <div class="mb-3">
-                    <!-- CAPTCHA placeholder -->
-                    <div class="g-recaptcha" data-sitekey="your-site-key"></div>
-                  </div>
+                    <!-- Referral Code -->
+                    <div class="mb-3">
+                      <label for="referralCode" class="form-label"
+                        >Referral Code</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="referralCode"
+                      />
+                    </div>
 
-                  <button type="submit" class="btn btn-primary w-100 mt-4">
-                    Sign Up
-                  </button>
-                </form>
+                    <!-- Next Button -->
+                    <button
+                      type="button"
+                      class="btn btn-primary w-100 mt-4"
+                      id="nextStepBtn"
+                    >
+                      Sign Up
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -223,6 +232,9 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Contact Buttons -->
+    <div id="contactUsButton"></div>
 
     <!-- Custom JS to Load customAlert.html -->
     <script>

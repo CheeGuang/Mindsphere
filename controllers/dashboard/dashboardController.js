@@ -60,10 +60,37 @@ class DashboardController {
       // Fetch event-specific data from the model
       const eventData = await Dashboard.getEventDashboardData(eventID);
 
+      // Check if data was retrieved successfully
+      if (!eventData) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Event not found or no data available for the given EventID.",
+        });
+      }
+
       console.log("Event dashboard data fetched successfully.");
       res.status(200).json({
         success: true,
-        data: eventData,
+        data: {
+          totalRevenue: eventData.totalRevenue,
+          totalParticipants: eventData.totalParticipants,
+          upcomingDates: eventData.upcomingDates,
+          eventTimingVenue: eventData.eventTimingVenue,
+          participantInterests: eventData.participantInterests,
+          averageAge: eventData.averageAge,
+          dietaryPreferences: eventData.dietaryPreferences,
+          eventStatus: eventData.eventStatus,
+          participantFeedback: eventData.participantFeedback.map(
+            (feedback) => ({
+              experience: feedback.experience,
+              pace: feedback.pace,
+              liked: feedback.liked,
+              disliked: feedback.disliked,
+              additionalComments: feedback.additionalComments,
+            })
+          ), // Formatting participant feedback
+        },
       });
     } catch (error) {
       console.error(

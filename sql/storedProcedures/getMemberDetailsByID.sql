@@ -15,7 +15,8 @@ BEGIN
         contactNoVC,
         contactNoVCTimestamp,
         profilePicture,
-        membershipEndDate 
+        membershipEndDate,
+        referralCode
     FROM 
         [member]
     WHERE 

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(async function () {
   // Load the customAlert.html into the container
   $("#customAlertContainer").load("./customAlert.html");
 
@@ -14,108 +14,159 @@ $(document).ready(function () {
     }, 5000);
   };
 
-  // JavaScript code to handle dynamic participant forms
-  let participantCount = 1;
-
-  // Function to update the participant count display
-  function updateParticipantCountDisplay() {
-    $("#participantCount").text(participantCount);
-  }
-
-  // Function to add a new participant form
-  function addParticipantForm() {
-    participantCount++;
-    const newForm = `
-        <div class="card p-4 mb-5 shadow-sm participant-card border-light" data-participant="${participantCount}">
-          <h5 class="mb-4 text-start">Participant ${participantCount}</h5>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label text-start w-100">Full Name</label>
-              <input type="text" class="form-control" name="fullName${participantCount}" required />
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label text-start w-100">Age</label>
-              <input type="text" class="form-control" name="age${participantCount}" required />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-12">
-              <label class="form-label text-start w-100">School Name</label>
-              <input type="text" class="form-control" name="schoolName${participantCount}" required />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-12">
-              <label class="form-label text-start w-100">Interests</label>
-              <input type="text" class="form-control" name="interests${participantCount}" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
-              <textarea class="form-control" rows="4" name="medicalConditions${participantCount}"></textarea>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label text-start w-100">Lunch option:</label>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="lunchOption${participantCount}" id="nonVegan${participantCount}" value="nonVegan" />
-                <label class="form-check-label text-start w-100" for="nonVegan${participantCount}">Non - Vegan</label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="lunchOption${participantCount}" id="vegan${participantCount}" value="vegan" />
-                <label class="form-check-label text-start w-100" for="vegan${participantCount}">Vegan</label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="lunchOption${participantCount}" id="other${participantCount}" value="other" />
-                <input type="text" class="form-control form-control-sm mt-2" id="otherInput${participantCount}" placeholder="Others" disabled />
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-    $("#participantFormsContainer").append(newForm);
-    updateParticipantCountDisplay();
-  }
-
-  // Function to remove the last participant form
-  function removeParticipantForm() {
-    if (participantCount > 1) {
-      $(
-        `#participantFormsContainer .participant-card[data-participant="${participantCount}"]`
-      ).remove();
-      participantCount--;
-      updateParticipantCountDisplay();
+  // Fetch children data from the API
+  async function fetchChildrenData() {
+    try {
+      const memberID = JSON.parse(
+        localStorage.getItem("memberDetails")
+      ).memberID;
+      const response = await fetch(`/api/child/${memberID}/`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch participant data");
+      }
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error("[ERROR] Fetching participants failed:", error.message);
+      showCustomAlert("Failed to load participant data.");
+      return [];
     }
   }
 
-  // Event listeners for the + and - buttons
-  $("#increaseParticipant").on("click", addParticipantForm);
-  $("#decreaseParticipant").on("click", removeParticipantForm);
+  // Populate child cards with editable forms
+  async function initializeParticipants() {
+    const children = await fetchChildrenData();
 
-  // Event listener for the Next button
-  $("#nextButton").on("click", function () {
+    if (children.length > 0) {
+      children.forEach((child, index) => {
+        const childCard = `
+  <div class="card p-4 mb-5 shadow-sm participant-card border-light" data-participant="${
+    index + 1
+  }">
+    <h5 class="mb-4 text-start">Child ${index + 1}</h5>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label text-start w-100">Full Name</label>
+        <input type="text" class="form-control" name="fullName${
+          index + 1
+        }" value="${child.firstName} ${child.lastName}" required />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label text-start w-100">Age</label>
+        <input type="text" class="form-control" name="age${index + 1}" value="${
+          child.age
+        }" required />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <label class="form-label text-start w-100">School Name</label>
+        <input type="text" class="form-control" name="schoolName${
+          index + 1
+        }" value="${child.schoolName || ""}" required />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <label class="form-label text-start w-100">Interests</label>
+        <input type="text" class="form-control" name="interests${
+          index + 1
+        }" value="${child.interests || ""}" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
+        <textarea class="form-control" rows="4" name="medicalConditions${
+          index + 1
+        }">${child.medicalConditions || ""}</textarea>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label text-start w-100">Lunch option:</label>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="lunchOption${
+            index + 1
+          }" id="nonVegan${index + 1}" value="nonVegan" ${
+          child.lunchOption === "nonVegan" ? "checked" : ""
+        } />
+          <label class="form-check-label text-start w-100" for="nonVegan${
+            index + 1
+          }">Non - Vegan</label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="lunchOption${
+            index + 1
+          }" id="vegan${index + 1}" value="vegan" ${
+          child.lunchOption === "vegan" ? "checked" : ""
+        } />
+          <label class="form-check-label text-start w-100" for="vegan${
+            index + 1
+          }">Vegan</label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="lunchOption${
+            index + 1
+          }" id="other${index + 1}" value="other" ${
+          child.lunchOption === "other" ? "checked" : ""
+        } />
+          <input type="text" class="form-control form-control-sm mt-2" id="otherInput${
+            index + 1
+          }" placeholder="Others" value="${child.specifyOther || ""}" ${
+          child.lunchOption === "other" ? "" : "disabled"
+        } />
+        </div>
+      </div>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" name="registerChild" id="registerChild${
+        index + 1
+      }" value="${child.childID}" />
+      <label class="form-check-label text-start w-100" for="registerChild${
+        index + 1
+      }">
+        Register this child for the event
+      </label>
+    </div>
+  </div>
+`;
+        $("#participantFormsContainer").append(childCard);
+      });
+    } else {
+      $("#participantFormsContainer").append(
+        `<p class="text-muted col-12 text-center">No children found for this member.</p>`
+      );
+    }
+  }
+
+  // Initialize participants
+  await initializeParticipants();
+
+  // Handle Submit Button Click
+  $("#submitButton").on("click", function () {
     const participantsData = [];
 
-    // Iterate through each participant form and collect data
+    // Iterate through each participant form and collect data for selected participants
     $("#participantFormsContainer .participant-card").each(function () {
       const participantIndex = $(this).data("participant");
+      const isSelected = $(`#registerChild${participantIndex}`).is(":checked");
 
-      const participantData = {
-        fullName: $(`input[name="fullName${participantIndex}"]`).val(),
-        age: $(`input[name="age${participantIndex}"]`).val(),
-        schoolName: $(`input[name="schoolName${participantIndex}"]`).val(),
-        interests: $(`input[name="interests${participantIndex}"]`).val(),
-        medicalConditions: $(
-          `textarea[name="medicalConditions${participantIndex}"]`
-        ).val(),
-        lunchOption: $(
-          `input[name="lunchOption${participantIndex}"]:checked`
-        ).val(),
-        specifyOther: $(`#otherInput${participantIndex}`).val(),
-      };
+      if (isSelected) {
+        const participantData = {
+          fullName: $(`input[name="fullName${participantIndex}"]`).val(),
+          age: $(`input[name="age${participantIndex}"]`).val(),
+          schoolName: $(`input[name="schoolName${participantIndex}"]`).val(),
+          interests: $(`input[name="interests${participantIndex}"]`).val(),
+          medicalConditions: $(
+            `textarea[name="medicalConditions${participantIndex}"]`
+          ).val(),
+          lunchOption: $(
+            `input[name="lunchOption${participantIndex}"]:checked`
+          ).val(),
+          specifyOther: $(`#otherInput${participantIndex}`).val(),
+        };
 
-      participantsData.push(participantData);
+        participantsData.push(participantData);
+      }
     });
 
     // Store the data in sessionStorage as JSON
@@ -124,7 +175,241 @@ $(document).ready(function () {
       JSON.stringify(participantsData)
     );
 
-    // Optional: Show confirmation
-    showCustomAlert("Participant data has been saved!");
+    // Show confirmation
+    showCustomAlert("Participants registered successfully!");
   });
+
+  // Fetch vouchers from the API
+  function fetchVouchers() {
+    const memberID = JSON.parse(localStorage.getItem("memberDetails")).memberID;
+
+    $.ajax({
+      url: `api/voucher/${memberID}`,
+      method: "GET",
+      success: function (response) {
+        if (response.success) {
+          const vouchers = response.data;
+          populateVouchers(vouchers);
+        } else {
+          console.error("Failed to fetch vouchers:", response.message);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching vouchers:", error);
+      },
+    });
+  }
+
+  // Populate vouchers dynamically
+  function populateVouchers(vouchers) {
+    const $vouchersContainer = $("#vouchersContainer");
+    $vouchersContainer.empty();
+
+    if (vouchers.length === 0) {
+      $vouchersContainer.append(
+        '<p class="text-muted">No gift cards to redeem.</p>'
+      );
+      return;
+    }
+
+    vouchers.forEach((voucher, index) => {
+      const cardHTML = `
+      <div class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center">
+        <div class="card border-0" style="border-radius: 20px; overflow: hidden; width: 100%; max-width: 400px; height: 250px;">
+          <div class="card-body text-center p-4" style="background: linear-gradient(135deg, #3c4ad1, #7a91e2); color: #fff; padding: 30px;">
+            <h5 class="card-title" style="font-size: 2rem; font-weight: bold; margin-bottom: 15px;">Gift Card</h5>
+            <p class="text-muted" style="color: rgba(255, 255, 255, 0.8) !important; font-size: 1.2rem;">
+              $${voucher.value} Value, Minimum Spend: $${
+        voucher.minimumSpend
+      }<br />
+              Expire: ${new Date(voucher.expiryDate).toLocaleDateString()}<br />
+            </p>
+            <button 
+              class="btn btn-light mt-4 redeem-button" 
+              data-id="${voucher.voucherID}" data-value="${voucher.value}" 
+              style="color: #3c4ad1; font-weight: bold; border-radius: 30px; padding: 12px 25px;">
+              Redeem
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+      $vouchersContainer.append(cardHTML);
+    });
+
+    $(".redeem-button").on("click", function () {
+      const $selectedButton = $(".redeem-button.btn-success"); // Check if a button is already selected
+
+      if ($selectedButton.length > 0 && !$(this).hasClass("btn-success")) {
+        // If a button is already selected and the current button is not the selected one
+        showCustomAlert("You can only select one gift card per transaction.");
+        return;
+      }
+
+      if ($(this).hasClass("btn-success")) {
+        // If currently selected, unselect it
+        $(this)
+          .removeClass("btn-success")
+          .addClass("btn-light")
+          .css("color", "#3c4ad1")
+          .text("Redeem");
+      } else {
+        // If currently unselected, select it
+        $(this)
+          .removeClass("btn-light")
+          .addClass("btn-success")
+          .css("color", "#fff")
+          .text("Selected");
+      }
+    });
+
+    async function populateParticipantSelection() {
+      const participants = await fetchChildrenData(); // Fetch the participant data
+
+      const $participantSelectionContainer = $(
+        "#participantSelectionContainer"
+      );
+      $participantSelectionContainer.empty(); // Clear previous options if any
+
+      if (participants.length > 0) {
+        participants.forEach((participant, index) => {
+          const optionHTML = `
+            <div class="form-check mb-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="selectedParticipant"
+                id="participant${index + 1}"
+                value="${participant.id}" 
+                required
+              />
+              <label class="form-check-label" for="participant${index + 1}">
+                ${participant.firstName} ${participant.lastName}, Age: ${
+            participant.age
+          }
+              </label>
+            </div>
+          `;
+          $participantSelectionContainer.append(optionHTML);
+        });
+      } else {
+        $participantSelectionContainer.append(
+          `<p class="text-muted text-center">No participants found to select from.</p>`
+        );
+      }
+    }
+
+    // Call the function to populate participant options
+    populateParticipantSelection();
+
+    $("#submitButton").on("click", function () {
+      const selectedChildren = $("input[name='registerChild']:checked")
+        .map(function () {
+          return $(this).val(); // Retrieve the value of the checked checkbox (child ID)
+        })
+        .get();
+
+      // Validate at least one child is selected
+      if (selectedChildren.length === 0) {
+        showCustomAlert("Please select at least one child to register.");
+        return;
+      }
+
+      let allLunchOptionsValid = true;
+
+      // Validate lunch option for each selected child
+      selectedChildren.forEach((childID) => {
+        const childCard = $(
+          `#participantFormsContainer .participant-card[data-participant="${childID}"]`
+        );
+        const lunchOption = childCard
+          .find(`input[name="lunchOption${childID}"]:checked`)
+          .val();
+
+        if (!lunchOption) {
+          showCustomAlert(`Please select a lunch option for Child ${childID}.`);
+          allLunchOptionsValid = false;
+        }
+      });
+
+      if (!allLunchOptionsValid) {
+        return; // Stop further execution if validation fails
+      }
+
+      const participantsData = [];
+
+      // Collect data for each selected child
+      selectedChildren.forEach((childID) => {
+        const childCard = $(
+          `#participantFormsContainer .participant-card[data-participant="${childID}"]`
+        );
+
+        const participantData = {
+          fullName: childCard.find(`input[name="fullName${childID}"]`).val(),
+          age: childCard.find(`input[name="age${childID}"]`).val(),
+          schoolName: childCard
+            .find(`input[name="schoolName${childID}"]`)
+            .val(),
+          interests: childCard.find(`input[name="interests${childID}"]`).val(),
+          medicalConditions: childCard
+            .find(`textarea[name="medicalConditions${childID}"]`)
+            .val(),
+          lunchOption: childCard
+            .find(`input[name="lunchOption${childID}"]:checked`)
+            .val(),
+          specifyOther: childCard.find(`#otherInput${childID}`).val(),
+        };
+
+        participantsData.push(participantData);
+      });
+
+      // Get the ID of the redeemed voucher
+      const redeemedVoucherButton = $(".redeem-button.btn-success");
+      const redeemedVoucherID =
+        redeemedVoucherButton.length > 0
+          ? redeemedVoucherButton.data("id")
+          : null;
+
+      const redeemedVoucherValue =
+        redeemedVoucherButton.length > 0
+          ? redeemedVoucherButton.data("value")
+          : null;
+
+      console.log("Hi");
+      console.log(redeemedVoucherID);
+      console.log(redeemedVoucherValue);
+      const redeemedVoucherDetails = {
+        redeemedVoucherID: redeemedVoucherID,
+        redeemedVoucherValue: redeemedVoucherValue,
+      };
+
+      // Store the data in sessionStorage as JSON
+      sessionStorage.setItem(
+        "redeemedVoucherDetails",
+        JSON.stringify(redeemedVoucherDetails)
+      );
+
+      // Prepare query string with encoded participants data
+      const enrollmentData = {
+        participantsData,
+        redeemedVoucherDetails,
+      };
+
+      const encodedData = encodeURIComponent(JSON.stringify(enrollmentData));
+
+      // Update the href to include the encoded data
+      const paymentConfirmationLink = `memberPaymentDetails.html?data=${encodedData}`;
+      $("#submitButton").attr("href", paymentConfirmationLink);
+
+      // Optional: Show confirmation
+      showCustomAlert("Participant data and voucher selection saved!");
+      setTimeout(() => {
+        window.location.href = paymentConfirmationLink;
+      }, 1000); // 1-second delay for confirmation
+      console.log("Stored Data:", enrollmentData);
+    });
+  }
+
+  // Fetch vouchers on page load
+  fetchVouchers();
 });

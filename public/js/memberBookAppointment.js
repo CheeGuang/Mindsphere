@@ -106,6 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to initialize the Calendly widget and wait for iframe load
   function initCalendlyWidget(url, adminID, calendlyAccessToken) {
+    // Flag to ensure the fetch request is sent only once
+    let hasSentRequest = false;
+
     Calendly.initInlineWidget({
       url: url,
       parentElement: document.getElementById("custom-calendar"),
@@ -127,7 +130,16 @@ document.addEventListener("DOMContentLoaded", function () {
           // Get the full event URI from Calendly payload
           const eventURI = event.data.payload.event.uri;
 
+          // Check if the request has already been sent
+          if (hasSentRequest) {
+            console.warn("Appointment creation request already sent.");
+            return;
+          }
+
           try {
+            // Mark the request as sent
+            hasSentRequest = true;
+
             // Send the eventURI, memberID, adminID, and calendlyAccessToken to the backend endpoint to create the appointment
             const response = await fetch(
               `${window.location.origin}/api/appointment/create-appointment`,

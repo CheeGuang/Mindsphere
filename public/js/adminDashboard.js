@@ -368,6 +368,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Update Dietary Preferences Chart
       createDietaryPreferencesChart(data.dietaryPreferences);
 
+      // New charts for participant feedback
+      createExperienceChart(data.participantFeedback);
+      createPaceChart(data.participantFeedback);
+
+      displayFeedbackCards(data.participantFeedback);
+
       // Display Event Timing and Venue
       document.getElementById(
         "eventTimingVenue"
@@ -523,4 +529,100 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Initialize Fetches
   fetchAllEvents();
+
+  let experienceChart, paceChart;
+
+  // Function to create or update the Experience Chart
+  function createExperienceChart(data) {
+    const ctx = document.getElementById("experienceChart").getContext("2d");
+    if (experienceChart) experienceChart.destroy();
+
+    experienceChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Beginner", "Intermediate", "Advanced"],
+        datasets: [
+          {
+            data: [
+              data.filter((item) => item.experience === 1).length, // Beginner
+              data.filter((item) => item.experience === 2).length, // Intermediate
+              data.filter((item) => item.experience === 3).length, // Advanced
+            ],
+            backgroundColor: colorScheme.slice(0, 3),
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
+      },
+    });
+  }
+
+  // Function to create or update the Pace Chart
+  function createPaceChart(data) {
+    const ctx = document.getElementById("paceChart").getContext("2d");
+    if (paceChart) paceChart.destroy();
+
+    paceChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Slow", "Moderate", "Fast"],
+        datasets: [
+          {
+            data: [
+              data.filter((item) => item.pace === 1).length, // Slow
+              data.filter((item) => item.pace === 2).length, // Moderate
+              data.filter((item) => item.pace === 3).length, // Fast
+            ],
+            backgroundColor: colorScheme.slice(3, 6),
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
+      },
+    });
+  }
+
+  function displayFeedbackCards(feedbackData) {
+    const likedFeedbacks = feedbackData.map((item) => item.liked).join("<br>");
+    const dislikedFeedbacks = feedbackData
+      .map((item) => item.disliked)
+      .join("<br>");
+    const additionalComments = feedbackData
+      .map((item) => item.additionalComments)
+      .join("<br>");
+
+    const feedbackContainer = document.getElementById("feedbackContainer");
+    feedbackContainer.innerHTML = `
+      <div class="row my-3">
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Liked Feedbacks</h5>
+            <p class="fw-normal">${likedFeedbacks}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Disliked Feedbacks</h5>
+            <p class="fw-normal">${dislikedFeedbacks}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+            <h5 class="text-center text-secondary">Additional Comments</h5>
+            <p class="fw-normal">${additionalComments}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 });
