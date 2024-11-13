@@ -746,6 +746,22 @@ class EventController {
       });
     }
   };
+
+
+
+// Controller method to handle fetching events by availableDates
+static  getEventsByAvailableDates = async (req, res) =>{
+  const { availableDates } = req.query; // Assuming availableDates is passed as a query parameter
+  
+  try {
+    const events = await Event.getEventByAvailableDates(availableDates); // Call the model method
+    res.status(200).json(events); // Return the list of events as JSON
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve events", error: error.message });
+  }
+}
+
+
 }
 
 // ========== Export ==========

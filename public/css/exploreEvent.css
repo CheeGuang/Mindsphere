@@ -1,0 +1,269 @@
+
+h1 {
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    margin-block: 2rem;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+.calendar {
+    margin: 0 auto;
+    width: clamp(320px, 400px, 90%);
+    padding: 1rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.calendar header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calendar nav {
+    display: flex;
+    align-items: center;
+}
+
+.calendar ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.calendar ul li {
+    width: calc(100% / 7);
+    position: relative;
+    z-index: 2;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#prev,
+#next {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+#prev::before,
+#next::before {
+    content: "";
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-style: solid;
+    border-width: 0.25em 0.25em 0 0;
+    border-color: #ccc;
+}
+
+#next::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#prev::before {
+    transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+#prev:hover::before,
+#next:hover::before {
+    border-color: #000;
+}
+
+.days {
+    font-weight: 600;
+}
+
+.dates li.today {
+    color: black;
+    font-weight: 500;
+}
+
+.dates li.today::before {
+    content: "";
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background:#ffc32a;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.dates li.inactive {
+    color: #ccc;
+}
+#events-display{
+    background-color: whitesmoke;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+}
+
+.event-details {
+    margin-top: 20px;
+}
+
+.event-details img {
+    max-width: 100%;
+    height: auto;
+}
+
+.event-details .btn-close-event {
+    margin-top: 20px;
+}
+
+.box{
+    display: flex;
+        height: 100vh;
+}
+/* Left side: event details */
+#event-details-container {
+    width: 50%;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+/* Right side: calendar and events display */
+.calendar-events {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Calendar styling - make it smaller and position it at the top-right */
+.calendar {
+    width: 45%;
+    height: auto;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    /* Align the calendar to the right */
+    margin-top: 0;
+    /* Remove top margin */
+}
+
+.calendar header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#prev,
+#next {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+#prev::before,
+#next::before {
+    content: "";
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-style: solid;
+    border-width: 0.25em 0.25em 0 0;
+    border-color: #ccc;
+}
+
+#next::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#prev::before {
+    transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+/* Events display below the calendar */
+#events-display {
+    background-color: whitesmoke;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-top: 1rem;
+    
+}
+
+/* Styling for .event-date to match .today */
+.dates li.event-date {
+    font-weight: 600;
+    position: relative;
+}
+
+.dates li.event-date::before {
+    content: "";
+    width: 2rem;
+    /* Fixed size to keep it consistent */
+    height: 2rem;
+    /* Fixed size to keep it consistent */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #b3b3b3;
+    border-radius: 50%;
+    z-index: -1;
+}
+.dates li {
+    cursor: pointer;
+    /* Pointer cursor for each date */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect on calendar dates */
+.dates li:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Define the selected date styling */
+.dates li.selected {
+    background-color: red;
+    
+    color: white;
+   
+    border-radius: 25%;
+    /* Makes it circular like a dot */
+    position: relative;
+}
+
+/* Optional: adding a slight shadow to make the selection pop */
+.dates li.selected::before {
+    content: "";
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: -1;
+}
