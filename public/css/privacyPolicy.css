@@ -1,0 +1,187 @@
+/* Main container styling */
+.privacy-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Heading styles */
+.privacy-container h1 {
+    color: #2C3345;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.privacy-container h4 {
+    color: #2C3345;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Paragraph styles */
+.privacy-container p {
+    color: #4A5568;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+/* List item styles */
+.privacy-container .list-item {
+    color: #4A5568;
+    margin-bottom: 0.8rem;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.privacy-container .list-item::before {
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+}
+
+/* Email link style */
+.privacy-container a {
+    color: #3182CE;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.privacy-container a:hover {
+    color: #2C5282;
+    text-decoration: underline;
+}
+
+/* Date information styling */
+.date-info {
+    background-color: #F7FAFC;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.date-info p {
+    margin-bottom: 0.5rem;
+    color: #2D3748;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .privacy-container {
+        padding: 15px;
+    }
+
+    .privacy-container h1 {
+        font-size: 2rem;
+    }
+
+    .privacy-container h4 {
+        font-size: 1.2rem;
+    }
+
+    .privacy-container p,
+    .privacy-container .list-item {
+        font-size: 0.95rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .privacy-container {
+        padding: 0;
+    }
+
+    .privacy-container h1 {
+        font-size: 24pt;
+    }
+
+    .privacy-container h4 {
+        font-size: 16pt;
+        break-after: avoid;
+    }
+
+    .privacy-container p,
+    .privacy-container .list-item {
+        font-size: 12pt;
+    }
+
+    .privacy-container a {
+        text-decoration: underline;
+        color: #000;
+    }
+}
+
+/* Animation for content loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.privacy-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Scroll to top button */
+/* Change the scroll-top positioning */
+.scroll-top {
+    position: fixed;
+    bottom: 20px;
+    left: 40px;  /* Changed from right: 20px to left: 40px */
+    background-color: #3182CE;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;  /* Changed to all for smoother transitions */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);  /* Added shadow for better visibility */
+}
+
+/* Added hover effect */
+.scroll-top:hover {
+    background-color: #2C5282;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Make button visible */
+.scroll-top.visible {
+    opacity: 1;
+}
+
+/* Add media query for mobile devices */
+@media (max-width: 768px) {
+    .scroll-top {
+        left: 20px;  /* Adjust position for smaller screens */
+        width: 35px;  /* Slightly smaller on mobile */
+        height: 35px;
+    }
+}
+
+/* Section highlight on hover */
+.privacy-section {
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.privacy-section:hover {
+    background-color: #F7FAFC;
+}
