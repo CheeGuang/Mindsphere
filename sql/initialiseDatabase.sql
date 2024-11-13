@@ -1,4 +1,7 @@
 -- 1) Check if tables exist and drop them
+IF OBJECT_ID('dbo.voucher', 'U') IS NOT NULL
+    DROP TABLE dbo.voucher;
+    
 IF OBJECT_ID('dbo.referral', 'U') IS NOT NULL
     DROP TABLE dbo.referral;
 
@@ -143,6 +146,17 @@ CREATE TABLE referral (
     FOREIGN KEY (referrerID) REFERENCES [member](memberID),
     FOREIGN KEY (refereeID) REFERENCES [member](memberID),
     CONSTRAINT UQ_referrer_referee UNIQUE (referrerID, refereeID) -- Ensure 1-to-1 relationship
+);
+
+-- Create the voucher table with foreign key to member
+CREATE TABLE voucher (
+    voucherID INT PRIMARY KEY IDENTITY(1,1),
+    memberID INT NOT NULL, -- Foreign key to member table
+    value DECIMAL(10, 2) NOT NULL, -- Voucher value
+    minimumSpend DECIMAL(10, 2) NOT NULL, -- Minimum spend required to use the voucher
+    expiryDate DATETIME NOT NULL, -- Expiry date of the voucher
+    redeemed BIT DEFAULT 0, -- Indicates if the voucher is redeemed (0 = Not redeemed, 1 = Redeemed)
+    FOREIGN KEY (memberID) REFERENCES [member](memberID) -- Foreign key constraint
 );
 
 
@@ -340,6 +354,13 @@ VALUES
 (1, 2), 
 (3, 4);
 
+-- Insert dummy data into the voucher table
+INSERT INTO voucher (memberID, value, minimumSpend, expiryDate, redeemed)
+VALUES
+(1, 10.00, 50.00, '2024-12-31', 0), -- Voucher for memberID 1
+(2, 20.00, 100.00, '2024-11-30', 1), -- Voucher for memberID 2 (already redeemed)
+(3, 15.00, 75.00, '2025-01-15', 0); -- Voucher for memberID 3
+
 -- 4) Select all tables
 SELECT * FROM [member];
 SELECT * FROM [event];
@@ -349,3 +370,4 @@ SELECT * FROM appointment;
 SELECT * FROM child;
 SELECT * FROM memberChild;
 SELECT * FROM referral;
+SELECT * FROM voucher;

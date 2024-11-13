@@ -164,11 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
           // Set referral code
           document.getElementById("referralCode").value =
             userData.referralCode || "N/A";
-
-          // Display total unredeemed referral vouchers
-          document.getElementById(
-            "totalReferralVouchers"
-          ).textContent = `${totalUnredeemedVouchers} Voucher(s)`; // Each voucher is worth $100
         } else {
           console.error("Error fetching referral details:", data.message);
         }
