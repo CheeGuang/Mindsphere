@@ -18,10 +18,14 @@ class DashboardController {
         totalRevenue: dashboardData.totalRevenue, // Monthly total revenue
         currentVsLastMonthSales: dashboardData.currentVsLastMonthSales, // KPI for current vs last month sales
         topWorkshops: dashboardData.topWorkshops, // Top 3 workshops
-        totalMembers: dashboardData.totalMembers, // Total members with valid memberships
+        totalMembers: dashboardData.totalMembers, // Total members
+        membersWithNullEndDate: dashboardData.membersWithNullEndDate, // Members with NULL membershipEndDate
+        membersWithEndDate: dashboardData.membersWithEndDate, // Members with non-NULL membershipEndDate
         topParticipants: dashboardData.topParticipants, // Top participants by attendance
         eventCounts: dashboardData.eventCounts, // Event breakdown (completed, upcoming, total)
         upcomingWorkshops: dashboardData.upcomingWorkshops, // Upcoming workshop breakdown
+        expiringMemberships: dashboardData.expiringMemberships, // Members with membership expiring in the next month
+        membersWithNoEndDate: dashboardData.membersWithNoEndDate,
       };
 
       console.log("Dashboard data fetched successfully.");

@@ -38,14 +38,14 @@ BEGIN
     ORDER BY 
         MonthYear;
 
-	-- 2. Monthly Sales Revenue (for KPI)
-	SELECT 
-		FORMAT(GETDATE(), 'yyyy-MM') AS CurrentMonth,
-		SUM(CASE WHEN FORMAT(FirstAvailableDate, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM') THEN price * totalParticipants ELSE 0 END) AS CurrentMonthSalesRevenue,
-		FORMAT(DATEADD(MONTH, -1, GETDATE()), 'yyyy-MM') AS LastMonth,
-		SUM(CASE WHEN FORMAT(FirstAvailableDate, 'yyyy-MM') = FORMAT(DATEADD(MONTH, -1, GETDATE()), 'yyyy-MM') THEN price * totalParticipants ELSE 0 END) AS LastMonthSalesRevenue
-	FROM 
-		#EventDates;
+    -- 2. Monthly Sales Revenue (for KPI)
+    SELECT 
+        FORMAT(GETDATE(), 'yyyy-MM') AS CurrentMonth,
+        SUM(CASE WHEN FORMAT(FirstAvailableDate, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM') THEN price * totalParticipants ELSE 0 END) AS CurrentMonthSalesRevenue,
+        FORMAT(DATEADD(MONTH, -1, GETDATE()), 'yyyy-MM') AS LastMonth,
+        SUM(CASE WHEN FORMAT(FirstAvailableDate, 'yyyy-MM') = FORMAT(DATEADD(MONTH, -1, GETDATE()), 'yyyy-MM') THEN price * totalParticipants ELSE 0 END) AS LastMonthSalesRevenue
+    FROM 
+        #EventDates;
 
     -- 3. Top 3 Most Popular Workshops
     SELECT 
@@ -58,13 +58,13 @@ BEGIN
     ORDER BY 
         TotalParticipants DESC;
 
-       -- 4. Total Members with Valid Membership
+    -- 4. Total Members with Valid Membership and Membership Breakdown
     SELECT 
-        COUNT(*) AS TotalMembers
+        COUNT(*) AS TotalMembers,
+        COUNT(CASE WHEN membershipEndDate IS NULL THEN 1 ELSE NULL END) AS MembersWithNullEndDate,
+        COUNT(CASE WHEN membershipEndDate IS NOT NULL THEN 1 ELSE NULL END) AS MembersWithEndDate
     FROM 
-        [member]
-    WHERE 
-        membershipEndDate IS NULL OR membershipEndDate > GETDATE();
+        [member];
 
     -- 5. Top 10 Participants (Event Attendance)
     SELECT 
@@ -98,6 +98,30 @@ BEGIN
         FirstAvailableDate >= GETDATE()
     GROUP BY 
         type;
+
+    -- 8. Members with Membership Expiring within the Next 1 Month
+    SELECT 
+        memberID,
+        firstName,
+        lastName,
+        email,
+        membershipEndDate
+    FROM 
+        [member]
+    WHERE 
+        membershipEndDate IS NOT NULL
+        AND membershipEndDate BETWEEN GETDATE() AND DATEADD(MONTH, 1, GETDATE());
+
+    -- 9. Members with Null Membership End Date
+    SELECT 
+        memberID,
+        firstName,
+        lastName,
+        email
+    FROM 
+        [member]
+    WHERE 
+        membershipEndDate IS NULL;
 
     -- Drop the temporary table to clean up
     DROP TABLE #EventDates;

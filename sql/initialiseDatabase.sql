@@ -167,7 +167,8 @@ CREATE TABLE voucher (
 INSERT INTO [member] (firstName, lastName, email, emailVC, emailVCTimestamp, contactNo, contactNoVC, contactNoVCTimestamp, password, profilePicture, membershipEndDate)
 VALUES 
 ('Jeffrey', 'Lee', 'mindsphere.services@gmail.com', '123456', GETDATE(), '98765432', '654321', GETDATE(), 'password123', './img/misc/account-icon.png', NULL),
-('Bob', 'Lee', 'bob.lee@gmail.com', '123456', GETDATE(), '91234568', '654322', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),
+('Sian Kim', 'Cing', 'jeffreylimtino@gmail.com', '123456', GETDATE(), '91234568', '654322', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(DAY, 20, GETDATE())),
+('Yee Hen', 'Ong', 'wallofflash@gmail.com', '123456', GETDATE(), '91234568', '654322', GETDATE(), 'password123', './img/misc/account-icon.png', NULL),
 ('Charlie', 'Ng', 'charlie.ng@gmail.com', '123456', GETDATE(), '91234569', '654323', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),
 ('Diana', 'Wong', 'diana.wong@gmail.com', '123456', GETDATE(), '91234570', '654324', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),
 ('Ethan', 'Lim', 'ethan.lim@gmail.com', '123456', GETDATE(), '91234571', '654325', GETDATE(), 'password123', './img/misc/account-icon.png', DATEADD(YEAR, 1, GETDATE())),

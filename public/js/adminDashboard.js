@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Fetch Overall Metrics
   async function fetchOverallMetrics() {
     try {
       console.log("Fetching overall metrics...");
@@ -64,10 +63,96 @@ document.addEventListener("DOMContentLoaded", async () => {
       createTopWorkshopsChart(data.topWorkshops);
       createTopParticipantsChart(data.topParticipants);
       createEventCountsChart(data.eventCounts);
-      createUpcomingWorkshopsChart(data.upcomingWorkshops);
+
+      // Populate Expiring Memberships Chart
+      populateMembershipList(
+        "expiringMembershipsChart",
+        data.expiringMemberships,
+        "Expiring Mind+ Members"
+      );
+
+      // Populate Members with No End Date Chart
+      populateMembershipList(
+        "nullMembershipsChart",
+        data.membersWithNoEndDate,
+        "Non Mind+ Members"
+      );
+
+      // Create Mind+ Status Chart
+      createMindPlusStatusChart(data);
     } catch (error) {
       console.error("Error fetching overall metrics:", error);
     }
+  }
+
+  function populateMembershipList(containerId, memberships, title) {
+    const container = document.getElementById(containerId);
+
+    if (!container) {
+      console.error(`Container with ID '${containerId}' not found.`);
+      return;
+    }
+
+    if (!memberships || memberships.length === 0) {
+      container.innerHTML = `
+        <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+          <h5 class="text-center text-secondary">${title}</h5>
+          <p class="text-center">No data available.</p>
+        </div>`;
+      return;
+    }
+
+    const content = memberships
+      .map((member) => {
+        const firstName = member.firstName || "Unknown First Name";
+        const lastName = member.lastName || "Unknown Last Name";
+        const email = member.email || "Unknown Email";
+
+        // If `membershipEndDate` is not null, include it; otherwise, omit it
+        const membershipEndDateLine = member.membershipEndDate
+          ? `<br> ${member.membershipEndDate}`
+          : "";
+
+        return `<p><strong>${firstName} ${lastName}</strong>: ${email}${membershipEndDateLine}</p>`;
+      })
+      .join("");
+
+    // Update the container with membership details
+    container.innerHTML = `
+      <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+        <h5 class="text-center text-secondary">${title}</h5>
+        <div class="fw-normal">${content}</div>
+      </div>`;
+  }
+
+  // Add a new chart instance for Mind+ Status
+  let mindPlusStatusChart;
+
+  function createMindPlusStatusChart(data) {
+    const ctx = document.getElementById("mindPlusStatusChart").getContext("2d");
+    if (mindPlusStatusChart) mindPlusStatusChart.destroy();
+
+    mindPlusStatusChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["No Mind+", "Mind+"],
+        datasets: [
+          {
+            data: [data.membersWithNullEndDate, data.membersWithEndDate],
+            backgroundColor: [colorScheme[4], colorScheme[5]], // Use colors from the scheme
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
+      },
+    });
   }
 
   // Individual chart creation functions
@@ -273,25 +358,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       ],
     });
   }
-
-  function createUpcomingWorkshopsChart(data) {
-    const ctx = document
-      .getElementById("upcomingWorkshopsChart")
-      .getContext("2d");
-    if (upcomingWorkshopsChart) upcomingWorkshopsChart.destroy();
-
-    upcomingWorkshopsChart = createChart(ctx, "doughnut", {
-      labels: data.map((item) => item.WorkshopType),
-      datasets: [
-        {
-          label: "Upcoming Workshops",
-          data: data.map((item) => item.UpcomingWorkshops),
-          backgroundColor: colorScheme.slice(0, 4),
-        },
-      ],
-    });
-  }
-
   // Initial fetch
   fetchOverallMetrics();
 

@@ -101,7 +101,9 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <div class="card">
-                    <h5 class="text-center text-secondary">Monthly Sales</h5>
+                    <h5 class="text-center text-secondary">
+                      Sales Revenue: Last Month vs Previous Month
+                    </h5>
                     <canvas id="monthlySalesChart"></canvas>
                   </div>
                 </div>
@@ -115,6 +117,55 @@
                   <div class="card">
                     <h5 class="text-center text-secondary">Top Participants</h5>
                     <canvas id="topParticipantsChart"></canvas>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="card">
+                    <h5 class="text-center text-secondary">
+                      Completed vs Upcoming Events
+                    </h5>
+                    <canvas id="eventCountsChart"></canvas>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="card">
+                    <h5 class="text-center text-secondary">
+                      Mind+ vs No Mind+ Distribution
+                    </h5>
+                    <canvas id="mindPlusStatusChart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- Membership Details Section -->
+              <div class="row">
+                <!-- Expiring Memberships -->
+                <div class="col-md-6 mb-3">
+                  <div
+                    id="expiringMembershipsChart"
+                    class="card shadow-sm p-3 fixed-height w-100"
+                  >
+                    <h5 class="text-center text-secondary">
+                      Expiring Mind+ Members
+                    </h5>
+                    <div
+                      class="fw-normal"
+                      style="overflow-y: auto; max-height: calc(100% - 3rem)"
+                    ></div>
+                  </div>
+                </div>
+                <!-- No End Date Memberships -->
+                <div class="col-md-6 mb-3">
+                  <div
+                    id="nullMembershipsChart"
+                    class="card shadow-sm p-3 fixed-height w-100"
+                  >
+                    <h5 class="text-center text-secondary">
+                      Non Mind+ Members
+                    </h5>
+                    <div
+                      class="fw-normal"
+                      style="overflow-y: auto; max-height: calc(100% - 3rem)"
+                    ></div>
                   </div>
                 </div>
               </div>

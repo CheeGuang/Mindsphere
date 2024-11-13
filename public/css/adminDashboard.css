@@ -57,3 +57,22 @@
 #eventTimingVenue {
   font-size: 1.2rem;
 }
+
+.fixed-height {
+  height: 300px; /* Adjust this height to match the chart cards */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card .fw-normal {
+  overflow-y: auto; /* Ensure content inside the card is scrollable */
+}
+
+.card .card {
+  shape-outside: none;
+  border: none !important;
+  box-shadow: none !important;
+}

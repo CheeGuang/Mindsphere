@@ -20,10 +20,14 @@ class Dashboard {
         totalRevenue: result.recordsets[0], // Monthly total revenue (chart)
         currentVsLastMonthSales: result.recordsets[1][0], // Current and last month sales
         topWorkshops: result.recordsets[2], // Top 3 most popular workshops
-        totalMembers: result.recordsets[3][0].TotalMembers, // Total valid members
+        totalMembers: result.recordsets[3][0].TotalMembers, // Total members
+        membersWithNullEndDate: result.recordsets[3][0].MembersWithNullEndDate, // Members with NULL membershipEndDate
+        membersWithEndDate: result.recordsets[3][0].MembersWithEndDate, // Members with non-NULL membershipEndDate
         topParticipants: result.recordsets[4], // Top 10 participants by attendance
         eventCounts: result.recordsets[5][0], // Completed vs upcoming events
         upcomingWorkshops: result.recordsets[6], // Breakdown of upcoming workshops
+        expiringMemberships: result.recordsets[7], // Members with membership expiring in the next 1 month
+        membersWithNoEndDate: result.recordsets[8],
       };
 
       return dashboardData;
