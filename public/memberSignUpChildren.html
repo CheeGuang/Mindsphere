@@ -269,7 +269,8 @@
                       for="termsConditionsCheckbox"
                     >
                       I have read and agree to the
-                      <a href="#" target="_blank">terms and conditions</a>.
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">
+                        terms and conditions</a>.
                     </label>
                   </div>
                 </div>
@@ -281,6 +282,140 @@
               </div>
             </div>
           </div>
+
+          <!-- Terms and Conditions Modal -->
+          <div
+          class="modal fade"
+          id="termsModal"
+          tabindex="-1"
+          aria-labelledby="termsModalLabel"
+          aria-hidden="true"
+        >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content text-start">
+        
+            <!-- Title Section -->
+            <div class="modal-header border-bottom-0">
+              <h3 class="modal-title w-100 text-center">Terms and Conditions</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        
+            <!-- Body Section -->
+            <div class="modal-body">
+        
+              <!-- Section 1: Agreement to Terms -->
+              <h5>1. Agreement to Terms</h5>
+              <p>
+                By accessing or using this website ("https://mindsphere.sg/"), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree with any part of these Terms, please do not use our Site.
+              </p>
+      
+
+
+              <!-- Section 2: General Information -->
+              <h5>2. General Information</h5>
+              <p>
+                This Site is operated by MINDSPHERE SINGAPORE PTE. LTD., a company registered in Singapore with the registration number 202424909N and located at 60 PAYA LEBAR ROAD, #07-54, PAYA LEBAR SQUARE, SINGAPORE (409051). For any questions, please contact us at 
+                <a href="https://api.whatsapp.com/send/?phone=6581804413&text&type=phone_number&app_absent=0">+65 8180 4413</a> 
+                or 
+                <a href="https://mail.google.com/mail/u/0/?fs=1&to=hello@mindsphere.sg&tf=cm">hello@mindsphere.sg</a>.
+              </p>
+        
+              <!-- Section 3: Use of the Site -->
+              <h5>3. Use of the Site</h5>
+              <p>
+                You agree to use the Site in compliance with all applicable laws in Singapore and internationally. You are responsible for maintaining the confidentiality of your account and any login information, and for all activities that occur under your account.
+              </p>
+        
+              <!-- Section 4: Intellectual Property Rights -->
+              <h5>4. Intellectual Property Rights</h5>
+              <p>
+                All content, trademarks, logos, images, text, and other materials on this Site are the property of MINDSPHERE SINGAPORE PTE. LTD. or its content suppliers, unless otherwise stated. You are not allowed to use any of this content without prior written consent.
+              </p>
+        
+              <!-- Section 5: Prohibited Uses -->
+              <h5>5. Prohibited Uses</h5>
+              <p>You are prohibited from using the Site or its content:</p>
+              <ul>
+                <li>For any unlawful purpose.</li>
+                <li>To solicit others to perform or participate in unlawful acts.</li>
+                <li>To violate any laws, regulations, or ordinances.</li>
+                <li>To infringe upon or violate our intellectual property rights or the intellectual property rights of others.</li>
+                <li>To harass, abuse, insult, harm, defame, or discriminate based on gender, sexual orientation, religion, ethnicity, race, age, national origin, or disability.</li>
+                <li>To submit false or misleading information.</li>
+                <li>To upload or transmit viruses or any other type of malicious code that will affect the functionality of the Site.</li>
+                <li>To spam, phish, pharm, pretext, spider, crawl, or scrape.</li>
+              </ul>
+        
+               <!-- Section 6: Collection and Use of Personal Data -->
+              <h5>6. Collection and Use of Personal Data</h5>
+              <p>
+                Your privacy and the security of your personal data are important to us. By using this Site, you agree to the collection, use, and disclosure of your personal data as outlined below:
+              </p>
+              <ul>
+                <li><strong>Data Collection:</strong> We may collect personal information that you provide to us, such as your name, contact information, preferences, and usage data. We may also collect information automatically through cookies and other tracking technologies to improve the Site's performance and user experience.</li>
+                <li><strong>Purpose of Data Collection:</strong> We collect and use your data for various purposes, including:
+                  <ul>
+                    <li>To improve and personalize the services and content offered on our Site.</li>
+                    <li>To communicate with you, respond to inquiries, and provide customer support.</li>
+                    <li>To comply with legal and regulatory obligations in Singapore.</li>
+                    <li>To analyze website traffic and usage patterns for optimization purposes.</li>
+                  </ul>
+                </li>
+                <li><strong>Sharing with Third Parties:</strong> Your data may be shared with third-party service providers who assist us with services such as analytics, hosting, and marketing. These third parties are required to handle your data in accordance with Singapore's Personal Data Protection Act (PDPA) and our data security protocols.</li>
+                <li><strong>Retention of Data:</strong> We will retain your personal data only as long as necessary to fulfill the purposes outlined in this section or as required by law. Data that is no longer needed will be securely deleted.</li>
+                <li><strong>Data Protection:</strong> We employ reasonable security measures to protect your data from unauthorized access, use, or disclosure. However, please note that no system can guarantee complete security.</li>
+              </ul>
+
+              <!-- Sections 7-14 -->
+              <h5>7. Third-Party Links</h5>
+              <p>
+                Our Site may include links to third-party websites for your convenience. We do not control these sites and are not responsible for their content or policies. Visiting these sites is at your own risk.
+              </p>
+
+              <h5>8. Limitation of Liability</h5>
+              <p>
+                To the maximum extent permitted by law, MINDSPHERE SINGAPORE PTE. LTD. disclaims any liability for any direct, indirect, incidental, consequential, or punitive damages arising from the use of this Site.
+              </p>
+
+              <h5>9. Indemnification</h5>
+              <p>
+                You agree to indemnify, defend, and hold harmless MINDSPHERE SINGAPORE PTE. LTD. and its officers, employees, and agents from any claims or damages resulting from your breach of these Terms.
+              </p>
+
+              <h5>10. Disclaimers</h5>
+              <p>
+                This Site and its contents are provided "as is" and "as available." We make no warranties, express or implied, regarding the completeness or reliability of the Site. Use of this Site is at your sole risk.
+              </p>
+
+              <h5>11. Governing Law and Jurisdiction</h5>
+              <p>
+                These Terms are governed by the laws of Singapore. Any disputes arising from these Terms shall be submitted to the exclusive jurisdiction of Singapore courts.
+              </p>
+
+              <h5>12. Modifications to Terms</h5>
+              <p>
+                We may update these Terms periodically. It is your responsibility to review these Terms regularly. Your continued use of the Site constitutes acceptance of any updated Terms.
+              </p>
+
+              <h5>13. Termination</h5>
+              <p>
+                We reserve the right to suspend or terminate your access to the Site for any reason, including violation of these Terms, without prior notice or liability.
+              </p>
+
+              
+
+              
+            </div>
+        
+            <!-- Footer Section -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        
+          </div>
+        </div>
+
+
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
