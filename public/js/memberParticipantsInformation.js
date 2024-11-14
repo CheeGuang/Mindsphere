@@ -436,9 +436,6 @@ $(document).ready(async function () {
       // Optional: Show confirmation and proceed only if validation is successful
       if (participantsData.length > 0) {
         showCustomAlert("Participant data and voucher selection saved!");
-        setTimeout(() => {
-          window.location.href = paymentConfirmationLink;
-        }, 1000); // 1-second delay for confirmation
       } else {
         showCustomAlert("Please select at least one participant.");
       }
