@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+  if (localStorage.getItem("hasSentRequest")) {
+    localStorage.removeItem("hasSentRequest");
+  }
+
   let selectedCoach = null;
   let coachesData = [];
   const memberID = JSON.parse(localStorage.getItem("memberDetails")).memberID; // Replace with the actual member ID value
@@ -107,8 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to initialize the Calendly widget and wait for iframe load
   function initCalendlyWidget(url, adminID, calendlyAccessToken) {
     // Flag to ensure the fetch request is sent only once
-    let hasSentRequest = false;
+    const hasSentRequestKey = "hasSentRequest";
 
+    // Initialize the Calendly widget
     Calendly.initInlineWidget({
       url: url,
       parentElement: document.getElementById("custom-calendar"),
@@ -131,14 +136,14 @@ document.addEventListener("DOMContentLoaded", function () {
           const eventURI = event.data.payload.event.uri;
 
           // Check if the request has already been sent
-          if (hasSentRequest) {
+          if (localStorage.getItem(hasSentRequestKey)) {
             console.warn("Appointment creation request already sent.");
             return;
           }
 
           try {
-            // Mark the request as sent
-            hasSentRequest = true;
+            // Mark the request as sent by storing in localStorage
+            localStorage.setItem(hasSentRequestKey, "true");
 
             // Send the eventURI, memberID, adminID, and calendlyAccessToken to the backend endpoint to create the appointment
             const response = await fetch(
