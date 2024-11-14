@@ -344,9 +344,12 @@ $(document).ready(async function () {
         })
         .get();
 
+      console.log("Selected Children:", selectedChildren); // Debug: Check selected children
+
       // Validate at least one child is selected
       if (selectedChildren.length === 0) {
         showCustomAlert("Please select at least one child to register.");
+        console.log("No children selected."); // Debug: No children selected
         return; // Stop execution if no child is selected
       }
 
@@ -361,6 +364,8 @@ $(document).ready(async function () {
           .find(`input[name="lunchOption${childID}"]:checked`)
           .val();
 
+        console.log(`Child ${childID} lunch option:`, lunchOption); // Debug: Check lunch option
+
         if (!lunchOption) {
           showCustomAlert(`Please select a lunch option for Child ${childID}.`);
           allLunchOptionsValid = false;
@@ -368,6 +373,7 @@ $(document).ready(async function () {
       });
 
       if (!allLunchOptionsValid) {
+        console.log("Lunch option validation failed."); // Debug: Failed validation
         return; // Stop further execution if validation fails
       }
 
@@ -395,6 +401,8 @@ $(document).ready(async function () {
           specifyOther: childCard.find(`#otherInput${childID}`).val(),
         };
 
+        console.log(`Participant Data for Child ${childID}:`, participantData); // Debug: Check participant data
+
         participantsData.push(participantData);
       });
 
@@ -415,6 +423,8 @@ $(document).ready(async function () {
         redeemedVoucherValue: redeemedVoucherValue,
       };
 
+      console.log("Redeemed Voucher Details:", redeemedVoucherDetails); // Debug: Check redeemed voucher details
+
       // Store the data in sessionStorage as JSON
       sessionStorage.setItem(
         "redeemedVoucherDetails",
@@ -429,6 +439,8 @@ $(document).ready(async function () {
 
       const encodedData = encodeURIComponent(JSON.stringify(enrollmentData));
 
+      console.log("Encoded Enrollment Data:", encodedData); // Debug: Check encoded enrollment data
+
       // Update the href to include the encoded data
       const paymentConfirmationLink = `memberPaymentDetails.html?data=${encodedData}`;
       $("#submitButton").attr("href", paymentConfirmationLink);
@@ -436,11 +448,13 @@ $(document).ready(async function () {
       // Optional: Show confirmation and proceed only if validation is successful
       if (participantsData.length > 0) {
         showCustomAlert("Participant data and voucher selection saved!");
+        console.log("Participant data and voucher saved."); // Debug: Confirmation message
       } else {
         showCustomAlert("Please select at least one participant.");
+        console.log("No participants selected."); // Debug: No participants selected
       }
 
-      console.log("Stored Data:", enrollmentData);
+      console.log("Stored Data:", enrollmentData); // Debug: Final enrollment data
     });
   }
 
