@@ -73,7 +73,11 @@ class MemberController {
   // Update member contact and referral code
   static async updateMemberContact(req, res) {
     try {
-      // Check if req.body exists
+      // Debug request and response objects
+      console.debug("Request object:", req);
+      console.debug("Response object:", res);
+
+      // Ensure request body exists
       if (!req.body) {
         console.error("Request body is undefined.");
         return res.status(400).json({
@@ -82,8 +86,15 @@ class MemberController {
         });
       }
 
-      // Destructure the required parameters from req.body
+      // Destructure properties from req.body
       const { memberID, contactNo, referralCode } = req.body;
+
+      console.debug(
+        "Received request to update member contact and referral code."
+      );
+      console.debug(`Member ID: ${memberID}`);
+      console.debug(`Contact Number: ${contactNo}`);
+      console.debug(`Referral Code: ${referralCode || "None provided"}`);
 
       // Validate input
       if (!memberID || !contactNo) {
@@ -94,22 +105,15 @@ class MemberController {
         });
       }
 
-      console.debug(
-        "Request received to update member contact and referral code."
-      );
-      console.debug(`Member ID: ${memberID}`);
-      console.debug(`Contact Number: ${contactNo}`);
-      console.debug(`Referral Code: ${referralCode || "None provided"}`);
-
-      // Call the model function to update the contact number and referral code
+      // Call the model function to update contact and referral code
       const message = await Member.updateMemberContact(
         memberID,
         contactNo,
         referralCode
       );
 
-      console.debug("Member update completed successfully.");
-      console.debug(`Response Message: ${message}`);
+      console.debug("Database update successful.");
+      console.debug(`Update Result: ${message}`);
 
       return res.status(200).json({
         success: true,
@@ -119,15 +123,14 @@ class MemberController {
       console.error(`Error in updateMemberContact: ${error.message}`);
 
       if (error.message === "Invalid referral code. Update aborted.") {
-        // Handle invalid referral code error specifically
-        console.debug("Invalid referral code provided during update.");
+        console.error("Error: Invalid referral code provided.");
         return res.status(400).json({
           success: false,
           message: "Invalid referral code provided.",
         });
       } else {
-        console.debug(
-          "An unexpected error occurred during the update process."
+        console.error(
+          "Error: An unexpected error occurred during the update process."
         );
         return res.status(500).json({
           success: false,

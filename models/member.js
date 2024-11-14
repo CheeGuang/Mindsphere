@@ -103,61 +103,68 @@ class Member {
     }
   }
 
-  // Update member contact and referral code
-  static async updateMemberContact(req, res) {
+  // Function to update a member's contact number and referral code using stored procedure
+  static async updateMemberContact(memberID, contactNo, referralCode) {
     try {
-      const { memberID, contactNo, referralCode } = req.body;
+      console.debug("Connecting to the database...");
+      const connection = await sql.connect(dbConfig);
 
-      console.debug("Received request to update member contact.");
+      console.debug("Connection established. Preparing SQL request...");
+      const request = connection.request();
+
+      // Add input parameters
       console.debug(
-        `Request Payload: memberID=${memberID}, contactNo=${contactNo}, referralCode=${
+        `Adding input parameters: memberID=${memberID}, contactNo=${contactNo}, referralCode=${
           referralCode || "None"
         }`
       );
+      request.input("memberID", sql.Int, memberID);
+      request.input("contactNo", sql.NVarChar(20), contactNo);
+      request.input("referralCode", sql.NVarChar(50), referralCode || null);
 
-      // Validate input
-      if (!memberID || !contactNo) {
-        console.debug("Validation failed: Missing memberID or contactNo.");
-        return res.status(400).json({
-          success: false,
-          message: "Member ID and contact number are required.",
-        });
-      }
+      // Add output parameter for referral validation
+      console.debug("Adding output parameter: referralSuccessful");
+      request.output("referralSuccessful", sql.Bit);
 
-      console.debug("Input validation passed. Proceeding with update.");
+      // Execute the stored procedure
+      console.debug("Executing stored procedure: usp_update_member_contact");
+      const result = await request.execute("usp_update_member_contact");
 
-      // Call the model function to update the contact number and referral code
-      const message = await Member.updateMemberContact(
-        memberID,
-        contactNo,
-        referralCode
+      // Retrieve the output parameter
+      const referralSuccessful = result.output.referralSuccessful;
+      console.debug(
+        `Stored procedure executed successfully. Referral Successful: ${referralSuccessful}`
       );
 
-      console.debug("Database update successful.");
-      console.debug(`Update Result: ${message}`);
+      // Log the returned result from the stored procedure
+      console.debug("Stored procedure result:", result);
 
-      res.status(200).json({
-        success: true,
-        message: message,
-      });
-    } catch (error) {
-      console.error(`Error in updateMemberContact: ${error.message}`);
-
-      if (error.message === "Invalid referral code. Update aborted.") {
-        console.debug("Error: Invalid referral code provided.");
-        res.status(400).json({
-          success: false,
-          message: "Invalid referral code provided.",
-        });
+      // Check if the stored procedure returned a valid recordset
+      if (result.recordset && result.recordset.length > 0) {
+        console.debug("Result recordset found. Extracting success message...");
+        const message = result.recordset[0].Message;
+        console.debug(`Success message from stored procedure: ${message}`);
       } else {
-        console.debug(
-          "Error: An unexpected error occurred during the update process."
-        );
-        res.status(500).json({
-          success: false,
-          message: "Failed to update member contact.",
-        });
+        console.warn("No recordset returned from stored procedure.");
       }
+
+      // Close the database connection
+      console.debug("Closing database connection...");
+      connection.close();
+
+      console.debug("Database connection closed. Returning success message.");
+      // Return success message from the stored procedure
+      return (
+        result.recordset[0]?.Message ||
+        "Update completed with no additional information."
+      );
+    } catch (error) {
+      console.error(
+        "Error occurred during member contact update:",
+        error.message
+      );
+      console.debug("Error stack trace:", error.stack);
+      throw error;
     }
   }
 
