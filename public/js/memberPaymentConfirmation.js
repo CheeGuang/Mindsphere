@@ -192,9 +192,10 @@ $(document).ready(async function () {
       }
     }
 
-    function formatExpiryDate(dateString) {
+    function formatExpiryDate() {
       const options = { year: "numeric", month: "long", day: "numeric" };
-      const date = new Date(dateString);
+      const date = new Date();
+      date.setFullYear(date.getFullYear() + 1); // Add 1 year to the current date
       return date.toLocaleDateString(undefined, options);
     }
 
@@ -208,7 +209,7 @@ $(document).ready(async function () {
     const membershipEndDate = memberDetails?.membershipEndDate;
     console.debug("Membership End Date:", membershipEndDate); // Debug: Log the membership end date
 
-    const formattedExpiryDate = formatExpiryDate(membershipEndDate);
+    const formattedExpiryDate = formatExpiryDate();
     console.debug("Formatted Expiry Date:", formattedExpiryDate); // Debug: Log formatted expiry date
 
     if (newMembership === true) {
