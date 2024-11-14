@@ -130,7 +130,7 @@ const fetchAndDisplayEvents = async () => {
           };
 
           const response = await fetch(
-            "http://localhost:8000/api/event/view-invoice",
+            `${window.localStorage.origin}/api/event/view-invoice`,
             {
               method: "POST",
               headers: {
