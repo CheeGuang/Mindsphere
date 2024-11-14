@@ -278,8 +278,6 @@ $(document).ready(async function () {
         }
         // Show the modal
         $("#membershipModal").modal("show");
-      } else {
-        console.error("[DEBUG] Membership end date is missing.");
       }
     }
 
