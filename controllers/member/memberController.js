@@ -70,24 +70,36 @@ class MemberController {
     }
   }
 
-  // Update member contact
+  // Update member contact and referral code
   static async updateMemberContact(req, res) {
     try {
-      const { memberID, contactNo } = req.body;
+      const { memberID, contactNo, referralCode } = req.body;
 
-      // Call the model function to update the contact number
-      const message = await Member.updateMemberContact(memberID, contactNo);
+      // Call the model function to update the contact number and referral code
+      const message = await Member.updateMemberContact(
+        memberID,
+        contactNo,
+        referralCode
+      );
 
       res.status(200).json({
         success: true,
         message: message,
       });
     } catch (error) {
-      console.error(`Error in updateMemberContact: ${error.message}`);
-      res.status(500).json({
-        success: false,
-        message: "Failed to update member contact.",
-      });
+      if (error.message === "Invalid referral code. Update aborted.") {
+        // Handle invalid referral code error specifically
+        res.status(400).json({
+          success: false,
+          message: "Invalid referral code provided.",
+        });
+      } else {
+        console.error(`Error in updateMemberContact: ${error.message}`);
+        res.status(500).json({
+          success: false,
+          message: "Failed to update member contact.",
+        });
+      }
     }
   }
 

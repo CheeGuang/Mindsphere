@@ -103,17 +103,30 @@ class Member {
     }
   }
 
-  // Function to update a member's contact number using stored procedure
-  static async updateMemberContact(memberID, contactNo) {
+  // Function to update a member's contact number and referral code using stored procedure
+  static async updateMemberContact(memberID, contactNo, referralCode) {
     try {
       const connection = await sql.connect(dbConfig);
       const request = connection.request();
 
+      // Add input parameters
       request.input("memberID", sql.Int, memberID);
       request.input("contactNo", sql.NVarChar(20), contactNo);
+      request.input("referralCode", sql.NVarChar(50), referralCode || null); // Add referral code, allow null
 
+      // Add output parameter for referral validation
+      request.output("referralSuccessful", sql.Bit);
+
+      // Execute the stored procedure
       const result = await request.execute("usp_update_member_contact");
 
+      // Retrieve the output parameter
+      const referralSuccessful = result.output.referralSuccessful;
+
+      // Log the referral success status
+      console.log("Referral successful:", referralSuccessful);
+
+      // Close the connection
       connection.close();
 
       // Return success message from the stored procedure

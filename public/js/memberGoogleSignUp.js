@@ -8,17 +8,19 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     return;
   }
 
-  // Get contact number from the input field
+  // Get contact number and referral code from input fields
   const contactNo = document.querySelector('input[type="tel"]').value;
+  const referralCode = document.getElementById("referralCode")?.value || null;
 
   // Prepare data to be sent to the server
   const data = {
     memberID: memberID,
     contactNo: contactNo,
+    referralCode: referralCode,
   };
 
   try {
-    // Make an API call to update the member contact number
+    // Make an API call to update the member contact number and referral code
     const response = await fetch("/api/member/update-member-contact", {
       method: "PUT",
       headers: {
