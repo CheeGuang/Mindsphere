@@ -144,6 +144,7 @@ $(document).ready(async function () {
   // Handle Submit Button Click
   $("#submitButton").on("click", function (e) {
     e.preventDefault(); // Prevent default anchor behavior
+    console.log("Submit button clicked."); // Debug: Button click
 
     const participantsData = [];
     let allLunchOptionsSelected = true;
@@ -153,6 +154,10 @@ $(document).ready(async function () {
       const participantIndex = $(this).data("participant");
       const isSelected = $(`#registerChild${participantIndex}`).is(`:checked`);
 
+      console.log(
+        `Checking Participant ${participantIndex}, Selected: ${isSelected}`
+      ); // Debug: Check if participant is selected
+
       if (isSelected) {
         const lunchOption = $(
           `input[name="lunchOption${participantIndex}"]:checked`
@@ -160,6 +165,9 @@ $(document).ready(async function () {
 
         if (!lunchOption) {
           allLunchOptionsSelected = false;
+          console.log(
+            `Lunch option not selected for Participant ${participantIndex}`
+          ); // Debug: No lunch option
         }
 
         const participantData = {
@@ -174,6 +182,11 @@ $(document).ready(async function () {
           specifyOther: $(`#otherInput${participantIndex}`).val(),
         };
 
+        console.log(
+          `Participant Data for ${participantIndex}:`,
+          participantData
+        ); // Debug: Log participant data
+
         participantsData.push(participantData);
       }
     });
@@ -181,12 +194,14 @@ $(document).ready(async function () {
     // Validation: Check if participants are selected
     if (participantsData.length === 0) {
       showCustomAlert("Please select at least one participant.");
+      console.log("No participants selected."); // Debug: No participants selected
       return;
     }
 
     // Validation: Check if all selected participants have lunch options
     if (!allLunchOptionsSelected) {
       showCustomAlert("Please select a lunch option for all participants.");
+      console.log("Not all lunch options selected."); // Debug: Lunch options missing
       return;
     }
 
@@ -195,16 +210,20 @@ $(document).ready(async function () {
       "participantsData",
       JSON.stringify(participantsData)
     );
+    console.log("Participants data saved to sessionStorage:", participantsData); // Debug: Data saved
 
     // Prepare query string with encoded participants data
     const enrollmentData = {
       participantsData,
     };
     const encodedData = encodeURIComponent(JSON.stringify(enrollmentData));
+    console.log("Encoded Enrollment Data:", encodedData); // Debug: Encoded data for query string
+
     const paymentConfirmationLink = `memberPaymentDetails.html?data=${encodedData}`;
 
     // Optional: Show confirmation message before redirection
     showCustomAlert("Participants registered successfully!");
+    console.log("Redirecting to payment confirmation page..."); // Debug: Redirecting
 
     setTimeout(() => {
       window.location.href = paymentConfirmationLink;
