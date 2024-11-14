@@ -73,7 +73,26 @@ class MemberController {
   // Update member contact and referral code
   static async updateMemberContact(req, res) {
     try {
+      // Check if req.body exists
+      if (!req.body) {
+        console.error("Request body is undefined.");
+        return res.status(400).json({
+          success: false,
+          message: "Request body is missing. Please provide required data.",
+        });
+      }
+
+      // Destructure the required parameters from req.body
       const { memberID, contactNo, referralCode } = req.body;
+
+      // Validate input
+      if (!memberID || !contactNo) {
+        console.error("Validation failed: Missing memberID or contactNo.");
+        return res.status(400).json({
+          success: false,
+          message: "Member ID and contact number are required.",
+        });
+      }
 
       console.debug(
         "Request received to update member contact and referral code."
@@ -92,7 +111,7 @@ class MemberController {
       console.debug("Member update completed successfully.");
       console.debug(`Response Message: ${message}`);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: message,
       });
@@ -102,7 +121,7 @@ class MemberController {
       if (error.message === "Invalid referral code. Update aborted.") {
         // Handle invalid referral code error specifically
         console.debug("Invalid referral code provided during update.");
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           message: "Invalid referral code provided.",
         });
@@ -110,7 +129,7 @@ class MemberController {
         console.debug(
           "An unexpected error occurred during the update process."
         );
-        res.status(500).json({
+        return res.status(500).json({
           success: false,
           message: "Failed to update member contact.",
         });
