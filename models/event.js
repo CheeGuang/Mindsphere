@@ -189,7 +189,6 @@ class event {
       );
       request.input("venue", sql.NVarChar(255), updatedData.venue);
       request.input("duration", sql.NVarChar(255), updatedData.duration);
-      request.input("picture", sql.NVarChar(255), updatedData.picture);
 
       const result = await request.execute("usp_update_event"); // Ensure stored procedure exists
       connection.close();
@@ -528,53 +527,48 @@ class event {
     }
   }
 
-
-
-
-
   // Fetch events by availableDates
-static async getEventByAvailableDates(availableDates) {
-  try {
-    const connection = await sql.connect(dbConfig);
-    const request = connection.request();
+  static async getEventByAvailableDates(availableDates) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const request = connection.request();
 
-    request.input("availableDates", sql.NVarChar(100), availableDates); 
-    const result = await request.execute("usp_get_event_by_available_dates");
+      request.input("availableDates", sql.NVarChar(100), availableDates);
+      const result = await request.execute("usp_get_event_by_available_dates");
 
-    const eventList = result.recordset.map(
-      (row) =>
-        new event(
-          row.eventID,
-          row.type,
-          row.title,
-          row.price,
-          row.oldPrice,
-          row.classSize,
-          row.duration,
-          row.lunchProvided,
-          row.lessonMaterialsProvided,
-          row.accessToMembership,
-          row.availableDates,
-          row.time,
-          row.totalParticipants,
-          row.venue,
-          row.picture,
-          row.memberEventID,
-          row.fullName,
-          row.experience
-        )
-    );
+      const eventList = result.recordset.map(
+        (row) =>
+          new event(
+            row.eventID,
+            row.type,
+            row.title,
+            row.price,
+            row.oldPrice,
+            row.classSize,
+            row.duration,
+            row.lunchProvided,
+            row.lessonMaterialsProvided,
+            row.accessToMembership,
+            row.availableDates,
+            row.time,
+            row.totalParticipants,
+            row.venue,
+            row.picture,
+            row.memberEventID,
+            row.fullName,
+            row.experience
+          )
+      );
 
-    console.log(eventList);
-    connection.close();
+      console.log(eventList);
+      connection.close();
 
-    return [...eventList];
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error; // Rethrow to handle in the controller
+      return [...eventList];
+    } catch (error) {
+      console.error("Database error:", error);
+      throw error; // Rethrow to handle in the controller
+    }
   }
-  }
-  
 }
 
 module.exports = event;

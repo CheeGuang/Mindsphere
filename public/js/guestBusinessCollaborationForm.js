@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       !description ||
       !participants
     ) {
-      alert("Please fill in all the required fields.");
+      showCustomAlert("Please fill in all the required fields.");
       return;
     }
 

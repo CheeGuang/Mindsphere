@@ -27,7 +27,7 @@ IF OBJECT_ID('dbo.child', 'U') IS NOT NULL
     DROP TABLE dbo.child;
 
 IF OBJECT_ID('dbo.businessCollaboration', 'U') IS NOT NULL
-    DROP TABLE dbo.child;
+    DROP TABLE dbo.businessCollaboration;
 
 
 -- 2) Create tables according to the ER diagram

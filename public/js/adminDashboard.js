@@ -98,19 +98,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!memberships || memberships.length === 0) {
       container.innerHTML = `
-        <div class="card shadow-sm p-3 d-flex flex-column h-100">
-          <h5 class="text-center text-secondary">${title}</h5>
-          <p class="text-center flex-grow-1">No data available.</p>
-          <button
-            id="${containerId}-btn"
-            class="btn w-100 mt-auto"
-            data-bs-toggle="modal"
-            data-bs-target="#bulkEmailModal"
-          >
-            Send Bulk Email
-          </button>
-        </div>`;
-      // Dynamically add classes after rendering
+      <div class="card shadow-sm p-3 d-flex flex-column h-100">
+        <h5 class="text-center text-secondary">${title}</h5>
+        <p class="text-center flex-grow-1">No data available.</p>
+        <button
+          id="${containerId}-btn"
+          class="btn w-100 mt-auto"
+          data-bs-toggle="modal"
+          data-bs-target="#bulkEmailModal"
+        >
+          Send Bulk Email
+        </button>
+      </div>`;
       document
         .getElementById(`${containerId}-btn`)
         .classList.add("btn-primary", "btn-lg", "shadow-sm");
@@ -123,8 +122,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const lastName = member.lastName || "Unknown Last Name";
         const email = member.email || "Unknown Email";
 
+        // Format membership end date
         const membershipEndDateLine = member.membershipEndDate
-          ? `<br> ${member.membershipEndDate}`
+          ? `<br> ${new Date(member.membershipEndDate).toLocaleDateString(
+              "en-GB",
+              { day: "2-digit", month: "short", year: "numeric" }
+            )}`
           : "";
 
         return `<p><strong>${firstName} ${lastName}</strong>: ${email}${membershipEndDateLine}</p>`;
@@ -132,45 +135,50 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
 
     container.innerHTML = `
-      <div class="card shadow-sm p-3 d-flex flex-column h-100">
-        <h5 class="text-center text-secondary">${title}</h5>
-        <div class="fw-normal flex-grow-1 overflow-auto">${content}</div>
-        <button
-          id="${containerId}-btn"
-          class="btn w-100 mt-auto"
-          data-bs-toggle="modal"
-          data-bs-target="#bulkEmailModal"
-        >
-          Send Bulk Email
-        </button>
-      </div>`;
+    <div class="card shadow-sm p-3 d-flex flex-column h-100">
+      <h5 class="text-center text-secondary">${title}</h5>
+      <div class="fw-normal flex-grow-1 overflow-auto">${content}</div>
+      <button
+        id="${containerId}-btn"
+        class="btn w-100 mt-auto"
+        data-bs-toggle="modal"
+        data-bs-target="#bulkEmailModal"
+        onclick="prepareRecipientEmails('expiringMembershipsChart')"
+      >
+        Send Bulk Email
+      </button>
+    </div>`;
 
-    // Dynamically add classes after rendering
     document
       .getElementById(`${containerId}-btn`)
       .classList.add("btn-primary", "btn-lg", "shadow-sm");
   }
 
   function prepareRecipientEmails(type) {
+    console.log("Preparing recipient emails for type:", type);
     const memberships =
       type === "expiringMembershipsChart"
-        ? data.expiringMemberships
-        : data.membersWithNoEndDate;
+        ? window.data.expiringMemberships
+        : type === "nullMembershipsChart"
+        ? window.data.membersWithNoEndDate
+        : [];
 
     if (!memberships || memberships.length === 0) {
       console.error(`No memberships found for type: ${type}`);
       return;
     }
 
-    recipientEmails = memberships.reduce((acc, member) => {
+    // Prepare recipient emails
+    window.recipientEmails = memberships.reduce((acc, member) => {
       if (member.email)
         acc[member.email] = `${member.firstName} ${member.lastName}`;
       return acc;
     }, {});
 
-    console.log("Prepared recipient emails:", recipientEmails);
+    console.log("Recipient emails prepared:", window.recipientEmails);
   }
 
+  console.log("Hi");
   // Attach to global scope
   window.prepareRecipientEmails = prepareRecipientEmails;
 
@@ -769,15 +777,17 @@ function sendBulkEmail() {
   const textMessage = document.getElementById("bulkEmailMessage").value;
 
   if (!textMessage) {
-    alert("Please enter a message before sending!");
+    showCustomAlert("Please enter a message before sending!");
     return;
   }
 
   // Use `window.recipientEmails` to access the globally set recipient emails
   const recipientEmails = window.recipientEmails;
 
+  console.log(recipientEmails);
+
   if (!recipientEmails || Object.keys(recipientEmails).length === 0) {
-    alert("No recipients found for bulk email!");
+    showCustomAlert("No recipients found for bulk email!");
     return;
   }
 
@@ -799,7 +809,7 @@ function sendBulkEmail() {
     })
     .then((data) => {
       console.log("Bulk email sent successfully:", data);
-      alert("Emails sent successfully!");
+      showCustomAlert("Emails sent successfully!");
       // Close the modal after successful email sending
       const modal = bootstrap.Modal.getInstance(
         document.getElementById("bulkEmailModal")
@@ -808,7 +818,7 @@ function sendBulkEmail() {
     })
     .catch((error) => {
       console.error("Error sending bulk email:", error);
-      alert("Failed to send emails. Please try again.");
+      showCustomAlert("Failed to send emails. Please try again.");
     });
 }
 

@@ -4,8 +4,7 @@ CREATE PROCEDURE usp_update_event
     @price FLOAT,
     @availableDates NVARCHAR(255),
     @venue NVARCHAR(255),
-    @duration NVARCHAR(255),
-    @picture NVARCHAR(255)
+    @duration NVARCHAR(255)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -16,8 +15,7 @@ BEGIN
         price = @price,
         availableDates = @availableDates,
         venue = @venue,
-        duration = @duration,
-        picture = @picture
+        duration = @duration
     WHERE 
         eventID = @eventID;
 
