@@ -48,6 +48,19 @@ BEGIN
 
                 -- Set referralSuccessful to 1
                 SET @referralSuccessful = 1;
+
+                -- Insert vouchers for both the referrer and referee
+                DECLARE @voucherValue DECIMAL(10, 2) = 50.00; -- Voucher value
+                DECLARE @minimumSpend DECIMAL(10, 2) = 0.00; -- No minimum spend
+                DECLARE @expiryDate DATETIME = DATEADD(MONTH, 1, GETDATE()); -- 1-month expiry
+
+                -- Voucher for the referrer
+                INSERT INTO voucher (memberID, value, minimumSpend, expiryDate, redeemed)
+                VALUES (@referrerID, @voucherValue, @minimumSpend, @expiryDate, 0);
+
+                -- Voucher for the referee
+                INSERT INTO voucher (memberID, value, minimumSpend, expiryDate, redeemed)
+                VALUES (@memberID, @voucherValue, @minimumSpend, @expiryDate, 0);
             END
         END
         ELSE
