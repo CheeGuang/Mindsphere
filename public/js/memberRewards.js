@@ -90,9 +90,8 @@ $(document).ready(function () {
                   ).toLocaleDateString()}<br />
                 </p>
                 <button
-                  class="btn btn-light mt-4"
+                  class="btn btn-light mt-4 redeem-now-btn"
                   style="color: #3c4ad1; font-weight: bold; border-radius: 30px; padding: 12px 25px;"
-                  onclick="window.location.href='guestProgrammes.html';"
                 >
                   Redeem Now
                 </button>
@@ -170,4 +169,20 @@ $(document).ready(function () {
 
   // Fetch vouchers on page load
   fetchVouchers();
+
+  // Function to show Telegram reminder modal
+  function showTelegramReminderModal() {
+    $("#telegramReminderModal").modal("show");
+  }
+
+  // Attach click event to dynamically added "Redeem Now" buttons
+  $(document).on("click", ".redeem-now-btn", function (e) {
+    e.preventDefault(); // Prevent default action
+    showTelegramReminderModal();
+  });
+
+  // Redirect to the programme page when modal is closed
+  $("#telegramReminderModal").on("hidden.bs.modal", function () {
+    window.location.href = "guestProgrammes.html"; // Replace with your programme page URL
+  });
 });
