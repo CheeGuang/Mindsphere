@@ -75,6 +75,13 @@ class MemberController {
     try {
       const { memberID, contactNo, referralCode } = req.body;
 
+      console.debug(
+        "Request received to update member contact and referral code."
+      );
+      console.debug(`Member ID: ${memberID}`);
+      console.debug(`Contact Number: ${contactNo}`);
+      console.debug(`Referral Code: ${referralCode || "None provided"}`);
+
       // Call the model function to update the contact number and referral code
       const message = await Member.updateMemberContact(
         memberID,
@@ -82,19 +89,27 @@ class MemberController {
         referralCode
       );
 
+      console.debug("Member update completed successfully.");
+      console.debug(`Response Message: ${message}`);
+
       res.status(200).json({
         success: true,
         message: message,
       });
     } catch (error) {
+      console.error(`Error in updateMemberContact: ${error.message}`);
+
       if (error.message === "Invalid referral code. Update aborted.") {
         // Handle invalid referral code error specifically
+        console.debug("Invalid referral code provided during update.");
         res.status(400).json({
           success: false,
           message: "Invalid referral code provided.",
         });
       } else {
-        console.error(`Error in updateMemberContact: ${error.message}`);
+        console.debug(
+          "An unexpected error occurred during the update process."
+        );
         res.status(500).json({
           success: false,
           message: "Failed to update member contact.",
