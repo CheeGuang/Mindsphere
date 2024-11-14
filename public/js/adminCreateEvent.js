@@ -1,6 +1,9 @@
 document
   .getElementById("confirmCreateEvent")
   .addEventListener("click", async function () {
+    const confirmButton = this; // Reference to the button
+    confirmButton.disabled = true; // Disable the button immediately after click
+
     const fileInput = document.getElementById("eventPicture");
     const file = fileInput.files[0];
 
@@ -123,6 +126,7 @@ document
     } catch (error) {
       console.error("Error:", error);
       showCustomAlert("An error occurred. Please try again.");
+      confirmButton.disabled = false; // Re-enable the button if an error occurs
     }
   });
 
