@@ -379,7 +379,7 @@ $(document).ready(async function () {
         console.log(`Child ${childID} lunch option:`, lunchOption); // Debug: Check lunch option
 
         if (!lunchOption) {
-          showCustomAlert(`Please select a lunch option for Child ${childID}.`);
+          showCustomAlert(`Please select a lunch option for your Child.`);
           allLunchOptionsValid = false;
         }
       });

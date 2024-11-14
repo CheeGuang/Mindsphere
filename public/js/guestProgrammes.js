@@ -30,7 +30,6 @@ $(document).ready(function () {
                   eventData.oldPrice
                 }</s></p>
                 <h5>${eventData.title}</h5>
-                <p>${eventData.description || "Description not available."}</p>
                 <div class="d-flex justify-content-center mt-auto">
                   <a href="guestWorkshopInformation.html?eventID=${
                     eventData.eventID
