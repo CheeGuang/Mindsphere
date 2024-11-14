@@ -93,33 +93,37 @@
             <section id="overall-metrics" class="mt-5">
               <h2>Overall Metrics</h2>
               <div class="row">
-                <div class="col-md-6 mb-3">
+                <!-- First Row -->
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">Total Revenue</h5>
                     <canvas id="totalRevenueChart"></canvas>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">
-                      Sales Revenue: Last Month vs Previous Month
+                      Sales Revenue Comparison Chart
                     </h5>
                     <canvas id="monthlySalesChart"></canvas>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">Top Workshops</h5>
                     <canvas id="topWorkshopsChart"></canvas>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
+              </div>
+              <div class="row">
+                <!-- Second Row -->
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">Top Participants</h5>
                     <canvas id="topParticipantsChart"></canvas>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">
                       Completed vs Upcoming Events
@@ -127,7 +131,7 @@
                     <canvas id="eventCountsChart"></canvas>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="card">
                     <h5 class="text-center text-secondary">
                       Mind+ vs No Mind+ Distribution
@@ -142,30 +146,53 @@
                 <div class="col-md-6 mb-3">
                   <div
                     id="expiringMembershipsChart"
-                    class="card shadow-sm p-3 fixed-height w-100"
+                    class="card shadow-sm card-fixed-bottom"
                   >
-                    <h5 class="text-center text-secondary">
-                      Expiring Mind+ Members
-                    </h5>
-                    <div
-                      class="fw-normal"
-                      style="overflow-y: auto; max-height: calc(100% - 3rem)"
-                    ></div>
+                    <div class="card-body flex-grow-1 overflow-auto">
+                      <h5 class="text-center text-secondary">
+                        Expiring Mind+ Members
+                      </h5>
+                      <div class="fw-normal">
+                        <!-- JavaScript will dynamically populate membership content here -->
+                      </div>
+                    </div>
+                    <div class="mt-auto">
+                      <button
+                        class="btn btn-primary w-100"
+                        data-bs-toggle="modal"
+                        data-bs-target="#bulkEmailModal"
+                        onclick="prepareRecipientEmails('expiringMembershipsChart')"
+                      >
+                        Send Bulk Email
+                      </button>
+                    </div>
                   </div>
                 </div>
+
                 <!-- No End Date Memberships -->
                 <div class="col-md-6 mb-3">
                   <div
                     id="nullMembershipsChart"
-                    class="card shadow-sm p-3 fixed-height w-100"
+                    class="card shadow-sm card-fixed-bottom"
                   >
-                    <h5 class="text-center text-secondary">
-                      Non Mind+ Members
-                    </h5>
-                    <div
-                      class="fw-normal"
-                      style="overflow-y: auto; max-height: calc(100% - 3rem)"
-                    ></div>
+                    <div class="card-body flex-grow-1 overflow-auto">
+                      <h5 class="text-center text-secondary">
+                        Non Mind+ Members
+                      </h5>
+                      <div class="fw-normal">
+                        <!-- JavaScript will dynamically populate membership content here -->
+                      </div>
+                    </div>
+                    <div class="mt-auto">
+                      <button
+                        class="btn btn-primary w-100"
+                        data-bs-toggle="modal"
+                        data-bs-target="#bulkEmailModal"
+                        onclick="prepareRecipientEmails('nullMembershipsChart')"
+                      >
+                        Send Bulk Email
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -272,6 +299,52 @@
               </div>
               <div id="feedbackContainer"></div>
             </section>
+          </div>
+          <!-- Bulk Email Modal -->
+          <div
+            class="modal fade"
+            id="bulkEmailModal"
+            tabindex="-1"
+            aria-labelledby="bulkEmailModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="bulkEmailModalLabel">
+                    Send Bulk Email
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <textarea id="bulkEmailMessage" class="form-control" rows="5">
+        We encourage you to enroll in our events to enjoy exclusive Mind+ benefits, including one-to-one executive coaching, being part of a vibrant community, and growing together with like-minded individuals. Join us and take the next step in your personal and professional growth!
+                </textarea
+                  >
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="sendBulkEmail()"
+                  >
+                    Send Email
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>

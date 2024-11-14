@@ -111,9 +111,12 @@ document
       if (createResponse.ok) {
         const createData = await createResponse.json();
         showCustomAlert(
-          `Event successfully created and sent to Telegram Channel.`,
-          "../adminHome.html"
+          `Event successfully created and sent to Telegram Channel.`
         );
+        // Redirect to ../adminManageEvents.html after 3 seconds
+        setTimeout(() => {
+          window.location.href = "../adminManageEvents.html";
+        }, 1000);
       } else {
         showCustomAlert("Failed to create event. Please try again.");
       }

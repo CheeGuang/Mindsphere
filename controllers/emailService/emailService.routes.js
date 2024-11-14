@@ -15,10 +15,20 @@ const emailRoutes = express.Router(); // Routes for email functionalities
 // emailRoutes.post("/send-verification-email", EmailServiceController.sendVerificationEmail); // POST route for email
 
 // Define route for sending intellisphere result email
-emailRoutes.post("/send-result-email", EmailServiceController.sendIntelliSphereResultEmail); // POST route for email
+emailRoutes.post(
+  "/send-result-email",
+  EmailServiceController.sendIntelliSphereResultEmail
+); // POST route for email
 
 // Route to send the welcome email when membership is updated
-emailRoutes.post('/send-membership-email', EmailServiceController.sendMembershipEmail);
+emailRoutes.post(
+  "/send-membership-email",
+  EmailServiceController.sendMembershipEmail
+);
+
+// Route to send bulk emails
+emailRoutes.post("/send-bulk-email", EmailServiceController.sendBulkEmail); // POST route for bulk email
+
 // ========== Export ==========
 // Export the email routes
 module.exports = emailRoutes;

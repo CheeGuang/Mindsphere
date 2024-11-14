@@ -26,6 +26,9 @@ IF OBJECT_ID('dbo.admin', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.child', 'U') IS NOT NULL
     DROP TABLE dbo.child;
 
+IF OBJECT_ID('dbo.businessCollaboration', 'U') IS NOT NULL
+    DROP TABLE dbo.child;
+
 
 -- 2) Create tables according to the ER diagram
 
@@ -159,7 +162,21 @@ CREATE TABLE voucher (
     FOREIGN KEY (memberID) REFERENCES [member](memberID) -- Foreign key constraint
 );
 
-
+-- Create the businessCollaboration table
+CREATE TABLE businessCollaboration (
+    collaborationID INT PRIMARY KEY IDENTITY(1,1), -- Unique identifier for each collaboration
+    businessName NVARCHAR(200) NOT NULL,          -- Name of the business
+    contactNumber NVARCHAR(20) NOT NULL,          -- Business contact number
+    businessEmail NVARCHAR(100) NOT NULL UNIQUE,  -- Business email (must be unique)
+    requestedDate DATE NOT NULL,                  -- Date requested for collaboration
+    requestedTime NVARCHAR(50) NOT NULL,          -- Time requested for collaboration
+    venue NVARCHAR(500),                          -- Venue of the event
+    description NVARCHAR(1000),                   -- Description of the collaboration
+    participants INT,                              -- Number of participants
+    lunchNeeded BIT DEFAULT 0,                    -- Indicates if lunch is needed (0 = No, 1 = Yes)
+    createdAt DATETIME DEFAULT GETDATE(),         -- Record creation timestamp
+    updatedAt DATETIME DEFAULT GETDATE()          -- Record last update timestamp
+);
 
 -- 3) Insert dummy data
 
@@ -362,6 +379,16 @@ VALUES
 (2, 20.00, 100.00, '2024-11-30', 1), -- Voucher for memberID 2 (already redeemed)
 (3, 15.00, 75.00, '2025-01-15', 0); -- Voucher for memberID 3
 
+-- Insert additional dummy data into the businessCollaboration table
+INSERT INTO businessCollaboration (
+    businessName, contactNumber, businessEmail, requestedDate, requestedTime, venue, description, participants, lunchNeeded
+) 
+VALUES 
+('Tech Innovators', '91230001', 'info@techinnovators.com', '2024-11-22', '11:00 AM', '100 Orchard Road, #05-10 Plaza Building, S238800', 'Joint seminar on technological advancements.', 15, 1),
+('Green Earth Co', '93214567', 'contact@greenearthco.com', '2024-12-01', '09:30 AM', '50 Beach Road, #03-01 Eco Centre, S189700', 'Collaboration to promote sustainability initiatives.', 25, 0),
+('FinElite Partners', '92345678', 'partners@finelite.com', '2024-12-05', '03:00 PM', '20 Collyer Quay, #10-10 Marina House, S049319', 'Financial literacy workshop for SMEs.', 30, 1);
+
+
 -- 4) Select all tables
 SELECT * FROM [member];
 SELECT * FROM [event];
@@ -372,3 +399,4 @@ SELECT * FROM child;
 SELECT * FROM memberChild;
 SELECT * FROM referral;
 SELECT * FROM voucher;
+SELECT * FROM businessCollaboration;

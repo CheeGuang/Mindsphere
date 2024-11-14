@@ -121,22 +121,22 @@
             aria-hidden="true"
           >
             <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
+              <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header text-white">
                   <h5 class="modal-title" id="editEventModalLabel">
                     Edit Event
                   </h5>
                   <button
                     type="button"
-                    class="btn-close"
+                    class="btn-close btn-close-white"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                   <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6">
-                      <div class="card shadow-sm p-4 mb-4">
+                      <div class="card shadow-sm p-4 mb-4 rounded-4">
                         <!-- Event Image -->
                         <div
                           class="d-flex justify-content-center align-items-center mb-3"
@@ -144,12 +144,9 @@
                           <img
                             id="eventImage"
                             src="img/workshop/professionals.jpg"
-                            class="img-fluid"
+                            class="img-fluid rounded-3"
                             alt="Event Image"
                           />
-                          <button class="btn btn-outline-secondary">
-                            <i class="fas fa-edit" aria-hidden="true"></i>
-                          </button>
                         </div>
 
                         <!-- Event Title -->
@@ -169,7 +166,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventTitle')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                         </div>
@@ -191,7 +188,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventPrice')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                         </div>
@@ -213,7 +210,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventDateStart')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                           <div class="input-group mt-2">
@@ -228,7 +225,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventDateEnd')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                         </div>
@@ -250,7 +247,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventVenue')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                         </div>
@@ -272,7 +269,7 @@
                               class="btn btn-outline-secondary"
                               onclick="enableEditing('eventDuration')"
                             >
-                              <i class="fas fa-edit" aria-hidden="true"></i>
+                              <i class="fas fa-edit"></i>
                             </button>
                           </div>
                         </div>
@@ -281,7 +278,7 @@
                         <div class="d-flex justify-content-center mt-4">
                           <button
                             id="saveChanges"
-                            class="btn btn-warning btn-lg"
+                            class="btn btn-success btn-lg px-4 py-2"
                             onclick="saveChanges()"
                           >
                             Confirm

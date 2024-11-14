@@ -1,8 +1,8 @@
 // ========== Packages ==========
 require("dotenv").config();
 const nodemailer = require("nodemailer");
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 // Import necessary modules
 const { GetObjectCommand } = require("@aws-sdk/client-s3");
 const s3Client = require("../awsConfig");
@@ -20,8 +20,7 @@ class EmailService {
 
   // Function to send the email with a verification code
   async sendVerificationEmail(recipientEmail, verificationCode) {
-
-    const emailHeader = `Your Mindsphere Verification Code`
+    const emailHeader = `Your Mindsphere Verification Code`;
     const emailBody = `
         <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f5f5f5;">
           <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 30px;">
@@ -44,63 +43,63 @@ class EmailService {
             </p>
           </div>
         </div>`;
-    
+
     // Define the path to the HTML template file
-  const templatePath = './public/mindsphereEmailTemplate.html';
+    const templatePath = "./public/mindsphereEmailTemplate.html";
 
-  // Read the HTML file
-  fs.readFile(templatePath, 'utf8', (err, htmlContent) => {
-    if (err) {
-      console.error('Error reading the HTML file:', err);
-      return;
-    }
+    // Read the HTML file
+    fs.readFile(templatePath, "utf8", (err, htmlContent) => {
+      if (err) {
+        console.error("Error reading the HTML file:", err);
+        return;
+      }
 
-    // Replace placeholders with dynamic content
-    htmlContent = htmlContent.replace('{{header}}', emailHeader);
-    htmlContent = htmlContent.replace('{{body}}', emailBody);
+      // Replace placeholders with dynamic content
+      htmlContent = htmlContent.replace("{{header}}", emailHeader);
+      htmlContent = htmlContent.replace("{{body}}", emailBody);
 
-    // Define email options
-    const mailOptions = {
-      from: {
-        address: process.env.SMTPUser,
-        name: "Mindsphere",
-      },
-      to: recipientEmail,
-      subject: "Your Mindsphere Verification Code",
-      html: htmlContent, // Use the modified HTML content
-    };
+      // Define email options
+      const mailOptions = {
+        from: {
+          address: process.env.SMTPUser,
+          name: "Mindsphere",
+        },
+        to: recipientEmail,
+        subject: "Your Mindsphere Verification Code",
+        html: htmlContent, // Use the modified HTML content
+      };
 
-    // Send the email
-    try {
-      this.transporter.sendMail(mailOptions, (error, result) => {
-        if (error) {
-          console.error('Error sending email:', error);
-          throw new Error('Failed to send verification email');
-        } else {
-          console.log('Email sent:', result);
-        }
-      });
-    } catch (error) {
-      console.error('Error during email sending:', error);
-    }
-  });
-}
+      // Send the email
+      try {
+        this.transporter.sendMail(mailOptions, (error, result) => {
+          if (error) {
+            console.error("Error sending email:", error);
+            throw new Error("Failed to send verification email");
+          } else {
+            console.log("Email sent:", result);
+          }
+        });
+      } catch (error) {
+        console.error("Error during email sending:", error);
+      }
+    });
+  }
 
-async sendPaymentConfirmation(
-  recipientEmail,
-  pdfKey,
-  participantsData,
-  eventDetails
-) {
-  console.log(`[DEBUG] Sending email to: ${recipientEmail}`);
+  async sendPaymentConfirmation(
+    recipientEmail,
+    pdfKey,
+    participantsData,
+    eventDetails
+  ) {
+    console.log(`[DEBUG] Sending email to: ${recipientEmail}`);
 
-  const { title, duration, lunchProvided, availableDates, time, venue } =
-    eventDetails;
+    const { title, duration, lunchProvided, availableDates, time, venue } =
+      eventDetails;
 
-  // Generate participant information as HTML
-  const participantDetails = participantsData
-    .map(
-      (participant) => `
+    // Generate participant information as HTML
+    const participantDetails = participantsData
+      .map(
+        (participant) => `
       <tr style="background-color: #f9f9f9;">
         <td style="padding: 10px; border: 1px solid #e0e0e0;">${participant.fullName}</td>
         <td style="padding: 10px; border: 1px solid #e0e0e0;">${participant.age}</td>
@@ -110,32 +109,32 @@ async sendPaymentConfirmation(
         <td style="padding: 10px; border: 1px solid #e0e0e0;">${participant.lunchOption}</td>
       </tr>
     `
-    )
-    .join("");
+      )
+      .join("");
 
-  try {
-    // Retrieve the PDF from S3
-    if (!pdfKey) {
-      throw new Error("PDF S3 Key is not provided.");
-    }
+    try {
+      // Retrieve the PDF from S3
+      if (!pdfKey) {
+        throw new Error("PDF S3 Key is not provided.");
+      }
 
-    const getObjectParams = {
-      Bucket: "mindsphere-s3",
-      Key: pdfKey,
-    };
+      const getObjectParams = {
+        Bucket: "mindsphere-s3",
+        Key: pdfKey,
+      };
 
-    const command = new GetObjectCommand(getObjectParams);
-    const data = await s3Client.send(command);
+      const command = new GetObjectCommand(getObjectParams);
+      const data = await s3Client.send(command);
 
-    // Read the file stream into a buffer
-    const chunks = [];
-    for await (const chunk of data.Body) {
-      chunks.push(chunk);
-    }
-    const pdfBuffer = Buffer.concat(chunks);
+      // Read the file stream into a buffer
+      const chunks = [];
+      for await (const chunk of data.Body) {
+        chunks.push(chunk);
+      }
+      const pdfBuffer = Buffer.concat(chunks);
 
-    const emailHeader = `Payment Confirmation from Mindsphere`;
-    const emailBody = `
+      const emailHeader = `Payment Confirmation from Mindsphere`;
+      const emailBody = `
       <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px;">
         <!-- Workshop and participant details here -->
         <h2 style="color: #e4c04b; text-align: center; margin-bottom: 10px;">Participant Details</h2>
@@ -156,55 +155,54 @@ async sendPaymentConfirmation(
         </table>
       </div>`;
 
-    const templatePath = './public/mindsphereEmailTemplate.html';
+      const templatePath = "./public/mindsphereEmailTemplate.html";
 
-    // Read the HTML template file and replace placeholders
-    fs.readFile(templatePath, 'utf8', async (err, htmlContent) => {
-      if (err) {
-        console.error('Error reading the HTML file:', err);
-        throw new Error('Failed to read email template');
-      }
+      // Read the HTML template file and replace placeholders
+      fs.readFile(templatePath, "utf8", async (err, htmlContent) => {
+        if (err) {
+          console.error("Error reading the HTML file:", err);
+          throw new Error("Failed to read email template");
+        }
 
-      // Replace placeholders with dynamic content
-      htmlContent = htmlContent.replace('{{header}}', emailHeader);
-      htmlContent = htmlContent.replace('{{body}}', emailBody);
+        // Replace placeholders with dynamic content
+        htmlContent = htmlContent.replace("{{header}}", emailHeader);
+        htmlContent = htmlContent.replace("{{body}}", emailBody);
 
-      // Define email options
-      const mailOptions = {
-        from: {
-          address: process.env.SMTPUser,
-          name: "Mindsphere",
-        },
-        to: recipientEmail,
-        subject: "You Are All Set! Payment Confirmation from Mindsphere",
-        html: htmlContent,
-        attachments: [
-          {
-            filename: "Invoice.pdf",
-            content: pdfBuffer,
-            contentType: "application/pdf",
+        // Define email options
+        const mailOptions = {
+          from: {
+            address: process.env.SMTPUser,
+            name: "Mindsphere",
           },
-        ],
-      };
+          to: recipientEmail,
+          subject: "You Are All Set! Payment Confirmation from Mindsphere",
+          html: htmlContent,
+          attachments: [
+            {
+              filename: "Invoice.pdf",
+              content: pdfBuffer,
+              contentType: "application/pdf",
+            },
+          ],
+        };
 
-      try {
-        // Send the email
-        const result = await this.transporter.sendMail(mailOptions);
-        console.log(`[DEBUG] Email sent successfully to: ${recipientEmail}`);
-        return result;
-      } catch (error) {
-        console.error("[DEBUG] Error sending email:", error);
-        throw new Error("Failed to send payment confirmation email");
-      }
-    });
-  } catch (error) {
-    console.error("[DEBUG] Error sending email:", error);
-    throw new Error("Failed to send payment confirmation email");
+        try {
+          // Send the email
+          const result = await this.transporter.sendMail(mailOptions);
+          console.log(`[DEBUG] Email sent successfully to: ${recipientEmail}`);
+          return result;
+        } catch (error) {
+          console.error("[DEBUG] Error sending email:", error);
+          throw new Error("Failed to send payment confirmation email");
+        }
+      });
+    } catch (error) {
+      console.error("[DEBUG] Error sending email:", error);
+      throw new Error("Failed to send payment confirmation email");
+    }
   }
-}
 
   async sendIntelliSphereResultEmail(recipientEmail, evaluationResults) {
-
     // Log the received object to verify its structure
     console.log("Received evaluation results:", evaluationResults);
 
@@ -240,26 +238,38 @@ async sendPaymentConfirmation(
           <li>Engagement: ${engagementScore} / 5</li>
         </ul>
 
-        ${pointsWentWell.length ? `
+        ${
+          pointsWentWell.length
+            ? `
           <h3 style="font-size: 16px; color: #333;">What Went Well:</h3>
           <ul>
-            ${pointsWentWell.map(point => `<li>${point}</li>`).join('')}
+            ${pointsWentWell.map((point) => `<li>${point}</li>`).join("")}
           </ul>
-        ` : ''}
+        `
+            : ""
+        }
 
-        ${pointsDidNotGoWell.length ? `
+        ${
+          pointsDidNotGoWell.length
+            ? `
           <h3 style="font-size: 16px; color: #333;">What Did Not Go Well:</h3>
           <ul>
-            ${pointsDidNotGoWell.map(point => `<li>${point}</li>`).join('')}
+            ${pointsDidNotGoWell.map((point) => `<li>${point}</li>`).join("")}
           </ul>
-        ` : ''}
+        `
+            : ""
+        }
 
-        ${improvementActions.length ? `
+        ${
+          improvementActions.length
+            ? `
           <h3 style="font-size: 16px; color: #333;">Steps Moving Forward:</h3>
           <ul>
-            ${improvementActions.map(action => `<li>${action}</li>`).join('')}
+            ${improvementActions.map((action) => `<li>${action}</li>`).join("")}
           </ul>
-        ` : ''}
+        `
+            : ""
+        }
 
         <p style="font-size: 16px; text-align: center;">
           If you have any questions or need assistance, feel free to contact us at 
@@ -272,18 +282,18 @@ async sendPaymentConfirmation(
     `;
 
     // Define the path to the HTML template file
-    const templatePath = './public/mindsphereEmailTemplate.html';
+    const templatePath = "./public/mindsphereEmailTemplate.html";
 
     // Read the HTML file
-    fs.readFile(templatePath, 'utf8', (err, htmlContent) => {
+    fs.readFile(templatePath, "utf8", (err, htmlContent) => {
       if (err) {
-        console.error('Error reading the HTML file:', err);
+        console.error("Error reading the HTML file:", err);
         return;
       }
 
       // Replace placeholders with dynamic content
-      htmlContent = htmlContent.replace('{{header}}', emailHeader);
-      htmlContent = htmlContent.replace('{{body}}', emailBody);
+      htmlContent = htmlContent.replace("{{header}}", emailHeader);
+      htmlContent = htmlContent.replace("{{body}}", emailBody);
 
       // Define email options
       const mailOptions = {
@@ -300,23 +310,22 @@ async sendPaymentConfirmation(
       try {
         this.transporter.sendMail(mailOptions, (error, result) => {
           if (error) {
-            console.error('Error sending email:', error);
-            throw new Error('Failed to send result email');
+            console.error("Error sending email:", error);
+            throw new Error("Failed to send result email");
           } else {
-            console.log('Email sent:', result);
+            console.log("Email sent:", result);
           }
         });
       } catch (error) {
-        console.error('Error during email sending:', error);
+        console.error("Error during email sending:", error);
       }
     });
-}
+  }
 
   // Function to send the welcome email to the user when they are added to Mind+ membership
-async sendMembershipEmail(recipientEmail) {
-
-  const emailHeader = `Welcome to Mind+ Membership`;
-  const emailBody = `
+  async sendMembershipEmail(recipientEmail) {
+    const emailHeader = `Welcome to Mind+ Membership`;
+    const emailBody = `
       <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f5f5f5;">
         <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 30px;">
           
@@ -348,48 +357,113 @@ async sendMembershipEmail(recipientEmail) {
           </p>
         </div>
       </div>`;
-  
 
-  // Define the path to the HTML template file
-  const templatePath = './public/mindsphereEmailTemplate.html';
+    // Define the path to the HTML template file
+    const templatePath = "./public/mindsphereEmailTemplate.html";
 
-  // Read the HTML file
-  fs.readFile(templatePath, 'utf8', (err, htmlContent) => {
-    if (err) {
-      console.error('Error reading the HTML file:', err);
-      return;
-    }
+    // Read the HTML file
+    fs.readFile(templatePath, "utf8", (err, htmlContent) => {
+      if (err) {
+        console.error("Error reading the HTML file:", err);
+        return;
+      }
 
-    // Replace placeholders with dynamic content
-    htmlContent = htmlContent.replace('{{header}}', emailHeader);
-    htmlContent = htmlContent.replace('{{body}}', emailBody);
+      // Replace placeholders with dynamic content
+      htmlContent = htmlContent.replace("{{header}}", emailHeader);
+      htmlContent = htmlContent.replace("{{body}}", emailBody);
 
-    // Define email options
-    const mailOptions = {
-      from: {
-        address: process.env.SMTPUser,
-        name: "Mindsphere",
-      },
-      to: recipientEmail,
-      subject: "Welcome to Mind+ Membership",
-      html: htmlContent, // Use the modified HTML content
-    };
+      // Define email options
+      const mailOptions = {
+        from: {
+          address: process.env.SMTPUser,
+          name: "Mindsphere",
+        },
+        to: recipientEmail,
+        subject: "Welcome to Mind+ Membership",
+        html: htmlContent, // Use the modified HTML content
+      };
 
-    // Send the email
+      // Send the email
+      try {
+        this.transporter.sendMail(mailOptions, (error, result) => {
+          if (error) {
+            console.error("Error sending email:", error);
+            throw new Error("Failed to send welcome email");
+          } else {
+            console.log("Email sent:", result);
+          }
+        });
+      } catch (error) {
+        console.error("Error during email sending:", error);
+      }
+    });
+  }
+  // New function to send the same email to multiple recipients
+  async sendBulkEmail(recipientEmails, textMessage) {
+    console.log(`[DEBUG] Preparing to send emails to multiple recipients`);
+
+    const emailHeader = `A Message from Mindsphere`;
+    const emailBodyTemplate = `
+    <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f5f5f5;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 30px;">
+        <h1 style="color: #333; text-align: center;">Hello, {{fullName}}!</h1>
+        <p style="font-size: 16px; text-align: center;">
+          {{textMessage}}
+        </p>
+        <p style="font-size: 16px; text-align: center;">
+          If you need any assistance, feel free to contact us at 
+          <a href="mailto:mindsphere.services@gmail.com" style="color: #007bff; text-decoration: none;">mindsphere.services@gmail.com</a>.
+        </p>
+        <p style="font-size: 14px; color: #888; text-align: center;">
+          Best regards,<br />The Mindsphere Team
+        </p>
+      </div>
+    </div>`;
+
+    const templatePath = "./public/mindsphereEmailTemplate.html";
+
     try {
-      this.transporter.sendMail(mailOptions, (error, result) => {
-        if (error) {
-          console.error('Error sending email:', error);
-          throw new Error('Failed to send welcome email');
-        } else {
-          console.log('Email sent:', result);
+      // Read the email template
+      const htmlContent = fs.readFileSync(templatePath, "utf8");
+
+      // Iterate through each recipient
+      for (const [email, fullName] of Object.entries(recipientEmails)) {
+        console.log(`[DEBUG] Preparing email for: ${fullName} (${email})`);
+
+        // Replace placeholders in the HTML template
+        const personalizedEmailBody = emailBodyTemplate
+          .replace("{{fullName}}", fullName)
+          .replace("{{textMessage}}", textMessage);
+
+        // Replace global placeholders in the template file
+        const finalHtmlContent = htmlContent
+          .replace("{{header}}", emailHeader)
+          .replace("{{body}}", personalizedEmailBody);
+
+        // Define email options
+        const mailOptions = {
+          from: {
+            address: process.env.SMTPUser,
+            name: "Mindsphere",
+          },
+          to: email,
+          subject: `Message for ${fullName} from Mindsphere`,
+          html: finalHtmlContent,
+        };
+
+        // Send the email
+        try {
+          const result = await this.transporter.sendMail(mailOptions);
+          console.log(`[DEBUG] Email sent successfully to: ${email}`);
+        } catch (error) {
+          console.error(`[DEBUG] Failed to send email to ${email}:`, error);
         }
-      });
+      }
     } catch (error) {
-      console.error('Error during email sending:', error);
+      console.error(`[DEBUG] Error in sendBulkEmail function:`, error);
+      throw new Error("Failed to send bulk emails");
     }
-  });
-}
+  }
 }
 
 module.exports = EmailService;

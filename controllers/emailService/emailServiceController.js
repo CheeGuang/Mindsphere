@@ -37,26 +37,27 @@ class EmailController {
 
   static async sendIntelliSphereResultEmail(req, res) {
     try {
-      console.log("Request Body:", req.body);  // Inspect req.body here
-  
+      console.log("Request Body:", req.body); // Inspect req.body here
+
       const { recipientEmail, evaluationResults } = req.body;
-  
+
       if (!recipientEmail || !evaluationResults) {
         return res.status(400).json({
           success: false,
-          message: "Missing required fields: recipientEmail or intelliSphereResult.",
+          message:
+            "Missing required fields: recipientEmail or intelliSphereResult.",
         });
       }
-  
+
       // Instantiate the email service
       const emailService = new EmailService();
-  
+
       // Send the email with results
       const result = await emailService.sendIntelliSphereResultEmail(
         recipientEmail,
         evaluationResults
       );
-  
+
       res.status(200).json({
         success: true,
         message: "Result email sent successfully",
@@ -70,7 +71,7 @@ class EmailController {
       });
     }
   }
-  
+
   static async sendMembershipEmail(req, res) {
     try {
       // Extract recipient email and verification code from the request body
@@ -80,9 +81,7 @@ class EmailController {
       const emailService = new EmailService();
 
       // Send the verification email
-      const result = await emailService.sendMembershipEmail(
-        recipientEmail
-      );
+      const result = await emailService.sendMembershipEmail(recipientEmail);
 
       // Return the success response
       res.status(200).json({
@@ -98,6 +97,47 @@ class EmailController {
       });
     }
   }
+  static sendBulkEmail = async (req, res) => {
+    const { recipientEmails, textMessage } = req.body;
+
+    console.log("[DEBUG] Received bulk email request:", {
+      recipientEmails,
+      textMessage,
+    });
+
+    // Validate request body
+    if (
+      !recipientEmails ||
+      typeof recipientEmails !== "object" ||
+      !textMessage
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid input. Ensure recipientEmails is an object and textMessage is provided.",
+      });
+    }
+
+    try {
+      const emailService = new EmailService();
+
+      // Call the sendBulkEmail method in EmailService
+      await emailService.sendBulkEmail(recipientEmails, textMessage);
+
+      console.log("[DEBUG] Bulk email sent successfully.");
+      return res.status(200).json({
+        success: true,
+        message: "Emails sent successfully!",
+      });
+    } catch (error) {
+      console.error("[DEBUG] Error sending bulk emails:", error.message);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send emails. Please try again later.",
+        error: error.message,
+      });
+    }
+  };
 }
 
 // ========== Export ==========

@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       console.log("Overall metrics fetched:", data);
 
+      // Make membership data globally accessible for prepareRecipientEmails
+      window.data = data;
+
       // Populate Overall Metrics Charts
       createTotalRevenueChart(data.totalRevenue);
       createMonthlySalesChart(data.currentVsLastMonthSales);
@@ -95,10 +98,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!memberships || memberships.length === 0) {
       container.innerHTML = `
-        <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+        <div class="card shadow-sm p-3 d-flex flex-column h-100">
           <h5 class="text-center text-secondary">${title}</h5>
-          <p class="text-center">No data available.</p>
+          <p class="text-center flex-grow-1">No data available.</p>
+          <button
+            id="${containerId}-btn"
+            class="btn w-100 mt-auto"
+            data-bs-toggle="modal"
+            data-bs-target="#bulkEmailModal"
+          >
+            Send Bulk Email
+          </button>
         </div>`;
+      // Dynamically add classes after rendering
+      document
+        .getElementById(`${containerId}-btn`)
+        .classList.add("btn-primary", "btn-lg", "shadow-sm");
       return;
     }
 
@@ -108,7 +123,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const lastName = member.lastName || "Unknown Last Name";
         const email = member.email || "Unknown Email";
 
-        // If `membershipEndDate` is not null, include it; otherwise, omit it
         const membershipEndDateLine = member.membershipEndDate
           ? `<br> ${member.membershipEndDate}`
           : "";
@@ -117,13 +131,48 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
       .join("");
 
-    // Update the container with membership details
     container.innerHTML = `
-      <div class="card shadow-sm p-3" style="max-height: 300px; overflow-y: auto;">
+      <div class="card shadow-sm p-3 d-flex flex-column h-100">
         <h5 class="text-center text-secondary">${title}</h5>
-        <div class="fw-normal">${content}</div>
+        <div class="fw-normal flex-grow-1 overflow-auto">${content}</div>
+        <button
+          id="${containerId}-btn"
+          class="btn w-100 mt-auto"
+          data-bs-toggle="modal"
+          data-bs-target="#bulkEmailModal"
+        >
+          Send Bulk Email
+        </button>
       </div>`;
+
+    // Dynamically add classes after rendering
+    document
+      .getElementById(`${containerId}-btn`)
+      .classList.add("btn-primary", "btn-lg", "shadow-sm");
   }
+
+  function prepareRecipientEmails(type) {
+    const memberships =
+      type === "expiringMembershipsChart"
+        ? data.expiringMemberships
+        : data.membersWithNoEndDate;
+
+    if (!memberships || memberships.length === 0) {
+      console.error(`No memberships found for type: ${type}`);
+      return;
+    }
+
+    recipientEmails = memberships.reduce((acc, member) => {
+      if (member.email)
+        acc[member.email] = `${member.firstName} ${member.lastName}`;
+      return acc;
+    }, {});
+
+    console.log("Prepared recipient emails:", recipientEmails);
+  }
+
+  // Attach to global scope
+  window.prepareRecipientEmails = prepareRecipientEmails;
 
   // Add a new chart instance for Mind+ Status
   let mindPlusStatusChart;
@@ -139,7 +188,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         datasets: [
           {
             data: [data.membersWithNullEndDate, data.membersWithEndDate],
-            backgroundColor: [colorScheme[4], colorScheme[5]], // Use colors from the scheme
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.7)", // Red for No Mind+
+              "rgba(54, 162, 235, 0.7)", // Blue for Mind+
+            ],
           },
         ],
       },
@@ -347,21 +399,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     const ctx = document.getElementById("eventCountsChart").getContext("2d");
     if (eventCountsChart) eventCountsChart.destroy();
 
-    eventCountsChart = createChart(ctx, "pie", {
-      labels: ["Completed Events", "Upcoming Events"],
-      datasets: [
-        {
-          label: "Event Counts",
-          data: [data.CompletedEvents || 0, data.UpcomingEvents || 0],
-          backgroundColor: [colorScheme[4], colorScheme[5]],
+    eventCountsChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Completed Events", "Upcoming Events"],
+        datasets: [
+          {
+            label: "Event Counts",
+            data: [data.CompletedEvents || 0, data.UpcomingEvents || 0],
+            backgroundColor: [
+              "rgba(75, 192, 75, 0.7)", // Green for Completed Events
+              "rgba(75, 192, 192, 0.7)", // Aqua for Upcoming Events
+            ],
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: "top",
+          },
         },
-      ],
+      },
     });
   }
-  // Initial fetch
-  fetchOverallMetrics();
 
-  // Initial Fetch
+  // Initial fetch
   fetchOverallMetrics();
 
   const getAllEventsAPI = "/api/event/get-all-event";
@@ -610,11 +673,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         datasets: [
           {
             data: [
-              data.filter((item) => item.experience === 1).length, // Beginner
-              data.filter((item) => item.experience === 2).length, // Intermediate
-              data.filter((item) => item.experience === 3).length, // Advanced
+              data.filter((item) => item.experience === 1).length, // Bad
+              data.filter((item) => item.experience === 2).length, // Normal
+              data.filter((item) => item.experience === 3).length, // Excellent
             ],
-            backgroundColor: colorScheme.slice(0, 3),
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.7)", // Pink for Bad
+              "rgba(54, 162, 235, 0.7)", // Blue for Normal
+              "rgba(75, 192, 192, 0.7)", // Aqua for Excellent
+            ],
           },
         ],
       },
@@ -641,10 +708,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           {
             data: [
               data.filter((item) => item.pace === 1).length, // Slow
-              data.filter((item) => item.pace === 2).length, // Moderate
+              data.filter((item) => item.pace === 2).length, // Just Right
               data.filter((item) => item.pace === 3).length, // Fast
             ],
-            backgroundColor: colorScheme.slice(3, 6),
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.7)", // Pink for Slow
+              "rgba(54, 162, 235, 0.7)", // Blue for Just Right
+              "rgba(255, 206, 86, 0.7)", // Yellow for Fast
+            ],
           },
         ],
       },
@@ -692,3 +763,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 });
+
+function sendBulkEmail() {
+  // Collect the message and recipientEmails from modal fields
+  const textMessage = document.getElementById("bulkEmailMessage").value;
+
+  if (!textMessage) {
+    alert("Please enter a message before sending!");
+    return;
+  }
+
+  // Use `window.recipientEmails` to access the globally set recipient emails
+  const recipientEmails = window.recipientEmails;
+
+  if (!recipientEmails || Object.keys(recipientEmails).length === 0) {
+    alert("No recipients found for bulk email!");
+    return;
+  }
+
+  console.log("Sending bulk email with the following data:");
+  console.log("Recipient Emails:", recipientEmails);
+  console.log("Message:", textMessage);
+
+  // Perform the API call to send the bulk email
+  fetch("/api/emailService/send-bulk-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ recipientEmails, textMessage }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to send emails");
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Bulk email sent successfully:", data);
+      alert("Emails sent successfully!");
+      // Close the modal after successful email sending
+      const modal = bootstrap.Modal.getInstance(
+        document.getElementById("bulkEmailModal")
+      );
+      modal.hide();
+    })
+    .catch((error) => {
+      console.error("Error sending bulk email:", error);
+      alert("Failed to send emails. Please try again.");
+    });
+}
+
+// Attach to global scope
+window.sendBulkEmail = sendBulkEmail;

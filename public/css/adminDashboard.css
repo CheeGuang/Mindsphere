@@ -76,3 +76,18 @@
   border: none !important;
   box-shadow: none !important;
 }
+
+.card-fixed-bottom {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensures the card takes the full height of the parent container */
+}
+
+.card-fixed-bottom .card-body {
+  flex-grow: 1; /* Allows the main content to grow and push the button down */
+  overflow-y: auto; /* Enables scrolling if the content overflows */
+}
+
+.card-fixed-bottom .btn {
+  margin-top: auto; /* Pushes the button to the bottom */
+}
