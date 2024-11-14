@@ -208,64 +208,60 @@ $(document).ready(async function () {
     const membershipEndDate = memberDetails?.membershipEndDate;
     console.debug("Membership End Date:", membershipEndDate); // Debug: Log the membership end date
 
-    if (membershipEndDate) {
-      const formattedExpiryDate = formatExpiryDate(membershipEndDate);
-      console.debug("Formatted Expiry Date:", formattedExpiryDate); // Debug: Log formatted expiry date
+    const formattedExpiryDate = formatExpiryDate(membershipEndDate);
+    console.debug("Formatted Expiry Date:", formattedExpiryDate); // Debug: Log formatted expiry date
 
-      if (newMembership === true) {
-        // New membership
-        membershipModalTitle.text("🎉 Welcome to Mind+!");
-        membershipModalBody.html(
-          "✨ <strong>Congratulations!</strong> ✨<br>" +
-            "Welcome to <strong>Mind+</strong>! 🌟 You’re now part of an exclusive community with access to amazing benefits and features. 💼🎓<br>" +
-            "Your membership is valid until <strong>" +
-            formattedExpiryDate +
-            "</strong>. 🗓️<br>" +
-            "We’re thrilled to have you on board! 🚀"
-        );
-        console.debug("New Membership Modal Body Set"); // Debug: Log modal content update for new membership
-      } else {
-        // Existing membership extended
-        membershipModalTitle.text("💫 Membership Extended!");
-        membershipModalBody.html(
-          "🎉 Great news! Your <strong>Mind+</strong> membership has been extended! 📅<br>" +
-            "Your new expiry date is <strong>" +
-            formattedExpiryDate +
-            "</strong>. 🗓️<br>" +
-            "Enjoy another year of exclusive perks and benefits. 🌟"
-        );
-        console.debug("Existing Membership Modal Body Set"); // Debug: Log modal content update for extended membership
-      }
-
-      const recipientEmail = memberDetails.email;
-      console.debug("Recipient Email:", recipientEmail); // Debug: Log recipient email fetched from memberDetails
-
-      // Send email with membership info
-      try {
-        console.debug("Sending email..."); // Debug: Log email sending initiation
-        const response = await fetch("api/emailService/send-membership-email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ recipientEmail: recipientEmail }), // send user email
-        });
-
-        if (response.ok) {
-          console.log("Welcome email sent successfully!");
-        } else {
-          console.log("Failed to send welcome email. Status:", response.status); // Debug: Log response status if email fails
-        }
-      } catch (error) {
-        console.error("Error sending email:", error); // Debug: Log any errors during the fetch call
-      }
-
-      // Show the modal
-      console.debug("Showing Membership Modal"); // Debug: Log modal showing
-      $("#membershipModal").modal("show");
+    if (newMembership === true) {
+      // New membership
+      membershipModalTitle.text("🎉 Welcome to Mind+!");
+      membershipModalBody.html(
+        "✨ <strong>Congratulations!</strong> ✨<br>" +
+          "Welcome to <strong>Mind+</strong>! 🌟 You’re now part of an exclusive community with access to amazing benefits and features. 💼🎓<br>" +
+          "Your membership is valid until <strong>" +
+          formattedExpiryDate +
+          "</strong>. 🗓️<br>" +
+          "We’re thrilled to have you on board! 🚀"
+      );
+      console.debug("New Membership Modal Body Set"); // Debug: Log modal content update for new membership
     } else {
-      console.debug("No membership end date found, modal will not be shown."); // Debug: Log if no membership end date is found
+      // Existing membership extended
+      membershipModalTitle.text("💫 Membership Extended!");
+      membershipModalBody.html(
+        "🎉 Great news! Your <strong>Mind+</strong> membership has been extended! 📅<br>" +
+          "Your new expiry date is <strong>" +
+          formattedExpiryDate +
+          "</strong>. 🗓️<br>" +
+          "Enjoy another year of exclusive perks and benefits. 🌟"
+      );
+      console.debug("Existing Membership Modal Body Set"); // Debug: Log modal content update for extended membership
     }
+
+    const recipientEmail = memberDetails.email;
+    console.debug("Recipient Email:", recipientEmail); // Debug: Log recipient email fetched from memberDetails
+
+    // Send email with membership info
+    try {
+      console.debug("Sending email..."); // Debug: Log email sending initiation
+      const response = await fetch("api/emailService/send-membership-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recipientEmail: recipientEmail }), // send user email
+      });
+
+      if (response.ok) {
+        console.log("Welcome email sent successfully!");
+      } else {
+        console.log("Failed to send welcome email. Status:", response.status); // Debug: Log response status if email fails
+      }
+    } catch (error) {
+      console.error("Error sending email:", error); // Debug: Log any errors during the fetch call
+    }
+
+    // Show the modal
+    console.debug("Showing Membership Modal"); // Debug: Log modal showing
+    $("#membershipModal").modal("show");
 
     function fetchMemberDetails(memberID) {
       fetch(`/api/member/member-details/${memberID}`)
