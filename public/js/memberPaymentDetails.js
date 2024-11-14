@@ -244,33 +244,28 @@ $(document).ready(function () {
       );
       $(".total-price").text(`$${totalPrice}`);
 
-      // Check if voucher details are present in the query string
-      let finalPrice = totalPrice; // Default final price is the total price
-
+      // Retrieve voucher details from sessionStorage if available
       const redeemedVoucherDetails = JSON.parse(
         sessionStorage.getItem("redeemedVoucherDetails")
       );
-
-      console.log(redeemedVoucherDetails);
+      let voucherValue = 0; // Default voucher value
 
       if (redeemedVoucherDetails) {
-        const voucherValue = redeemedVoucherDetails.redeemedVoucherValue;
-        const voucherID = redeemedVoucherDetails.redeemedVoucherID;
-        const voucherTitle = "Gift Card";
-
-        // Update the Gift Card section dynamically
-        $("#gift-card-title").text(`Gift Card:`);
-        $("#gift-card-value-text").text(`-$${voucherValue}`);
-
-        // Show the Gift Card section
-        $("#gift-card-section").show();
-
-        // Update the final price after applying the voucher
-        finalPrice = totalPrice - voucherValue;
-      } else {
-        // Hide the Gift Card section if no voucher is applied
-        $("#gift-card-section").hide();
+        voucherValue = redeemedVoucherDetails.redeemedVoucherValue || 0;
       }
+
+      // If voucherValue is null or 0, hide the gift card section
+      if (voucherValue == null || voucherValue === 0) {
+        $("#gift-card-section").hide(); // Hide gift card section
+      } else {
+        // Show gift card section and update voucher value
+        $("#gift-card-title").text("Gift Card:");
+        $("#gift-card-value-text").text(`-$${voucherValue}`);
+        $("#gift-card-section").show(); // Show gift card section
+      }
+
+      // Calculate the final price after applying voucher value
+      const finalPrice = totalPrice - voucherValue;
 
       // Update the "Amount to Pay" display
       $(".final-amount").text(`$${finalPrice}`);
