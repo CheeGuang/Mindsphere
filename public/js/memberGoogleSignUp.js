@@ -8,6 +8,8 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     return;
   }
 
+  sessionStorage.setItem("newMemberID", memberID);
+
   // Get contact number and referral code from input fields
   const contactNo = document.querySelector('input[type="tel"]').value;
   const referralCode = document.getElementById("referralCode")?.value || null;
@@ -33,6 +35,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
 
     if (response.ok) {
       showCustomAlert(result.message || "Contact number updated successfully.");
+
       // Redirect to memberHome.html after 3 seconds
       setTimeout(() => {
         window.location.href = "memberSignUpChildren.html";
