@@ -259,7 +259,7 @@ $(document).ready(function () {
         const voucherTitle = "Gift Card";
 
         // Update the Gift Card section dynamically
-        $("#gift-card-title").text(`Gift Card: ${voucherTitle}`);
+        $("#gift-card-title").text(`Gift Card:`);
         $("#gift-card-value-text").text(`-$${voucherValue}`);
 
         // Show the Gift Card section

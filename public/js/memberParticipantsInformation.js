@@ -40,95 +40,95 @@ $(document).ready(async function () {
     if (children.length > 0) {
       children.forEach((child, index) => {
         const childCard = `
-  <div class="card p-4 mb-5 shadow-sm participant-card border-light" data-participant="${
-    index + 1
-  }">
-    <h5 class="mb-4 text-start">Child ${index + 1}</h5>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label text-start w-100">Full Name</label>
-        <input type="text" class="form-control" name="fullName${
-          index + 1
-        }" value="${child.firstName} ${child.lastName}" required />
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label text-start w-100">Age</label>
-        <input type="text" class="form-control" name="age${index + 1}" value="${
-          child.age
-        }" required />
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-12">
-        <label class="form-label text-start w-100">School Name</label>
-        <input type="text" class="form-control" name="schoolName${
-          index + 1
-        }" value="${child.schoolName || ""}" required />
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-12">
-        <label class="form-label text-start w-100">Interests</label>
-        <input type="text" class="form-control" name="interests${
-          index + 1
-        }" value="${child.interests || ""}" />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
-        <textarea class="form-control" rows="4" name="medicalConditions${
-          index + 1
-        }">${child.medicalConditions || ""}</textarea>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label text-start w-100">Lunch option:</label>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="lunchOption${
-            index + 1
-          }" id="nonVegan${index + 1}" value="nonVegan" ${
+      <div class="card p-4 mb-5 shadow-sm participant-card border-light" data-participant="${
+        child.childID
+      }">
+        <h5 class="mb-4 text-start">Child ${index + 1}</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-start w-100">Full Name</label>
+            <input type="text" class="form-control" name="fullName${
+              child.childID
+            }" value="${child.firstName} ${child.lastName}" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-start w-100">Age</label>
+            <input type="text" class="form-control" name="age${
+              child.childID
+            }" value="${child.age}" required />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label class="form-label text-start w-100">School Name</label>
+            <input type="text" class="form-control" name="schoolName${
+              child.childID
+            }" value="${child.schoolName || ""}" required />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label class="form-label text-start w-100">Interests</label>
+            <input type="text" class="form-control" name="interests${
+              child.childID
+            }" value="${child.interests || ""}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-start w-100">Any existing medical conditions / things to note:</label>
+            <textarea class="form-control" rows="4" name="medicalConditions${
+              child.childID
+            }">${child.medicalConditions || ""}</textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-start w-100">Lunch option:</label>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="lunchOption${
+                child.childID
+              }" id="nonVegan${child.childID}" value="nonVegan" ${
           child.lunchOption === "nonVegan" ? "checked" : ""
         } />
-          <label class="form-check-label text-start w-100" for="nonVegan${
-            index + 1
-          }">Non - Vegan</label>
-        </div>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="lunchOption${
-            index + 1
-          }" id="vegan${index + 1}" value="vegan" ${
+              <label class="form-check-label text-start w-100" for="nonVegan${
+                child.childID
+              }">Non - Vegan</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="lunchOption${
+                child.childID
+              }" id="vegan${child.childID}" value="vegan" ${
           child.lunchOption === "vegan" ? "checked" : ""
         } />
-          <label class="form-check-label text-start w-100" for="vegan${
-            index + 1
-          }">Vegan</label>
-        </div>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="lunchOption${
-            index + 1
-          }" id="other${index + 1}" value="other" ${
+              <label class="form-check-label text-start w-100" for="vegan${
+                child.childID
+              }">Vegan</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="lunchOption${
+                child.childID
+              }" id="other${child.childID}" value="other" ${
           child.lunchOption === "other" ? "checked" : ""
         } />
-          <input type="text" class="form-control form-control-sm mt-2" id="otherInput${
-            index + 1
-          }" placeholder="Others" value="${child.specifyOther || ""}" ${
+              <input type="text" class="form-control form-control-sm mt-2" id="otherInput${
+                child.childID
+              }" placeholder="Others" value="${child.specifyOther || ""}" ${
           child.lunchOption === "other" ? "" : "disabled"
         } />
+            </div>
+          </div>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="registerChild" id="registerChild${
+            child.childID
+          }" value="${child.childID}" />
+          <label class="form-check-label text-start w-100" for="registerChild${
+            child.childID
+          }">
+            Register this child for the event
+          </label>
         </div>
       </div>
-    </div>
-    <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" name="registerChild" id="registerChild${
-        index + 1
-      }" value="${child.childID}" />
-      <label class="form-check-label text-start w-100" for="registerChild${
-        index + 1
-      }">
-        Register this child for the event
-      </label>
-    </div>
-  </div>
-`;
+    `;
         $("#participantFormsContainer").append(childCard);
       });
     } else {
@@ -151,41 +151,34 @@ $(document).ready(async function () {
 
     // Iterate through each participant form and collect data for selected participants
     $("#participantFormsContainer .participant-card").each(function () {
-      const participantIndex = $(this).data("participant");
-      const isSelected = $(`#registerChild${participantIndex}`).is(`:checked`);
+      const childID = $(this).data("participant"); // Using childID directly
+      const isSelected = $(`#registerChild${childID}`).is(":checked");
 
-      console.log(
-        `Checking Participant ${participantIndex}, Selected: ${isSelected}`
-      ); // Debug: Check if participant is selected
+      console.log(`Checking Participant ${childID}, Selected: ${isSelected}`); // Debug: Check if participant is selected
 
       if (isSelected) {
         const lunchOption = $(
-          `input[name="lunchOption${participantIndex}"]:checked`
+          `input[name="lunchOption${childID}"]:checked`
         ).val();
 
         if (!lunchOption) {
           allLunchOptionsSelected = false;
-          console.log(
-            `Lunch option not selected for Participant ${participantIndex}`
-          ); // Debug: No lunch option
+          console.log(`Lunch option not selected for Participant ${childID}`); // Debug: No lunch option
         }
 
         const participantData = {
-          fullName: $(`input[name="fullName${participantIndex}"]`).val(),
-          age: $(`input[name="age${participantIndex}"]`).val(),
-          schoolName: $(`input[name="schoolName${participantIndex}"]`).val(),
-          interests: $(`input[name="interests${participantIndex}"]`).val(),
+          fullName: $(`input[name="fullName${childID}"]`).val(),
+          age: $(`input[name="age${childID}"]`).val(),
+          schoolName: $(`input[name="schoolName${childID}"]`).val(),
+          interests: $(`input[name="interests${childID}"]`).val(),
           medicalConditions: $(
-            `textarea[name="medicalConditions${participantIndex}"]`
+            `textarea[name="medicalConditions${childID}"]`
           ).val(),
           lunchOption: lunchOption,
-          specifyOther: $(`#otherInput${participantIndex}`).val(),
+          specifyOther: $(`#otherInput${childID}`).val(),
         };
 
-        console.log(
-          `Participant Data for ${participantIndex}:`,
-          participantData
-        ); // Debug: Log participant data
+        console.log(`Participant Data for ${childID}:`, participantData); // Debug: Log participant data
 
         participantsData.push(participantData);
       }
