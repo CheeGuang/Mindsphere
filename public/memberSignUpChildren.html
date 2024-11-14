@@ -85,19 +85,19 @@
           <div class="row justify-content-center">
             <div class="col-md-7">
               <h2 class="text-center">Register Children</h2>
-              <div class="text-center mb-3">
-                <label>Number of children:</label>
+              <div class="d-flex align-items-center justify-content-center m-5">
+                <label class="participant-label fw-bold me-3">Number of children:</label>
                 <button
                   id="decreaseParticipant"
-                  class="btn btn-outline-secondary btn-sm mx-2"
+                  class="btn btn-outline-secondary btn-sm mx-2 participant-button"
                   type="button"
                 >
                   -
                 </button>
-                <span id="participantCount">1</span>
+                <span id="participantCount" style="width: 30px;">1</span>
                 <button
                   id="increaseParticipant"
-                  class="btn btn-outline-secondary btn-sm mx-2"
+                  class="btn btn-outline-secondary btn-sm mx-2 participant-button"
                   type="button"
                 >
                   +
@@ -276,7 +276,7 @@
                 </div>
               </div>
               <div class="text-center">
-                <button id="registerButton" class="btn btn-primary next-btn">
+                <button id="registerButton" class="btn btn-primary next-btn p-2 w-100 mt-5">
                   Register
                 </button>
               </div>
