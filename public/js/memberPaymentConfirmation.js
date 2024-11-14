@@ -53,6 +53,8 @@ $(document).ready(async function () {
           "participantsData",
           JSON.stringify(enrollmentData.participantsData)
         );
+
+        enrollParticipants(enrollmentData);
       } else {
         console.error("[DEBUG] participantsData is missing in URL parameter.");
         return;
@@ -60,21 +62,6 @@ $(document).ready(async function () {
     } catch (error) {
       console.error("[DEBUG] Error parsing enrollment data:", error);
       return;
-    }
-
-    const memberEventID = sessionStorage.getItem("memberEventID");
-    const selectedEventDetails = sessionStorage.getItem("selectedEventDetails");
-    const participantsData = sessionStorage.getItem("participantsData");
-
-    if (memberEventID && selectedEventDetails && participantsData) {
-      console.log("[DEBUG] Enrollment data found in sessionStorage.");
-      const eventDetails = JSON.parse(selectedEventDetails);
-      const totalPrice =
-        eventDetails.price * JSON.parse(participantsData).length;
-      $("#order-number").text(memberEventID);
-      $("#total-amount").text(`$${totalPrice.toFixed(2)}`);
-    } else {
-      console.error("[DEBUG] No enrollment data found in sessionStorage.");
     }
 
     let newMembership = false; // Flag to determine if the membership is new
@@ -179,15 +166,6 @@ $(document).ready(async function () {
             if (redeemedVoucherDetails && redeemedVoucherID) {
               const formattedVoucherID = JSON.parse(redeemedVoucherID);
               const voucherValue = await redeemVoucher(formattedVoucherID);
-              if (voucherValue > 0) {
-                console.log(
-                  `[DEBUG] Voucher redeemed successfully. Value: $${voucherValue.toFixed(
-                    2
-                  )}`
-                );
-              } else {
-                console.error("[DEBUG] Voucher redemption failed.");
-              }
             }
 
             await fetchAndStoreEventDetails(eventID);
