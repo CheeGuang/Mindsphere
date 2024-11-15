@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const referralCode = memberDetails?.referralCode || "783291";
 
   // Generate the referral message
-  const referralMessage = `Join Mindsphere using my referral code '${referralCode}' and get a $100 gift card! Use this link: https://mindsphere.onrender.com`;
+  const referralMessage = `Join Mindsphere using my referral code '${referralCode}' and get a $50 gift card! Use this link: https://mindsphere.onrender.com`;
 
   // Update the value of the input field
   document.getElementById("referralMessage").value = referralMessage;
