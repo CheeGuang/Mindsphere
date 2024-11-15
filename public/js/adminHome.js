@@ -47,7 +47,7 @@ async function fetchAndDisplayEvents() {
     upcomingEvents.forEach((event) => {
       const eventImageSrc = event.picture
         ? `${event.picture}`
-        : "https://via.placeholder.com/150x150";
+        : "./img/misc/account-icon.png";
       const eventCard = document.createElement("div");
       eventCard.classList.add("col-md-4");
       eventCard.innerHTML = `
