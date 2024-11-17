@@ -26,7 +26,7 @@
 6. **Start AWS RDS Database**:  
    Contact Jeffrey on Telegram (@CheeGuang) to initiate the AWS RDS database.
 
-## Deployment
+### Deployment
 
 The project, hosted on Render at https://mindsphere.onrender.com/, is temporarily unavailable. For access, please contact Jeffrey on Telegram (@CheeGuang).
 
@@ -40,15 +40,21 @@ How can we increase the efficiency of the client onboarding process?
 
 This project was developed for the Full Stack Development Project (FSDP) module, focusing on addressing real-world problems through innovative solutions. Leveraging our technical skills and knowledge, we revamped **MindSphere** to streamline client onboarding and deliver exceptional user experiences.
 
-## Project Details
+## Our Solution
 
-### Project Name: MindSphere (Team Cooking Revamp)
+### Name: MindSphere (Team Cooking Revamp)
 
 #### Objective
 
 Mindsphere (Team Cooking Revamp) strives to provide an industry-standard, scalable, and cost-efficient platform that enhances marketing, boosts event sign-ups, empowers coaches to create events and offer 1-1 executive coaching, while enabling data-driven decisions to streamline processes and empower learners.
 
-#### Target Audience
+### Wireframe
+
+Explore the initial design and layout of MindSphere through our wireframe. This wireframe provides a visual representation of the platform's structure, user interface, and navigation flow.
+
+> **View the Wireframe on Figma**: https://www.figma.com/design/1Dq3Zutzy598vy5sCgvMzE/Cooking?node-id=0-1&t=0LNdxEIrazoeLgeP-1
+
+### Target Audience
 
 1. **B2C Customers**:  
    <img src="./public/img/readme/tiffany.png" alt="B2C User Persona: Tiffany" style="border-radius: 10px; width: 100%;">
@@ -61,7 +67,7 @@ Mindsphere (Team Cooking Revamp) strives to provide an industry-standard, scalab
 
 > **View the Persona on Visme**: https://my.visme.co/view/epqrjmpr-fsdp-teamcooking-userpersona
 
-## User Flow
+### User Flow
 
 The following diagram illustrates the user flow for B2C customers, B2B customers, and the CEO & Coaches. It showcases the steps and processes specific to each user group to navigate through the MindSphere platform.
 
@@ -69,7 +75,7 @@ The following diagram illustrates the user flow for B2C customers, B2B customers
 
 > **View the User Flow on FigJam**: https://www.figma.com/board/4u4CTEU9V41YzT3OFOwqUt/User-Flow-Diagram-Template-for-FigJam-(Community)?node-id=0-1&t=oFSyh7zidoioE9h6-1
 
-## Key Features
+### Key Features
 
 <table>
   <tr>
@@ -150,7 +156,7 @@ The following diagram illustrates the user flow for B2C customers, B2B customers
   </tr>
 </table>
 
-## Technology Used
+### Technology Used
 
 <table>
   <tr>
@@ -243,7 +249,7 @@ The following diagram illustrates the user flow for B2C customers, B2B customers
   </tr>  
 </table>
 
-## Pricing
+### Pricing
 
 <table>
   <tr>
@@ -356,11 +362,11 @@ The following diagram illustrates the user flow for B2C customers, B2B customers
   </tr>
 </table>
 
-## Security Analysis
+### Security Analysis
 
 This section highlights the security measures implemented to ensure the safety of customer data and secure communication channels.
 
-### **Customer Data Security**
+#### **Customer Data Security**
 
 We adhere to industry standards such as **GDPR**, **HIPAA**, **ISO 27001**, and **SOC2** to ensure that customer data is securely stored and managed.
 
@@ -369,14 +375,14 @@ We adhere to industry standards such as **GDPR**, **HIPAA**, **ISO 27001**, and 
 - **Google Dev**: Authentication and service integration for enhanced security.
 - **Render**: Reliable and secure hosting for web applications.
 
-### **End-to-End Encryption**
+#### **End-to-End Encryption**
 
 All communications are encrypted to maintain user privacy and confidentiality.
 
 - **Whereby**: Secure video conferencing platform.
 - **Telegram Bot**: Secure announcements and notifications.
 
-### **Data Encryption in Transit**
+#### **Data Encryption in Transit**
 
 Data is securely transmitted using industry-standard encryption protocols.
 
@@ -384,11 +390,11 @@ Data is securely transmitted using industry-standard encryption protocols.
 - **Calendly**: Safe integration for scheduling appointments.
 - **OpenAI**: Encryption ensures the secure use of AI services.
 
-## Future Enhancements
+### Future Enhancements
 
 We envision several innovative features and enhancements for MindSphere to further streamline operations, improve user experience, and drive engagement. These enhancements are tailored to meet the evolving needs of our target audiences:
 
-### **B2C Enhancements**
+#### **B2C Enhancements**
 
 1. **Community Forum**
 
@@ -401,7 +407,7 @@ We envision several innovative features and enhancements for MindSphere to furth
 3. **Subscription-Based Gamified Learning Experience**
    - An engaging, subscription-based platform incorporating gamified elements like badges, leaderboards, and rewards to motivate learning and skill development.
 
-### **B2B Enhancements**
+#### **B2B Enhancements**
 
 1. **AI-Powered Personalised Learning Path**
 
@@ -410,7 +416,7 @@ We envision several innovative features and enhancements for MindSphere to furth
 2. **MindSphere Certification**
    - A certification programme recognising companies and individuals who excel in using the platform, boosting their credentials and trustworthiness.
 
-### **CEO Enhancements**
+#### **CEO Enhancements**
 
 1. **Employee Performance Insights Dashboard**
 
