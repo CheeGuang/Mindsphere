@@ -5,7 +5,7 @@ BEGIN
         bp.postID,
         bp.title,
         bp.content,
-        bp.createdAt,
+        bp.posterType,
         m.firstName + ' ' + m.lastName AS author,
         bc.name AS categoryName,
         (SELECT COUNT(*) FROM postUpvote WHERE postID = bp.postID) AS numberOfLikes,

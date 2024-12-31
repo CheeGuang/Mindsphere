@@ -54,3 +54,95 @@
 .like-button.unliked {
   color: #6c757d; /* Grey color for unliked state */
 }
+
+.badge {
+  color: #ffffff !important;
+}
+
+/* General button styles */
+.btn-pill {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 50px; /* Rounded corners for pill effect */
+  font-size: 16px; /* Slightly larger font for readability */
+  font-weight: 600; /* Bold text for emphasis */
+  border: none; /* Remove default button border */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease-in-out; /* Smooth transitions */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  color: #fff !important;
+}
+
+/* Child button styling */
+.btn-pill[data-poster-type="Child"] {
+  background-color: #28a745; /* Green background */
+  color: #fff; /* White text */
+}
+
+.btn-pill[data-poster-type="Child"]:hover {
+  background-color: #218838; /* Darker green on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Parent button styling */
+.btn-pill[data-poster-type="Parent"] {
+  background-color: #fda415; /* Yellow background */
+  color: #212529; /* Dark text for contrast */
+}
+
+.btn-pill[data-poster-type="Parent"]:hover {
+  background-color: #ef9a13; /* Darker yellow on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Active state styling for Child */
+.btn-pill[data-poster-type="Child"].active {
+  background-color: #218838; /* Darker green for active */
+  color: #fff; /* White text for active */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+  transform: translateY(-2px); /* Lifted effect */
+}
+
+/* Active state styling for Parent */
+.btn-pill[data-poster-type="Parent"].active {
+  background-color: #ef9a13; /* Darker yellow for active */
+  color: #212529; /* Same dark text for active */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+  transform: translateY(-2px); /* Lifted effect */
+}
+
+.add-comment-button {
+  background-color: #007bff; /* Primary blue */
+  color: #ffffff; /* White text */
+  font-size: 14px; /* Small font size */
+  font-weight: 600; /* Bold text for emphasis */
+  padding: 8px 16px; /* Comfortable padding */
+  border-radius: 25px; /* Rounded edges for a pill-like shape */
+  border: none; /* Remove default button border */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.add-comment-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.add-comment-button:active {
+  background-color: #003f7f; /* Even darker blue for active state */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+  transform: translateY(0); /* Reset lift effect */
+}
+
+.add-comment-button:disabled {
+  background-color: #669fd8; /* Even darker blue for active state */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+  transform: translateY(0); /* Reset lift effect */
+}
+
+.add-comment-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Focus ring */
+}
