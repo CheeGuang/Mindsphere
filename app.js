@@ -29,6 +29,8 @@ const referralRoutes = require("./controllers/referral/referral.routes");
 const voucherRoutes = require("./controllers/voucher/voucher.routes");
 // Initialising businessCollaboration Routes
 const businessCollaborationRoutes = require("./controllers/businessCollaboration/businessCollaboration.routes");
+// Initialising blog Routes
+const blogRoutes = require("./controllers/blog/blog.routes");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -84,6 +86,9 @@ app.use("/api/voucher", voucherRoutes);
 
 // BusinessCollaboration Route
 app.use("/api/businessCollaboration", businessCollaborationRoutes);
+
+// Blog Route
+app.use("/api/blog", blogRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000
