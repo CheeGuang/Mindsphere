@@ -258,6 +258,22 @@ class BlogController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  // Controller to get all active blog meet-ups
+  static async getAllActiveBlogMeetUps(req, res) {
+    try {
+      console.log("[DEBUG] Fetching all active blog meet-ups...");
+      const meetups = await Blog.getAllActiveBlogMeetUps(); // Calls the model method
+      console.log("[DEBUG] Active blog meet-ups retrieved:", meetups);
+      res.status(200).json(meetups); // Respond with the active meetups
+    } catch (error) {
+      console.error(
+        "[DEBUG] Error in BlogController.getAllActiveBlogMeetUps:",
+        error.message
+      );
+      res.status(500).json({ error: error.message }); // Handle any errors
+    }
+  }
 }
 
 module.exports = BlogController;

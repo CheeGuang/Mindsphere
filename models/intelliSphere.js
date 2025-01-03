@@ -120,6 +120,84 @@ class IntelliSphere {
       }
     }
   }
+
+  static async processInputAndGenerateJSON(input, inputType, fileType = null) {
+    try {
+      let content = "";
+
+      // Parse content based on input type
+      if (inputType === "text") {
+        content = input;
+      } else if (inputType === "file" && fileType) {
+        const buffer = Buffer.from(input, "base64");
+        if (fileType === "txt") {
+          content = buffer.toString("utf-8");
+        } else if (fileType === "pdf") {
+          const data = await pdfParse(buffer);
+          content = data.text;
+        } else if (fileType === "docx") {
+          const result = await mammoth.extractRawText({ buffer });
+          content = result.value;
+        } else if (fileType === "pptx") {
+          const slides = await pptxParser(buffer);
+          content = slides.map((slide) => slide.text).join("\n");
+        } else {
+          throw new Error("Unsupported file format.");
+        }
+      } else {
+        throw new Error("Invalid input type or missing file type.");
+      }
+
+      // Generate learning materials using OpenAI
+      const prompt = `You are an expert tutor. Based on the following material:
+
+"""
+${content}
+"""
+
+Generate the following in JSON format:
+1. Reading materials summarising the key points.
+2. Detailed notes expanding on each key point.
+3. 10 practice questions with answers related to the material.
+
+Ensure the JSON response is formatted as follows:
+{
+  "success": true,
+  "learningMaterials": {
+    "summary": "...",
+    "notes": ["..."],
+    "practiceQuestions": [
+      {
+        "question": "...",
+        "answer": "..."
+      }
+    ]
+  }
+}`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "You are a JSON response generator." },
+          { role: "user", content: prompt },
+        ],
+      });
+
+      const output = response.choices[0].message.content;
+
+      function cleanJsonString(input) {
+        if (input.startsWith("```json") && input.endsWith("```")) {
+          return input.slice(7, -3).trim();
+        }
+        return input;
+      }
+
+      const cleanOutput = cleanJsonString(output);
+      return JSON.parse(cleanOutput);
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 module.exports = IntelliSphere;

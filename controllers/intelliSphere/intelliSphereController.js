@@ -33,6 +33,67 @@ class IntelliSphereController {
       });
     }
   }
+
+  // Function to process input and generate learning materials
+  static async processInputAndGenerateJSON(req, res) {
+    try {
+      const { input, inputType, fileType } = req.body; // Expecting input, inputType, and optional fileType in the request body
+
+      // Validate input
+      if (!input || !inputType) {
+        return res.status(400).json({
+          success: false,
+          message: "Input and inputType are required.",
+        });
+      }
+
+      // Validate fileType for 'file' inputType
+      const supportedFileTypes = ["txt", "pdf", "docx", "pptx"];
+      if (inputType === "file") {
+        if (!fileType) {
+          return res.status(400).json({
+            success: false,
+            message: "fileType is required when inputType is 'file'.",
+          });
+        }
+        if (!supportedFileTypes.includes(fileType)) {
+          return res.status(400).json({
+            success: false,
+            message: `Unsupported fileType. Supported types are: ${supportedFileTypes.join(
+              ", "
+            )}.`,
+          });
+        }
+      }
+
+      // Call the model function to process the input and generate the JSON
+      const result = await LearningAssistant.processInputAndGenerateJSON(
+        input,
+        inputType,
+        fileType
+      );
+
+      // Check if the model encountered an error
+      if (!result.success) {
+        return res.status(500).json({
+          success: false,
+          message: result.error,
+        });
+      }
+
+      // Return the result
+      return res.status(200).json({
+        success: true,
+        data: result.learningMaterials,
+      });
+    } catch (error) {
+      console.error("Error processing input:", error);
+      return res.status(500).json({
+        success: false,
+        message: "An error occurred while processing the input.",
+      });
+    }
+  }
 }
 
 // ========== Export ==========

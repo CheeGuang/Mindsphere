@@ -47,6 +47,9 @@ blogRoutes.get("/categories", BlogController.getAllCategories);
 // Route to get all posts
 blogRoutes.get("/posts", BlogController.getAllPosts);
 
+// Route to get all active blog meet-ups
+blogRoutes.get("/active-blog-meetups", BlogController.getAllActiveBlogMeetUps);
+
 // Route to delete a comment
 blogRoutes.delete("/delete-comment/:commentID", BlogController.deleteComment);
 

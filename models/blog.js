@@ -27,9 +27,8 @@ class Blog {
       if (pool) await pool.close();
     }
   }
-
   // Edit a post
-  static async editPost({ postID, title, content }) {
+  static async editPost({ postID, title, content, categoryID, posterType }) {
     let pool;
     try {
       pool = await sql.connect(dbConfig);
@@ -38,6 +37,8 @@ class Blog {
         .input("postID", sql.Int, postID)
         .input("title", sql.NVarChar(200), title)
         .input("content", sql.NVarChar(sql.MAX), content)
+        .input("categoryID", sql.Int, categoryID)
+        .input("posterType", sql.NVarChar(50), posterType)
         .execute("usp_edit_blog_post");
     } finally {
       if (pool) await pool.close();
@@ -245,6 +246,21 @@ class Blog {
       return result.recordset;
     } finally {
       if (pool) await pool.close();
+    }
+  }
+
+  // Get all active blog meet-ups
+  static async getAllActiveBlogMeetUps() {
+    let pool;
+    try {
+      pool = await sql.connect(dbConfig);
+      const result = await pool
+        .request()
+        .execute("usp_get_all_active_blog_meetups"); // Calls the stored procedure to get all active blog meetups
+
+      return result.recordset; // Returns the list of active blog meetups
+    } finally {
+      if (pool) await pool.close(); // Ensure the pool is closed after the operation
     }
   }
 }

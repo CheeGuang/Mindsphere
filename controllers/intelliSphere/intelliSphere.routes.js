@@ -18,5 +18,11 @@ intelliSphereRoutes.post(
   IntelliSphereController.assessSpeech
 );
 
+// Route to process input and generate learning materials
+intelliSphereRoutes.post(
+  "/process-input",
+  IntelliSphereController.processInputAndGenerateJSON
+);
+
 // ========== Export ==========
 module.exports = intelliSphereRoutes;

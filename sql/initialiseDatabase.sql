@@ -569,30 +569,30 @@ INSERT INTO blogMeetUp (categoryID, title, description, isOnline, startDateTime,
 VALUES 
 -- Primary School
 (1, 'Primary School In-Person Parenting Meet Up', 
-  'This meet-up is specially designed for parents of primary school children to discuss and explore practical strategies for managing the unique challenges faced during these formative years. Attendees will gain valuable insights into fostering a positive learning environment at home, developing effective communication skills with their children, and managing stress and time efficiently. This session will be an excellent opportunity for parents to connect, share experiences, and learn from experts and fellow participants.', 
+  'Join us to connect with fellow parents, share tips, and explore strategies for raising primary school children.', 
   0, '2025-03-15 09:00:00', '2025-03-15 11:00:00', 
-  '60 Paya Lebar Road, #07-54 Paya Lebar Square, Singapore 409051', 
+  '60 Paya Lebar Road, #07-54 Paya Lebar Square, S409051', 
   'https://forms.gle/6hUC6G1LKHjQtmbh6'),
 
 -- Secondary School
 (2, 'Secondary School Success Strategies', 
-  'This online session aims to provide parents and guardians of secondary school students with tools and strategies to help their children succeed both academically and socially. The session will include expert advice on how to motivate teenagers, support them through academic pressures, and prepare them for the next stage of their education journey. Participants will also have the chance to engage in a Q&A segment to address specific concerns and gain actionable tips tailored to secondary school life.', 
+  'Learn expert strategies to help your secondary school child succeed academically and socially in this online session.', 
   1, '2025-03-10 19:00:00', '2025-03-10 21:00:00', 
   NULL, 
   'https://zoom.us/j/123456789'),
 
 -- Parents
-(3, 'Parenting Challenges Forum', 
-  'Join us for an engaging virtual forum where parents can come together to discuss the various challenges they face in raising children in today’s fast-paced world. This platform allows participants to share personal experiences, exchange ideas, and learn from one another in a supportive and collaborative environment. Expert facilitators will be present to provide guidance on tackling common parenting dilemmas, enhancing family dynamics, and creating a balanced approach to modern parenting.', 
+(3, 'Challenges of Parenting Forum', 
+  'Join a virtual forum where parents share solutions and learn from each other to tackle common parenting challenges.', 
   1, '2025-03-15 20:00:00', '2025-03-15 22:00:00', 
   NULL, 
   'https://forms.gle/parenting-forum'),
 
 -- Public Speaking
 (4, 'Public Speaking In-Person Meet Up', 
-  'This meet-up is perfect for individuals looking to overcome their fear of public speaking and develop their confidence when addressing an audience. Participants will engage in interactive activities designed to improve articulation, body language, and audience engagement. Whether you are a beginner or someone looking to refine your skills, this session offers valuable techniques to help you become a more effective and confident public speaker. Networking opportunities with fellow participants are also part of this enriching experience.', 
+  'Overcome your fear of public speaking through engaging exercises and confidence-building activities in this in-person session.', 
   0, '2025-03-25 14:00:00', '2025-03-25 16:00:00', 
-  '100 Orchard Road, #05-10 Plaza Building, Singapore 238800', 
+  '100 Orchard Road, #05-10 Plaza Building, S238800', 
   'https://forms.gle/NygnGZCiX6VsZvaV6');
 
 

@@ -146,3 +146,80 @@
   outline: none; /* Remove default focus outline */
   box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Focus ring */
 }
+
+.submit-post {
+  width: 100% !important;
+  margin-top: 10px;
+}
+
+/* Edit button styling */
+.edit-button {
+  background-color: #f8c200; /* Bright yellow for the edit button */
+  border-radius: 50%;
+  padding: 8px 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.edit-button:hover {
+  background-color: #e6b800; /* Slightly darker yellow on hover */
+  transform: scale(1.1); /* Enlarge slightly on hover */
+}
+
+.edit-button i {
+  color: #fff;
+}
+/* Container for buttons */
+.position-absolute {
+  position: absolute;
+  top: 5px !important  ;
+  right: 5px !important  ;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+/* Delete button styling */
+.delete-button {
+  background-color: #e74c3c; /* Red for delete */
+  border-radius: 50%;
+  padding: 8px 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Slightly darker red on hover */
+  transform: scale(1.1); /* Enlarge slightly on hover */
+}
+
+.delete-button i {
+  color: #fff;
+}
+
+/* Set the card layout to use Flexbox */
+#meetUpEventsContainer .meet-up-event-card .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure the card takes up full height */
+}
+
+/* Ensure that the card body takes up all available space */
+#meetUpEventsContainer .meet-up-event-card .card-body {
+  flex-grow: 1;
+}
+
+/* Style the button container to be at the bottom */
+#meetUpEventsContainer .meet-up-event-card .card-footer {
+  margin-top: auto; /* Push the footer to the bottom */
+  background-color: transparent !important; /* Make the background transparent */
+  border-top: none !important; /* Remove the top border */
+  box-shadow: none !important; /* Remove any box shadow */
+  margin-bottom: 10px;
+}
+
+/* Style the button to look like a simple button */
+#meetUpEventsContainer .meet-up-event-card .card-footer button {
+  width: 100%; /* Make the button take the full width */
+  padding: 10px; /* Add some padding to the button */
+}

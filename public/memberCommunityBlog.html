@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- ######################################## INSERT PAGE'S CSS HERE \/ ########################################################### -->
-    <link rel="stylesheet" href="./css/communityBlog.css" />
+    <link rel="stylesheet" href="./css/memberCommunityBlog.css" />
     <!-- ######################################## END OF PAGE'S CSS ########################################################### -->
     <!-- END OF PAGE'S CSS /\-->
 
@@ -55,7 +55,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- ######################################## INSERT PAGE'S JS HERE \/ ########################################################### -->
-    <script src="./js/communityBlog.js" defer></script>
+    <script src="./js/memberCommunityBlog.js" defer></script>
     <!-- ######################################## END OF PAGE'S JS ########################################################### -->
     <!-- END OF PAGE'S JS /\-->
 
@@ -102,15 +102,120 @@
           </div>
 
           <!-- Filter Pills -->
-          <div class="row mb-4">
-            <div class="col-12 d-flex flex-wrap" id="filterPillsContainer">
+          <div class="row mb-4 d-flex align-items-center">
+            <div class="col-10 d-flex flex-wrap" id="filterPillsContainer">
               <!-- Filter pills will be dynamically loaded here -->
             </div>
           </div>
 
+          <!-- Create Post Modal -->
+          <div
+            class="modal fade text-start"
+            id="createPostModal"
+            tabindex="-1"
+            aria-labelledby="createPostModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createPostModalLabel">
+                    Create Post
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form id="createPostForm">
+                    <div class="mb-3">
+                      <label for="postTitle" class="form-label">Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="postTitle"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="postContent" class="form-label"
+                        >Content</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="postContent"
+                        rows="4"
+                        required
+                      ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="postCategory" class="form-label"
+                        >Category</label
+                      >
+                      <select class="form-select" id="postCategory" required>
+                        <!-- Categories will be dynamically loaded -->
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Post As</label>
+                      <div class="d-flex justify-content-start">
+                        <button
+                          type="button"
+                          class="btn-pill me-2 set-poster-type-pill"
+                          data-poster-type="Child"
+                        >
+                          Child
+                        </button>
+                        <button
+                          type="button"
+                          class="btn-pill set-poster-type-pill"
+                          data-poster-type="Parent"
+                        >
+                          Parent
+                        </button>
+                      </div>
+                      <input type="hidden" id="posterType" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary submit-post">
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meet-Up Events Section -->
+          <div id="meetUpEventsSection" class="mt-5">
+            <h2>Meet-Up Events</h2>
+            <div
+              id="meetUpEventsContainer"
+              class="row text-start d-flex flex-wrap"
+            >
+              <!-- Meet-up events will be dynamically loaded here -->
+            </div>
+          </div>
+
           <!-- Posts Section -->
-          <div id="postsContainer" class="row text-start">
-            <!-- Posts will be dynamically loaded here -->
+          <div id="postsSection">
+            <h2 class="mt-4">Posts</h2>
+            <!-- Create Post Button -->
+            <div class="d-flex justify-content-end mb-4">
+              <button
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#createPostModal"
+                style="width: 200px !important; margin-right: 0.5rem"
+              >
+                Create Something
+              </button>
+            </div>
+            <div id="postsContainer" class="row text-start">
+              <!-- Posts will be dynamically loaded here -->
+            </div>
           </div>
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
